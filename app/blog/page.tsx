@@ -16,19 +16,18 @@ export default function BlogPage() {
       </header>
       
       <div className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-medium mb-4 text-blue-950">Blog</h1>
-          <p className="text-xl text-blue-950 mb-16 max-w-2xl">
-            My thoughts on design, technology, and the creative process. Sharing insights from my journey as a Product Designer.
-          </p>
-          
-          <div className="space-y-16">
+        <h1 className="text-4xl md:text-5xl font-medium mb-4 text-blue-950">Blog</h1>
+        <p className="text-xl text-blue-950 mb-16 max-w-2xl">
+          My thoughts on design, technology, and the creative process. Sharing insights from my journey as a Product Designer.
+        </p>
+        
+        <div className="space-y-16">
             {blogs.map((blog) => (
               <article key={blog.id} className="group">
                 <Link href={`/blog/${blog.slug}`} className="block">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                     {/* Blog Image */}
-                    <div className="relative overflow-hidden rounded-4xl aspect-[4/3] bg-gray-100">
+                    <div className="relative overflow-hidden rounded-4xl aspect-[4/2] bg-gray-100">
                       <Image
                         src={blog.coverImage}
                         alt={blog.title}
@@ -44,7 +43,7 @@ export default function BlogPage() {
                     
                     {/* Blog Content */}
                     <div className="space-y-4">
-                      <div className="flex items-center space-x-4 text-sm text-gray-600">
+                      <div className="flex items-center space-x-4 text-sm text-gray-600 mt-8">
                         <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
                           {blog.category}
                         </span>
@@ -85,7 +84,6 @@ export default function BlogPage() {
                 </Link>
               </article>
             ))}
-          </div>
         </div>
       </div>
     </main>

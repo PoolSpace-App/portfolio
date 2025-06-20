@@ -897,6 +897,9 @@ body {
 .mt-auto {
   margin-top: auto;
 }
+.mt-40 {
+  margin-top: 10rem;
+}
 .line-clamp-2 {
   overflow: hidden;
   display: -webkit-box;
@@ -941,6 +944,9 @@ body {
 }
 .aspect-video {
   aspect-ratio: 16 / 9;
+}
+.aspect-\[4\/2\] {
+  aspect-ratio: 4/2;
 }
 .size-4 {
   width: 1rem;
@@ -1170,6 +1176,9 @@ body {
 }
 .max-w-6xl {
   max-width: 72rem;
+}
+.max-w-7xl {
+  max-width: 80rem;
 }
 .max-w-\[--skeleton-width\] {
   max-width: var(--skeleton-width);
@@ -1419,6 +1428,11 @@ body {
   --tw-space-y-reverse: 0;
   margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+}
+.space-y-48 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(12rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(12rem * var(--tw-space-y-reverse));
 }
 .overflow-auto {
   overflow: auto;

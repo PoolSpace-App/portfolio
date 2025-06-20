@@ -51,7 +51,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       </header>
       
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
           {/* Back button */}
           <button
             onClick={() => router.back()}
@@ -175,7 +174,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               Back to all posts
             </Link>
           </div>
-        </div>
       </div>
     </main>
   )
