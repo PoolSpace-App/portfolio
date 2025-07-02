@@ -11,6 +11,7 @@ import Link from "next/link"
 import { motion, useAnimation } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { projectsArray } from "@/lib/projects"
+import SparklesPreview from "@/components/sparkles-demo"
 
 // Background Cells Component
 interface BackgroundCellsProps {
@@ -73,8 +74,23 @@ interface PatternProps {
 }
 
 const Pattern = ({ className, cellClassName }: PatternProps) => {
-  const x = new Array(47).fill(0)
-  const y = new Array(30).fill(0)
+  const [dimensions, setDimensions] = useState({ cols: 47, rows: 30 })
+  
+  useEffect(() => {
+    const updateDimensions = () => {
+      const cellSize = 48 // 48px per cell (h-12 w-12)
+      const cols = Math.ceil(window.innerWidth / cellSize) + 2 // +2 for overflow
+      const rows = Math.ceil(window.innerHeight / cellSize) + 2 // +2 for overflow
+      setDimensions({ cols, rows })
+    }
+    
+    updateDimensions()
+    window.addEventListener('resize', updateDimensions)
+    return () => window.removeEventListener('resize', updateDimensions)
+  }, [])
+  
+  const x = new Array(dimensions.cols).fill(0)
+  const y = new Array(dimensions.rows).fill(0)
   const matrix = x.map((_, i) => y.map((_, j) => [i, j]))
   const [clickedCell, setClickedCell] = useState<[number, number] | null>(null)
   const controls = useAnimation()
@@ -288,12 +304,17 @@ export default function Home() {
           <div className="flex items-center justify-center flex-grow">
             <div className="flex flex-col items-center text-center max-w-3xl px-4 pointer-events-auto">
               {/* Fixed height container for the glitching title */}
-              <div className="text-4xl sm:mb-0 md:text-9xl font-light tracking-tight flex gap-3 md:mb-4 md:h-40">
+              <div className="text-4xl sm:mb-0 md:text-9xl font-light tracking-tight flex gap-3 md:mb-12 md:h-40">
                 <GlitchingTitle />
               </div>
 
+              {/* Sparkles effect underneath the title */}
+              <div className="w-full max-w-5xl mx-auto mb-8 sm:mb-0 md:mb-12">
+                <SparklesPreview />
+              </div>
+
               {/* Static text container */}
-              <div className="static md:w-[800px] px-4 min-h-[200px] sm:min-h-[160px]">
+              <div className="z-10 -mt-24 static md:w-[800px] px-4 min-h-[200px] sm:min-h-[160px]">
                 <div className="text-2xl md:text-5xl font-light text-gray-300 mb-6">
                   Designing and building lean, scalable products for startups.
                 </div>
