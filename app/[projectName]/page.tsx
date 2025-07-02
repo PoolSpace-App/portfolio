@@ -6,7 +6,8 @@ import Navbar from "@/components/navbar"
 import Logo from "@/components/logo"
 import Image from "next/image"
 import { ArrowLeft, ChevronLeft, ChevronRight, X } from "lucide-react"
-import { projectData, projectsArray } from "@/lib/projects"
+import { projectsArray } from "@/lib/projects"
+import type { Project } from "@/lib/projects"
 
 interface ProjectPageProps {
   params: {
@@ -20,11 +21,6 @@ const getProjectBySlug = (slug: string) => {
   return projectsArray.find(project => 
     project.name.toLowerCase().replace(/\s+/g, "-") === normalizedSlug
   ) || projectsArray[0]; // Fallback to first project if not found
-}
-
-// Helper function to get project name by ID
-const getProjectNameById = (id: number): string => {
-  return projectData[id]?.name || ""
 }
 
 export default function ProjectPage({ params }: ProjectPageProps) {

@@ -12,6 +12,7 @@ import { motion, useAnimation } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { projectsArray } from "@/lib/projects"
 import SparklesPreview from "@/components/sparkles-demo"
+import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card"
 
 // Background Cells Component
 interface BackgroundCellsProps {
@@ -320,9 +321,9 @@ export default function Home() {
                 </div>
                 <p className="sm:text-lg md:text-xl text-gray-400 leading-relaxed">
                   <div className="sm:text-lg md:text-3xl">Helping teams and founders:</div>
-                  <div className="sm:text-lg md:text-xl">→ Design great user experiences</div>
-                  <div className="sm:text-lg md:text-xl">→ Build functional products using AI, Cursor, React Native, Next.js </div>
-                  <div className="sm:text-lg md:text-xl">→ Save costs and ship faster (without needing huge dev teams)</div>
+                  <div className="sm:text-lg md:text-lg">→ Design great user experiences</div>
+                  <div className="sm:text-lg md:text-lg">→ Build functional products using AI, Cursor, React Native, Next.js </div>
+                  <div className="sm:text-lg md:text-lg">→ Save costs and ship faster (without needing huge dev teams)</div>
                 </p>
               </div>
             </div>
@@ -396,46 +397,61 @@ export default function Home() {
             const slug = project.name.toLowerCase().replace(/\s+/g, "-")
             
             return (
-              <Link
-                href={`/${slug}`}
-                key={project.id}
-                className="group block relative overflow-hidden rounded-[48px] h-[600px] w-full"
-              >
-                {/* Image */}
-                <Image
-                  src={normalizeImagePath(project.imageUrl)}
-                  alt={project.name}
-                  width={800}
-                  height={600}
-                  priority={index < 6} // Prioritize loading the first 6 images
-                  className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = `/placeholder.svg?height=600&width=800&text=${project.name.replace(/\s+/g, "+")}`;
-                  }}
-                />
+              <CardContainer key={project.id} className="inter-var">
+                <CardBody className="bg-transparent relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] w-full h-[600px] rounded-[48px] overflow-hidden">
+                  <Link
+                    href={`/${slug}`}
+                    className="group block relative overflow-hidden rounded-[48px] h-full w-full"
+                  >
+                    {/* Image */}
+                    <CardItem translateZ="50" className="w-full h-full">
+                      <Image
+                        src={normalizeImagePath(project.imageUrl)}
+                        alt={project.name}
+                        width={800}
+                        height={600}
+                        priority={index < 6} // Prioritize loading the first 6 images
+                        className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 rounded-[48px]"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = `/placeholder.svg?height=600&width=800&text=${project.name.replace(/\s+/g, "+")}`;
+                        }}
+                      />
+                    </CardItem>
 
-                {/* Overlay content - visible on mobile by default, hover on desktop */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent md:opacity-0 opacity-100 md:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
-                  <div className="transform md:translate-y-8 md:group-hover:translate-y-0 transition-transform duration-300">
-                    <span className="text-xs text-white uppercase tracking-wider mb-3 inline-block hover-glitch">
-                      {project.category}
-                    </span>
-                    <div className="text-2xl font-medium mb-3 text-white hover-glitch">
-                      {project.name}
-                    </div>
-                    <p className="text-white mb-4 line-clamp-3 hover-glitch">
-                      {project.tagline}
-                    </p>
-                    <p className="text-white text-sm mb-4 line-clamp-2 hover-glitch">
-                      {project.description}
-                    </p>
-                    <span className="inline-flex items-center text-white border-b border-white pb-1 md:group-hover:pl-2 transition-all duration-300 hover-glitch">
-                      View Project <span className="ml-2 md:group-hover:ml-3 transition-all duration-300">→</span>
-                    </span>
-                  </div>
-                </div>
-              </Link>
+                    {/* Overlay content - visible on mobile by default, hover on desktop */}
+                    <CardItem translateZ="80" className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent md:opacity-0 opacity-100 md:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8 rounded-[48px]">
+                      <div className="transform md:translate-y-8 md:group-hover:translate-y-0 transition-transform duration-300">
+                        <CardItem translateZ="20" className="mb-3">
+                          <span className="text-xs text-white uppercase tracking-wider inline-block hover-glitch">
+                            {project.category}
+                          </span>
+                        </CardItem>
+                        <CardItem translateZ="40" className="mb-3">
+                          <div className="text-2xl font-medium text-white hover-glitch">
+                            {project.name}
+                          </div>
+                        </CardItem>
+                        <CardItem translateZ="30" className="mb-4">
+                          <p className="text-white line-clamp-3 hover-glitch">
+                            {project.tagline}
+                          </p>
+                        </CardItem>
+                        <CardItem translateZ="30" className="mb-4">
+                          <p className="text-white text-sm line-clamp-2 hover-glitch">
+                            {project.description}
+                          </p>
+                        </CardItem>
+                        <CardItem translateZ="60">
+                          <span className="inline-flex items-center text-white border-b border-white pb-1 md:group-hover:pl-2 transition-all duration-300 hover-glitch">
+                            View Project <span className="ml-2 md:group-hover:ml-3 transition-all duration-300">→</span>
+                          </span>
+                        </CardItem>
+                      </div>
+                    </CardItem>
+                  </Link>
+                </CardBody>
+              </CardContainer>
             )
           })}
         </div>
