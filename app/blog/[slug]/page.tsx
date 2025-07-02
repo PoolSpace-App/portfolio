@@ -62,12 +62,12 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
           
           {/* Blog header */}
           <div className="mb-12">
-            <div className="flex items-center space-x-4 text-sm text-gray-600 mb-6">
+            <div className="flex items-center space-x-4 text-sm mb-6">
               <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
                 {blog.category}
               </span>
-              <span>{blog.readTime}</span>
-              <span>{new Date(blog.publishedAt).toLocaleDateString('en-US', { 
+              <span className="text-gray-700 font-medium">{blog.readTime}</span>
+              <span className="text-gray-600">{new Date(blog.publishedAt).toLocaleDateString('en-US', { 
                 year: 'numeric', 
                 month: 'long', 
                 day: 'numeric' 
@@ -134,7 +134,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                     href={`/blog/${relatedBlog.slug}`}
                     className="group block"
                   >
-                    <div className="relative overflow-hidden rounded-3xl aspect-[4/3] bg-gray-100 mb-4">
+                    <div className="relative overflow-hidden rounded-[32px] aspect-[4/3] bg-gray-100 mb-4">
                       <Image
                         src={relatedBlog.coverImage}
                         alt={relatedBlog.title}
@@ -148,7 +148,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                       />
                     </div>
                     <div className="space-y-2">
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-gray-700 font-medium">
                         {relatedBlog.category} • {relatedBlog.readTime}
                       </div>
                       <h4 className="text-lg font-medium text-blue-950 transition-colors">

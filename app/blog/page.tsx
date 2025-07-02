@@ -8,7 +8,6 @@ import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
 import { 
   IconCalendar, 
   IconClock, 
-  IconTag,
   IconArrowRight 
 } from "@tabler/icons-react"
 
@@ -64,16 +63,12 @@ export default function BlogPage() {
             <Link 
               key={blog.id} 
               href={`/blog/${blog.slug}`} 
-              className={`block ${layoutClass}`}
-              style={{
-                gridColumn: layoutClass.includes('col-span-6') ? 'span 6' : 
-                           layoutClass.includes('col-span-4') ? 'span 4' : 'span 2'
-              }}
+              className={`block h-full ${layoutClass}`}
             >
               <BentoGridItem
-                className="group cursor-pointer"
+                className="group cursor-pointer rounded-[40px]"
                 header={
-                  <div className="relative overflow-hidden rounded-lg bg-gray-100 mb-4 w-full h-[200px]">
+                  <div className="relative overflow-hidden rounded-[32px] bg-gray-100 mb-4 w-full h-[200px]">
                     <Image
                       src={blog.coverImage}
                       alt={blog.title}
@@ -136,7 +131,6 @@ export default function BlogPage() {
                     </div>
                   </div>
                 }
-                icon={<IconTag className="h-4 w-4 text-blue-600" />}
               />
             </Link>
             )

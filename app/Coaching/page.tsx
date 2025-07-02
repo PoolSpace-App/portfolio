@@ -13,7 +13,10 @@ export default function CoachingPage() {
 
       {/* Main content */}
       <div className="container mx-auto px-4 py-4">
-        <div className="text-3xl my-4 font-light text-center text-black">People I've Coached</div>
+        <h1 className="text-4xl md:text-5xl font-medium mb-4 text-blue-950">Blog</h1>
+          <p className="text-xl text-blue-950 mb-16 max-w-2xl">
+            My thoughts on design, technology, and the creative process. Sharing insights from my journey as a Product Designer.
+          </p>
         {/* Canvas Reveal Effect Demo */}
         <CanvasRevealEffectDemo />
       </div>

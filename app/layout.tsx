@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body 
         className={`${mtnBrighterSans.variable} bg-[#050510] text-white min-h-screen`}
         suppressHydrationWarning

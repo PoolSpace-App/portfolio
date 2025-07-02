@@ -319,12 +319,12 @@ export default function Home() {
                 <div className="text-2xl md:text-5xl font-light text-gray-300 mb-6">
                   Designing and building lean, scalable products for startups.
                 </div>
-                <p className="sm:text-lg md:text-xl text-gray-400 leading-relaxed">
+                <div className="sm:text-lg md:text-xl text-gray-400 leading-relaxed">
                   <div className="sm:text-lg md:text-3xl">Helping teams and founders:</div>
                   <div className="sm:text-lg md:text-lg">→ Design great user experiences</div>
                   <div className="sm:text-lg md:text-lg">→ Build functional products using AI, Cursor, React Native, Next.js </div>
                   <div className="sm:text-lg md:text-lg">→ Save costs and ship faster (without needing huge dev teams)</div>
-                </p>
+                </div>
               </div>
             </div>
           </div>
