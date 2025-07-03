@@ -164,91 +164,38 @@ export const projectData: Record<number, Project> = {
   11: {
     id: 11,
     name: "Capitec Bank",
-    tagline: "Where coding meets visual thinking.",
-    description: "An innovative IDE that combines traditional coding with visual programming elements.",
+    tagline: "Simplified banking - banking that works for you.",
+    description: "Lead UI designer, redesigning the Capitec Bank's digital banking platform",
     imageUrl: "/projects/capitec-bank/main.jpg",
     category: "Desktop Applications",
-    details: "Capitec Bank is an innovative IDE that combines traditional coding with visual programming elements, allowing users to code and visualize their projects more effectively.",
-    role: "Lead Designer",
+    details: "Capitec Bank is a South African commercial bank, and as of February 2024 the bank was the largest retail bank in South Africa.",
+    role: "Lead UI Designer",
     duration: "3 months",
     year: "2023",
     processDetails: [
-      "The project began with a deep understanding of user needs and pain points in coding.",
-      "User testing revealed that a visually engaging and interactive approach was essential for effective coding.",
-      "The app was designed with a focus on visual representation of coding progress to make it easier for users to track their progress and achieve their coding goals."
-    ]
-  },
-  12: {
-    id: 12,
-    name: "DataLoom",
-    tagline: "Weaving complex data into clear insights.",
-    description:
-      "A powerful data visualization and analysis tool that transforms complex datasets into interactive dashboards.",
-    imageUrl: "/projects/dataloom/main.jpg",
-    category: "Desktop Applications",
-    details: "DataLoom is a powerful data visualization and analysis tool designed to help users transform complex datasets into interactive dashboards. It provides a range of visualizations and analysis tools to help users gain insights from their data.",
-    role: "Lead Designer",
-    duration: "4 months",
-    year: "2023",
-    processDetails: [
-      "The project began with a deep understanding of user needs and pain points in analyzing data.",
-      "User testing revealed that a visually engaging and interactive approach was essential for effective data analysis.",
-      "The app was designed with a focus on visual representation of data analysis to make it easier for users to gain insights from their data."
-    ]
-  },
-  13: {
-    id: 13,
-    name: "SoundScape",
-    tagline: "Professional audio production made accessible.",
-    description: "A digital audio workstation designed for podcasters, musicians, and content creators.",
-    imageUrl: "/projects/soundscape/main.jpg",
-    category: "Desktop Applications",
-    details: "SoundScape is a digital audio workstation designed for podcasters, musicians, and content creators. It provides a range of tools and features to help users create professional audio productions.",
-    role: "Lead Designer",
-    duration: "3 months",
-    year: "2023",
-    processDetails: [
-      "The project began with a deep understanding of user needs and pain points in creating audio productions.",
-      "User testing revealed that a visually engaging and interactive approach was essential for effective audio production.",
-      "The app was designed with a focus on visual representation of audio production progress to make it easier for users to track their progress and achieve their audio production goals."
+      "Focused purely on UI Design, working closely with UX designers, developers, and the product team.",
+      "Redesigned core flows like home dashboard, transactions, accounts, and payments to improve clarity and reduce visual noise.",
+      "Introduced modular design components to streamline future feature additions"
     ]
   },
 
   // Branding (2)
   14: {
     id: 14,
-    name: "EcoEssence",
-    tagline: "Sustainable branding for conscious businesses.",
+    name: "TeamFinder",
+    tagline: "The leading provider of tech talent solutions in Europe, expanding services to include AI-driven workforce integration across multiple industries.",
     description:
-      "A complete brand identity system for an eco-friendly product line, including logo design and packaging guidelines.",
-    imageUrl: "/projects/ecoessence/main.jpg",
+      "To revolutionise talent engagement by providing flexible, risk-free, and strategic talent solutions that empower businesses.",
+    imageUrl: "/projects/teamfinder/main.jpg",
     category: "Branding",
-    details: "EcoEssence is a complete brand identity system designed for an eco-friendly product line. It includes logo design, packaging guidelines, and a range of visual elements to create a cohesive and sustainable brand identity.",
-    role: "Lead Designer",
+    details: "TeamFinder's Talent-as-a-Service (TaaS) platform specialises in tech industries, offering AI-driven talent matching and flexible contractual terms.",
+    role: "Lead Designer – Branding & UI",
     duration: "4 months",
-    year: "2023",
+    year: "2024-25",
     processDetails: [
-      "The project began with a deep understanding of the eco-friendly product line's needs and pain points in branding.",
-      "User testing revealed that a visually engaging and interactive approach was essential for effective branding.",
-      "The brand identity system was designed with a focus on visual representation of branding progress to make it easier for users to track their progress and achieve their branding goals."
-    ]
-  },
-  15: {
-    id: 15,
-    name: "TechNexus",
-    tagline: "Bridging humanity and technology through design.",
-    description:
-      "A comprehensive rebranding project for a technology conglomerate, creating a cohesive visual language across diverse product lines while positioning the brand at the intersection of cutting-edge innovation and human-centered design.",
-    imageUrl: "/projects/technexus/main.jpg",
-    category: "Branding",
-    details: "TechNexus is a comprehensive rebranding project for a technology conglomerate. It includes a range of visual elements to create a cohesive visual language across diverse product lines while positioning the brand at the intersection of cutting-edge innovation and human-centered design.",
-    role: "Lead Designer",
-    duration: "5 months",
-    year: "2023",
-    processDetails: [
-      "The project began with a deep understanding of the technology conglomerate's needs and pain points in rebranding.",
-      "User testing revealed that a visually engaging and interactive approach was essential for effective rebranding.",
-      "The rebranding project was designed with a focus on visual representation of rebranding progress to make it easier for users to track their progress and achieve their rebranding goals."
+      "Defined the brand strategy and visual identity, reflecting TeamFinder’s positioning at the intersection of technology, flexibility, and human connection.",
+      "Created a bold, tech-forward logo, color palette, and typography system to communicate trust, innovation, and adaptability.",
+      "Designed UI concepts for key platform screens to ensure brand consistency across digital touchpoints."
     ]
   },
 };

@@ -10,71 +10,80 @@ export default function CanvasRevealEffectDemo() {
   return (
     <>
     {/* First row of cards */}
-      <div className="py-4 flex flex-col lg:flex-row items-center justify-center bg-white dark:bg-black w-full gap-4 mx-auto">
-        <ThreeDCard title="Tshepo Selepe" year="2025" description="Tsepo was the first person I coached. Helped him get a job new job and move to a new City in less than 4 months." imageSrc="/coaching/tshepo.png">
-          <CanvasRevealEffect
-            animationSpeed={5.1}
-            containerClassName="bg-emerald-900"
-          />
-        </ThreeDCard>
-        <ThreeDCard title="Coming Soon" year="2025" description="Coming Soon" imageSrc="/coaching/placeholder-user.png">
-          <CanvasRevealEffect
-            animationSpeed={3}
-            containerClassName="bg-black"
-            colors={[
-              [236, 72, 153],
-              [232, 121, 249],
-            ]}
-            dotSize={2}
-          />
-          {/* Radial gradient for the cute fade */}
-          <div className="absolute inset-0 [mask-image:radial-gradient(400px_at_center,white,transparent)] bg-black/50 dark:bg-black/90" />
-        </ThreeDCard>
-        <ThreeDCard title="Coming Soon" year="2025" description="Coming Soon" imageSrc="/coaching/placeholder-user.png">
-          <CanvasRevealEffect
-            animationSpeed={3}
-            containerClassName="bg-sky-600"
-            colors={[[125, 211, 252]]}
-          />
-        </ThreeDCard>
+      <div className="py-4 flex flex-col lg:flex-row items-stretch justify-center bg-white dark:bg-black w-full gap-4 mx-auto px-0 lg:px-4">
+        <div className="w-full lg:w-80 flex-shrink-0">
+          <ThreeDCard title="Tshepo Selepe" year="2025" description="Tsepo was the first person I coached. Helped him get a job new job and move to a new City in less than 4 months." imageSrc="/coaching/tshepo.png">
+            <CanvasRevealEffect
+              animationSpeed={5.1}
+              containerClassName="bg-emerald-900"
+            />
+          </ThreeDCard>
+        </div>
+        <div className="w-full lg:w-80 flex-shrink-0">
+          <ThreeDCard title="Coming Soon" year="2025" description="Coming Soon" imageSrc="/coaching/tshepo.png">
+            <CanvasRevealEffect
+              animationSpeed={5.1}
+              containerClassName="bg-black"
+              colors={[
+                [236, 72, 153],
+                [232, 121, 249],
+              ]}
+              dotSize={2}
+            />
+          </ThreeDCard>
+        </div>
+        <div className="w-full lg:w-80 flex-shrink-0">
+          <ThreeDCard title="Coming Soon" year="2025" description="Coming Soon" imageSrc="/coaching/placeholder.png">
+            <CanvasRevealEffect
+              animationSpeed={5.1}
+              containerClassName="bg-sky-600"
+              colors={[[125, 211, 252]]}
+            />
+          </ThreeDCard>
+        </div>
       </div>
       
       {/* Second row of cards */}
-      <div className="pb-8 flex flex-col lg:flex-row items-center justify-center bg-white dark:bg-black w-full gap-4 mx-auto">
-        <ThreeDCard title="Coming Soon" year="2025" description="Coming Soon" imageSrc="/coaching/placeholder-user.png">
-          <CanvasRevealEffect
-            animationSpeed={4}
-            containerClassName="bg-purple-800"
-            colors={[
-              [168, 85, 247],
-              [147, 51, 234],
-            ]}
-            dotSize={3}
-          />
-        </ThreeDCard>
-        <ThreeDCard title="Coming Soon" year="2025" description="Coming Soon" imageSrc="/coaching/placeholder-user.png">
-          <CanvasRevealEffect
-            animationSpeed={2.5}
-            containerClassName="bg-orange-600"
-            colors={[
-              [251, 146, 60],
-              [249, 115, 22],
-            ]}
-            dotSize={2}
-          />
-          <div className="absolute inset-0 [mask-image:radial-gradient(400px_at_center,white,transparent)] bg-black/30 dark:bg-black/60" />
-        </ThreeDCard>
-        <ThreeDCard title="Coming Soon" year="2025" description="Coming Soon" imageSrc="/coaching/placeholder-user.png">
-          <CanvasRevealEffect
-            animationSpeed={3.5}
-            containerClassName="bg-red-700"
-            colors={[
-              [239, 68, 68],
-              [220, 38, 38],
-            ]}
-            dotSize={2}
-          />
-        </ThreeDCard>
+      <div className="pb-8 flex flex-col lg:flex-row items-stretch justify-center bg-white dark:bg-black w-full gap-4 mx-auto px-0 lg:px-4">
+        <div className="w-full lg:w-80 flex-shrink-0">
+          <ThreeDCard title="Coming Soon" year="2025" description="Coming Soon" imageSrc="/coaching/placeholder.png">
+            <CanvasRevealEffect
+              animationSpeed={5.1}
+              containerClassName="bg-purple-800"
+              colors={[
+                [168, 85, 247],
+                [147, 51, 234],
+              ]}
+              dotSize={3}
+            />
+          </ThreeDCard>
+        </div>
+        <div className="w-full lg:w-80 flex-shrink-0">
+          <ThreeDCard title="Coming Soon" year="2025" description="Coming Soon" imageSrc="/coaching/placeholder.png">
+            <CanvasRevealEffect
+              animationSpeed={5.1}
+              containerClassName="bg-orange-600"
+              colors={[
+                [251, 146, 60],
+                [249, 115, 22],
+              ]}
+              dotSize={2}
+            />
+          </ThreeDCard>
+        </div>
+        <div className="w-full lg:w-80 flex-shrink-0">
+          <ThreeDCard title="Coming Soon" year="2025" description="Coming Soon" imageSrc="/coaching/placeholder.png">
+            <CanvasRevealEffect
+              animationSpeed={5.1}
+              containerClassName="bg-red-700"
+              colors={[
+                [239, 68, 68],
+                [220, 38, 38],
+              ]}
+              dotSize={2}
+            />
+          </ThreeDCard>
+        </div>
       </div>
     </>
   );
@@ -96,16 +105,16 @@ const ThreeDCard = ({
   const [hovered, setHovered] = React.useState(false);
   
   return (
-    <CardContainer containerClassName="py-0">
-      <CardBody className="h-auto w-auto">
+    <CardContainer containerClassName="!py-0 !w-full !flex !items-center !justify-center">
+      <CardBody className="!h-auto !w-full">
         <CardItem
           translateZ={20}
-          className="w-full"
+          className="!w-full"
         >
           <div
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            className="border border-black/[0.2] group/canvas-card flex items-center justify-center text-center dark:border-white/[0.2] w-full lg:w-80 relative h-[30rem] relative overflow-hidden"
+            className="border border-black/[0.2] group/canvas-card flex items-center justify-center text-center dark:border-white/[0.2] w-full relative h-[30rem] relative overflow-hidden"
           >
             <Icon className="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-black z-30" />
             <Icon className="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-black z-30" />

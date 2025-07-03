@@ -151,15 +151,16 @@ export default function ProjectPage({ params }: ProjectPageProps) {
       const projectFolder = selectedProject.name.toLowerCase().replace(/\s+/g, "-");
       
       // Update the project images with project-specific images if available
+      // For branding projects, use 18 feature images (+ hero + main = 20 total)
+      // For other projects, use 5 feature images (+ hero + main = 7 total)
+      const numberOfFeatureImages = selectedProject.category === "Branding" ? 18 : 5;
+      const featureImages = Array.from({ length: numberOfFeatureImages }, (_, i) => 
+        `/projects/${projectFolder}/feature${i + 1}.jpg`
+      );
+
       const projectSpecificImages = {
         main: `/projects/${projectFolder}/main.jpg`,
-        secondary: [
-          `/projects/${projectFolder}/feature1.jpg`,
-          `/projects/${projectFolder}/feature2.jpg`,
-          `/projects/${projectFolder}/feature3.jpg`,
-          `/projects/${projectFolder}/feature4.jpg`,
-          `/projects/${projectFolder}/feature5.jpg`,
-        ],
+        secondary: featureImages,
       }
 
       setProject((prev) => ({
@@ -224,16 +225,17 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           <div className="text-3xl md:text-4xl font-medium mb-4 text-blue-950">{project.name}</div>
           <p className="text-xl text-blue-950 mb-8">{project.description}</p>
           <div className="mb-12 overflow-hidden group cursor-pointer rounded-6xl" onClick={() => openCarousel(0)}>
-            <div className="relative h-[445px] md:h-auto md:pt-[75%] rounded-6xl overflow-hidden w-full h-full">
+            <div className={`relative h-[445px] md:h-auto ${currentProject.category === "Branding" ? "md:pt-[56.25%]" : "md:pt-[75%]"} rounded-6xl overflow-hidden w-full h-full`}>
               <Image
                 src={project.imageUrl || "/placeholder.svg"}
                 alt={project.name}
                 width={1600}
-                height={1200}
+                height={currentProject.category === "Branding" ? 900 : 1200}
                 className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-6xl"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  target.src = project.fallback || `/placeholder.svg?height=800&width=1200&text=${project.name.replace(/\s+/g, "+")}`;
+                  const height = currentProject.category === "Branding" ? 900 : 1200;
+                  target.src = project.fallback || `/placeholder.svg?height=${height}&width=1600&text=${project.name.replace(/\s+/g, "+")}`;
                 }}
               />
             </div>
@@ -298,8 +300,47 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                 </div>
               ))}
             </div>
+          ) : currentProject.category === "Branding" ? (
+            /* Branding: All images with 16:9 aspect ratio */
+            <div className="mt-16 space-y-8">
+              {/* Main image - 16:9 aspect ratio */}
+              <div className="w-full overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group" onClick={() => openCarousel(1)}>
+                <div className="relative h-[445px] md:h-auto md:pt-[56.25%] rounded-6xl overflow-hidden w-full">
+                  <Image
+                    src={project.images.main || "/placeholder.svg"}
+                    alt={`${project.name} main view`}
+                    width={1600}
+                    height={900}
+                    className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-6xl"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = `/placeholder.svg?height=900&width=1600&text=${project.name.replace(/\s+/g, "+")}+Main`;
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Secondary images - all 16:9 aspect ratio */}
+              {project.images.secondary.map((imageSrc, index) => (
+                <div key={index} className="w-full overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group" onClick={() => openCarousel(index + 2)}>
+                  <div className="relative w-full pt-[56.25%] rounded-6xl overflow-hidden">
+                    <Image
+                      src={imageSrc || "/placeholder.svg"}
+                      alt={`${project.name} view ${index + 1}`}
+                      width={1600}
+                      height={900}
+                      className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-6xl"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = `/placeholder.svg?height=900&width=1600&text=${project.name.replace(/\s+/g, "+")}+View+${index + 1}`;
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
           ) : (
-            /* Mobile Applications & Branding: Existing grid layout */
+            /* Mobile Applications: Existing grid layout */
             <>
               {/* Project Images Grid - Updated asymmetrical layout without containers */}
               <div className="mt-16 grid grid-cols-12 gap-4">
