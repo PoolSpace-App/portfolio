@@ -3,6 +3,7 @@
 import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
 
 // Types for better code understanding
 type CoachingProfile = {
@@ -170,46 +171,55 @@ function ProfileCard({
   onCardClick: (profile: CoachingProfile) => void; 
 }) {
   return (
-    <motion.div
-      layoutId={`profile-card-${profile.title}-${componentId}`}
-      onClick={() => onCardClick(profile)}
-      className="p-4 flex flex-col m-4 border-[1px] border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-[40px] cursor-pointer"
-    >
-      {/* Profile image */}
-      <motion.div layoutId={`profile-image-${profile.title}-${componentId}`} className="mb-4">
-        <img
-          width={400}
-          height={100}
-          src={profile.src}
-          alt={profile.title}
-          className="w-full rounded-[32px] object-cover object-top"
-        />
-      </motion.div>
-      
-      {/* Name and role */}
-      <div className="mb-4 text-center">
-        <motion.h3
-          layoutId={`profile-title-${profile.title}-${componentId}`}
-          className="font-medium text-lg text-blue-950 dark:text-blue-200"
-        >
-          {profile.title}
-        </motion.h3>
-        <motion.p
-          layoutId={`profile-description-${profile.description}-${componentId}`}
-          className="text-neutral-600 dark:text-neutral-400"
-        >
-          {profile.description}
-        </motion.p>
-      </div>
-      
-      {/* Call to action button */}
-      <motion.button
-        layoutId={`profile-cta-${profile.title}-${componentId}`}
-        className="px-4 py-2 text-sm rounded-full font-bold bg-gray-100 hover:bg-blue-500 hover:text-white text-black self-center"
+    <div className="m-4 relative h-full rounded-[40px] border-[1px] border-gray-100 md:rounded-[40px] md:p-3 hover:shadow-xl">
+      <GlowingEffect
+        spread={40}
+        glow={true}
+        disabled={false}
+        proximity={64}
+        inactiveZone={0.01}
+      />
+      <motion.div
+        layoutId={`profile-card-${profile.title}-${componentId}`}
+        onClick={() => onCardClick(profile)}
+        className="relative flex flex-col rounded-[32px] cursor-pointer h-full"
       >
-        {profile.ctaText}
-      </motion.button>
-    </motion.div>
+        {/* Profile image */}
+        <motion.div layoutId={`profile-image-${profile.title}-${componentId}`} className="mb-4">
+          <img
+            width={400}
+            height={100}
+            src={profile.src}
+            alt={profile.title}
+            className="w-full rounded-[32px] object-cover object-top"
+          />
+        </motion.div>
+        
+        {/* Name and role */}
+        <div className="mb-4 text-center">
+          <motion.h3
+            layoutId={`profile-title-${profile.title}-${componentId}`}
+            className="font-medium text-lg text-blue-950 dark:text-blue-200"
+          >
+            {profile.title}
+          </motion.h3>
+          <motion.p
+            layoutId={`profile-description-${profile.description}-${componentId}`}
+            className="text-neutral-600 dark:text-neutral-400"
+          >
+            {profile.description}
+          </motion.p>
+        </div>
+        
+        {/* Call to action button */}
+        <motion.button
+          layoutId={`profile-cta-${profile.title}-${componentId}`}
+          className="px-4 py-2 text-sm rounded-full font-bold bg-gray-100 hover:bg-blue-500 hover:text-white text-black self-center"
+        >
+          {profile.ctaText}
+        </motion.button>
+      </motion.div>
+    </div>
   );
 }
 
@@ -241,7 +251,7 @@ export const CloseIcon = () => {
 // ===== DATA: Coaching Profiles =====
 const coachingProfiles: CoachingProfile[] = [
   {
-    description: "UX Designer",
+    description: "UX/UI Designer",
     title: "Tshepo Selepe",
     src: "/coaching/tshepo.png",
     ctaText: "View Profile",
@@ -259,7 +269,7 @@ const coachingProfiles: CoachingProfile[] = [
   },
   {
     description: "Product Designer",
-    title: "Alex Chen",
+    title: "Coming Soon",
     src: "/coaching/placeholder.png",
     ctaText: "View",
     ctaLink: "#",
@@ -268,15 +278,14 @@ const coachingProfiles: CoachingProfile[] = [
     content: () => {
       return (
         <p>
-          Alex joined our coaching program as a junior product designer looking to advance their skills in user experience design. Through our structured mentorship approach, they developed expertise in user journey mapping, interaction design, and design system creation. <br /> <br /> 
-          During the 2-month program, Alex worked on a mobile banking app redesign, learning to integrate user research insights with business requirements. They mastered advanced prototyping techniques and gained valuable experience in presenting design decisions to stakeholders.
+          Coming Soon
         </p>
       );
     },
   },
   {
     description: "UI/UX Designer",
-    title: "Sarah Johnson",
+    title: "Coming Soon",
     src: "/coaching/placeholder.png",
     ctaText: "View",
     ctaLink: "#",
@@ -285,15 +294,14 @@ const coachingProfiles: CoachingProfile[] = [
     content: () => {
       return (
         <p>
-          Sarah came to our coaching program with a background in graphic design, eager to transition into UX design. Through our comprehensive curriculum, she learned user research methodologies, information architecture, and usability testing principles. <br /> <br /> 
-          Her capstone project involved redesigning a healthcare platform, where she demonstrated her ability to conduct user interviews, create personas, and design accessible interfaces. Sarah successfully completed the program and secured a UX designer position at a healthcare startup.
+          Coming Soon
         </p>
       );
     },
   },
   {
     description: "Digital Designer",
-    title: "Marcus Rodriguez",
+    title: "Coming Soon",
     src: "/coaching/placeholder.png",
     ctaText: "View",
     ctaLink: "#",
@@ -302,15 +310,14 @@ const coachingProfiles: CoachingProfile[] = [
     content: () => {
       return (
         <p>
-          Marcus participated in our coaching program to enhance his digital design skills and learn modern UX practices. Throughout the 2-month intensive program, he focused on developing skills in user-centered design, rapid prototyping, and design thinking workshops. <br /> <br /> 
-          His project involved creating a fitness tracking app from concept to high-fidelity prototype. Marcus learned to integrate AI tools into his design workflow and developed strong presentation skills for communicating design rationale to cross-functional teams.
+          Coming Soon
         </p>
       );
     },
   },
   {
     description: "Experience Designer",
-    title: "Emily Zhang",
+    title: "Coming Soon",
     src: "/coaching/placeholder.png",
     ctaText: "View",
     ctaLink: "#",
@@ -319,8 +326,7 @@ const coachingProfiles: CoachingProfile[] = [
     content: () => {
       return (
         <p>
-          Emily joined our coaching program with experience in visual design but wanted to expand into user experience design. Through personalized mentorship and hands-on projects, she developed skills in service design, customer journey mapping, and design research. <br /> <br /> 
-          Her final project focused on reimagining the onboarding experience for a fintech application. Emily learned to balance user needs with business objectives while creating seamless digital experiences that drive engagement and conversion.
+          Coming Soon
         </p>
       );
     },
