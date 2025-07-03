@@ -11,6 +11,8 @@ type CoachingProfile = {
   src: string;
   ctaText: string;
   ctaLink: string;
+  modalCtaText: string;
+  modalCtaLink: string;
   content: () => React.JSX.Element;
 };
 
@@ -96,7 +98,7 @@ export default function CoachingProfileCards() {
               </motion.div>
 
               {/* Desktop & Mobile Modal Profile details */}
-              <div className="flex flex-col">
+              <div className="flex flex-col md:mt-12 md:px-8">
                 <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start p-4">
                   <div className="lg:flex-1">
                     <motion.h3
@@ -112,6 +114,16 @@ export default function CoachingProfileCards() {
                       {selectedProfile.description}
                     </motion.p>
                   </div>
+
+                  {/* Call to action button */}       
+                  <motion.a
+                    layoutId={`profile-cta-${selectedProfile.title}-${componentId}`}
+                    href={selectedProfile.modalCtaLink}
+                    target="_blank"
+                    className="px-8 py-2 text-sm rounded-full font-bold bg-blue-500 text-white self-start lg:self-auto lg:ml-4"
+                  >
+                    {selectedProfile.modalCtaText}
+                  </motion.a>
                 </div>
                 
                 {/* Profile story content */}
@@ -232,8 +244,10 @@ const coachingProfiles: CoachingProfile[] = [
     description: "UX Designer",
     title: "Tshepo Selepe",
     src: "/coaching/tshepo.png",
-    ctaText: "View",
+    ctaText: "View Profile",
     ctaLink: "#",
+    modalCtaText: "View LinkedIn Profile",
+    modalCtaLink: "https://linkedin.com/in/tshepo-selepe",
     content: () => {
       return (
         <p>
@@ -249,6 +263,8 @@ const coachingProfiles: CoachingProfile[] = [
     src: "/coaching/placeholder.png",
     ctaText: "View",
     ctaLink: "#",
+    modalCtaText: "View LinkedIn Profile",
+    modalCtaLink: "https://linkedin.com/in/alex-chen",
     content: () => {
       return (
         <p>
@@ -264,6 +280,8 @@ const coachingProfiles: CoachingProfile[] = [
     src: "/coaching/placeholder.png",
     ctaText: "View",
     ctaLink: "#",
+    modalCtaText: "View LinkedIn Profile",
+    modalCtaLink: "https://linkedin.com/in/sarah-johnson",
     content: () => {
       return (
         <p>
@@ -279,6 +297,8 @@ const coachingProfiles: CoachingProfile[] = [
     src: "/coaching/placeholder.png",
     ctaText: "View",
     ctaLink: "#",
+    modalCtaText: "View LinkedIn Profile",
+    modalCtaLink: "https://linkedin.com/in/marcus-rodriguez",
     content: () => {
       return (
         <p>
@@ -294,6 +314,8 @@ const coachingProfiles: CoachingProfile[] = [
     src: "/coaching/placeholder.png",
     ctaText: "View",
     ctaLink: "#",
+    modalCtaText: "View LinkedIn Profile",
+    modalCtaLink: "https://linkedin.com/in/emily-zhang",
     content: () => {
       return (
         <p>
