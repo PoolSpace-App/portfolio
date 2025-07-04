@@ -171,7 +171,7 @@ function ProfileCard({
   onCardClick: (profile: CoachingProfile) => void; 
 }) {
   return (
-    <div className="m-4 relative h-full rounded-[40px] border-[1px] border-gray-100 md:rounded-[40px] md:p-3 hover:shadow-xl">
+    <div className="m-4 py-4 relative h-full rounded-[40px] border-[1px] border-gray-100 md:rounded-[40px] md:p-3 hover:shadow-xl">
       <GlowingEffect
         spread={40}
         glow={true}
