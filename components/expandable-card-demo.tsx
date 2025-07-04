@@ -257,7 +257,7 @@ const coachingProfiles: CoachingProfile[] = [
     ctaText: "View Profile",
     ctaLink: "#",
     modalCtaText: "View LinkedIn Profile",
-    modalCtaLink: "https://linkedin.com/in/tshepo-selepe",
+    modalCtaLink: "https://www.linkedin.com/in/tshepo-selepe-922b8a23a/",
     content: () => {
       return (
         <p>
@@ -274,7 +274,7 @@ const coachingProfiles: CoachingProfile[] = [
     ctaText: "View",
     ctaLink: "#",
     modalCtaText: "View LinkedIn Profile",
-    modalCtaLink: "https://linkedin.com/in/alex-chen",
+    modalCtaLink: "https://linkedin.com",
     content: () => {
       return (
         <p>
@@ -290,7 +290,7 @@ const coachingProfiles: CoachingProfile[] = [
     ctaText: "View",
     ctaLink: "#",
     modalCtaText: "View LinkedIn Profile",
-    modalCtaLink: "https://linkedin.com/in/sarah-johnson",
+    modalCtaLink: "https://linkedin.com",
     content: () => {
       return (
         <p>
@@ -306,7 +306,7 @@ const coachingProfiles: CoachingProfile[] = [
     ctaText: "View",
     ctaLink: "#",
     modalCtaText: "View LinkedIn Profile",
-    modalCtaLink: "https://linkedin.com/in/marcus-rodriguez",
+    modalCtaLink: "https://linkedin.com",
     content: () => {
       return (
         <p>
@@ -322,7 +322,7 @@ const coachingProfiles: CoachingProfile[] = [
     ctaText: "View",
     ctaLink: "#",
     modalCtaText: "View LinkedIn Profile",
-    modalCtaLink: "https://linkedin.com/in/emily-zhang",
+    modalCtaLink: "https://linkedin.com",
     content: () => {
       return (
         <p>
