@@ -262,7 +262,7 @@ const coachingProfiles: CoachingProfile[] = [
       return (
         <p>
           Tshepo is a talented UX designer who joined our 2-month intensive coaching program with a passion for creating user-centered digital experiences. During the program, he developed strong skills in user research, wireframing, prototyping and building real-world projects using AI. <br /> <br /> 
-          His journey included mastering design thinking methodologies, AI-assisted design workflows, and advanced prototyping techniques in Figma & Cursor. Tshepo successfully completed his project and 2 months later, he landed a new job as a UX designer and relocated to CapeTownp.
+          His journey included mastering design thinking methodologies, AI-assisted design workflows, and advanced prototyping techniques in Figma & Cursor. Tshepo successfully completed his project and 2 months later, he landed a new job as a UX designer and relocated to CapeTown.
         </p>
       );
     },
