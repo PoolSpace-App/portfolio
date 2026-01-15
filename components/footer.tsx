@@ -106,32 +106,22 @@ export default function Footer() {
       <div className="mt-32 overflow-hidden">
         <div className="animate-marquee whitespace-nowrap">
           <div className="inline-flex">
-            {words.map((word, index) => (
-              <span
-                key={index}
-                className={`text-7xl md:text-9xl font-bold text-white opacity-10 mx-4 transition-all duration-300 hover:opacity-30 ${
-                  hoveredWord === index ? "glitch-text" : ""
-                }`}
-                onMouseEnter={() => setHoveredWord(index)}
-                onMouseLeave={() => setHoveredWord(null)}
-                data-text={word}
-              >
-                {word}
-              </span>
-            ))}
-            {/* Duplicate words for seamless loop */}
-            {words.map((word, index) => (
-              <span
-                key={`dup-${index}`}
-                className={`text-7xl md:text-9xl font-bold text-white opacity-10 mx-4 transition-all duration-300 hover:opacity-30 ${
-                  hoveredWord === index + words.length ? "glitch-text" : ""
-                }`}
-                onMouseEnter={() => setHoveredWord(index + words.length)}
-                onMouseLeave={() => setHoveredWord(null)}
-                data-text={word}
-              >
-                {word}
-              </span>
+            {[...Array(4)].map((_, copyIndex) => (
+              <div key={copyIndex} className="flex">
+                {words.map((word, wordIndex) => (
+                  <span
+                    key={`${copyIndex}-${wordIndex}`}
+                    className={`text-7xl md:text-9xl font-bold text-white opacity-10 mx-4 transition-all duration-300 hover:opacity-30 cursor-default ${
+                      hoveredWord === wordIndex ? "glitch-text" : ""
+                    }`}
+                    onMouseEnter={() => setHoveredWord(wordIndex)}
+                    onMouseLeave={() => setHoveredWord(null)}
+                    data-text={word}
+                  >
+                    {word}
+                  </span>
+                ))}
+              </div>
             ))}
           </div>
         </div>

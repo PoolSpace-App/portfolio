@@ -1,16 +1,16 @@
 import Navbar from "@/components/navbar"
 import Logo from "@/components/logo"
+import MyValues from "@/components/my-values"
 
 export default function InfoPage() {
   return (
     <div className="min-h-screen bg-[#050510]">
       {/* Header */}
       <header className="container mx-auto px-4 py-8 flex justify-between items-center">
-        <Logo />
         <Navbar />
       </header>
       
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 pt-16 pb-8">
         <div className="max-w-4xl mx-auto">
           <div className="text-3xl font-light mb-8">About Me</div>
           <div>
@@ -24,8 +24,14 @@ export default function InfoPage() {
             I thrive in collaborative environments, whether brainstorming on paper or prototyping in pixels. I adapt easily, believe in lean principles, and love seeing a product through from concept to launch. Above all, I care deeply about crafting experiences that are meaningful, scalable, and beautifully simple.
             </p>
           </div>
+        </div>
+      </div>
 
-          <div className="text-2xl font-light mt-12 mb-8">Current Work Experience</div>
+      <MyValues />
+
+      <div className="container mx-auto px-4 pt-8 pb-16">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-2xl font-light mb-8">Current Work Experience</div>
           <div className="space-y-10">
             <div>
               <div className="font-medium">Senior Product Designer (UX/UI) - nCino Inc formerly DocFox</div>

@@ -1,7 +1,7 @@
 "use client"
 import { cn } from "@/lib/utils"
 
-type FilterCategory = "Mobile Applications" | "Desktop Applications" | "Branding"
+type FilterCategory = "Enterprise & Product Design" | "Independent & Client Projects"
 
 interface ProjectFilterProps {
   onFilterChange: (category: FilterCategory) => void
@@ -9,7 +9,7 @@ interface ProjectFilterProps {
 }
 
 export default function ProjectFilter({ onFilterChange, activeFilter }: ProjectFilterProps) {
-  const categories: FilterCategory[] = ["Mobile Applications", "Desktop Applications", "Branding"]
+  const categories: FilterCategory[] = ["Enterprise & Product Design", "Independent & Client Projects"]
 
   return (
     <div className="flex justify-center space-x-4 sm:space-x-12 sm:mx-16 py-6 mb-12">

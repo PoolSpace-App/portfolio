@@ -108,13 +108,13 @@ const ThreeDCard = ({
     <CardContainer containerClassName="!py-0 !w-full !flex !items-center !justify-center">
       <CardBody className="!h-auto !w-full">
         <CardItem
-          translateZ={20}
+          translateZ={10}
           className="!w-full"
         >
           <div
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            className="border border-black/[0.2] group/canvas-card flex items-center justify-center text-center dark:border-white/[0.2] w-full relative h-[30rem] relative overflow-hidden"
+            className="border border-black/[0.2] group/canvas-card flex items-center justify-center text-center dark:border-white/[0.2] w-full relative h-[30rem] overflow-hidden"
           >
             <Icon className="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-black z-30" />
             <Icon className="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-black z-30" />
@@ -147,21 +147,21 @@ const ThreeDCard = ({
             <div className="relative z-30 px-4 flex flex-col items-center justify-center h-full">
               <div className="opacity-0 group-hover/canvas-card:opacity-100 relative z-10 transition duration-200 text-center">
                 <CardItem
-                  translateZ={60}
+                  translateZ={30}
                   as="h2"
                   className="text-xl text-white font-bold mb-2 text-center w-full"
                 >
                   {title}
                 </CardItem>
                 <CardItem
-                  translateZ={40}
+                  translateZ={20}
                   as="p"
                   className="text-white/80 text-sm font-medium mb-2 text-center w-full"
                 >
                   {year}
                 </CardItem>
                 <CardItem
-                  translateZ={30}
+                  translateZ={15}
                   as="p"
                   className="text-white/70 text-xs leading-relaxed text-center w-full"
                 >

@@ -15,10 +15,9 @@ export default function Portfolio() {
 
   return (
     <main className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 flex justify-between items-center">
-        <Logo />
+      <header className="container mx-auto px-4 py-8 flex justify-between items-center">
         <Navbar />
-      </div>
+      </header>
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {projects.map((project) => (

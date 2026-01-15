@@ -5,7 +5,7 @@ export interface Project {
   tagline: string;
   description: string;
   imageUrl: string;
-  category: "Mobile Applications" | "Desktop Applications" | "Branding";
+  category: string;
   type: "freelance" | "permanent";
   details?: string;
   role?: string;
