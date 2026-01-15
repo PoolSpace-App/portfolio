@@ -85,10 +85,15 @@ export async function getAllBlogsFromNotion(): Promise<BlogPost[]> {
 
     // Filter out "Untitled" posts or posts without a slug
     // This prevents empty Notion rows from appearing as blog posts
-    return blogs.filter(blog => 
+    const filteredBlogs = blogs.filter(blog => 
       blog.title !== "Untitled" && 
       blog.slug !== "" && 
       blog.slug !== "untitled"
+    )
+
+    // Sort by published date (latest first)
+    return filteredBlogs.sort((a, b) => 
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     )
   } catch (error: any) {
     console.error("Notion API Error:", error.message)
