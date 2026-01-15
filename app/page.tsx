@@ -17,6 +17,9 @@ import BentoStats from "@/components/bento-stats"
 import Testimonials from "@/components/testimonials"
 import ImageMarquee from "@/components/image-marquee"
 import MyValues from "@/components/my-values"
+import { getAllBlogsFromNotion, type BlogPost } from "@/lib/notion"
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
+import { IconCalendar, IconClock, IconArrowRight } from "@tabler/icons-react"
 
 // Background Cells Component
 interface BackgroundCellsProps {
@@ -156,7 +159,20 @@ const logos = [
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState<FilterCategory>("Enterprise & Product Design")
   const [showFilter, setShowFilter] = useState(false)
+  const [latestBlogs, setLatestBlogs] = useState<BlogPost[]>([])
   const projectsRef = useRef<HTMLDivElement>(null)
+
+  // Fetch latest blogs
+  useEffect(() => {
+    fetch('/api/blogs/latest')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setLatestBlogs(data)
+        }
+      })
+      .catch(err => console.error("Error fetching blogs:", err))
+  }, [])
 
   // Use projects data from the shared lib/projects.ts file
   const projects = projectsArray;
@@ -394,6 +410,79 @@ export default function Home() {
           </div>
         </div>
         <Testimonials />
+
+        {/* Latest Blogs Section */}
+        {latestBlogs.length > 0 && (
+          <div className="container mx-auto px-4 mt-40">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+              <div>
+                <h2 className="text-4xl md:text-6xl font-medium text-blue-950 mb-4">Latest Stories</h2>
+                <p className="text-xl text-gray-600 max-w-xl">
+                  Insights on design, AI, and the future of product development.
+                </p>
+              </div>
+              <Link 
+                href="/blog" 
+                className="group flex items-center gap-2 text-blue-600 font-bold hover:text-blue-700 transition-colors pb-1 border-b-2 border-transparent hover:border-blue-600"
+              >
+                View all blogs
+                <IconArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+            
+            <BentoGrid className="w-full">
+              {latestBlogs.map((blog) => (
+                <Link 
+                  key={blog.id} 
+                  href={`/blog/${blog.slug}`} 
+                  className="block h-full md:col-span-3"
+                >
+                  <BentoGridItem
+                    className="group cursor-pointer rounded-[40px] border-neutral-100 bg-neutral-50/50"
+                    header={
+                      <div className="relative overflow-hidden rounded-[32px] bg-gray-100 mb-6 w-full h-[300px]">
+                        <Image
+                          src={blog.coverImage}
+                          alt={blog.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute top-4 left-4">
+                          <span className="bg-blue-600 text-white px-4 py-1.5 rounded-full text-xs font-semibold">
+                            {blog.category}
+                          </span>
+                        </div>
+                      </div>
+                    }
+                    title={
+                      <h3 className="font-bold text-blue-950 group-hover:text-blue-700 transition-colors line-clamp-2 text-2xl md:text-3xl mb-2">
+                        {blog.title}
+                      </h3>
+                    }
+                    description={
+                      <div className="space-y-4">
+                        <p className="text-gray-700 leading-relaxed line-clamp-2 text-lg">
+                          {blog.excerpt}
+                        </p>
+                        
+                        <div className="flex items-center gap-6 text-sm text-gray-500 pt-2">
+                          <div className="flex items-center gap-2">
+                            <IconClock className="h-4 w-4" />
+                            <span>{blog.readTime}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <IconCalendar className="h-4 w-4" />
+                            <span>{new Date(blog.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  />
+                </Link>
+              ))}
+            </BentoGrid>
+          </div>
+        )}
       </div>
 
       <ImageMarquee />
