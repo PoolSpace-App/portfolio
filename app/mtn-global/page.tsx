@@ -15,7 +15,7 @@ export default function MtnGlobalPage() {
     "name": "MTN Global",
     "tagline": "Connecting Africa through intuitive digital ecosystems.",
     "description": "Led the UX strategy for the 'MyMTN' super app, integrating telecommunications, financial services, and entertainment into a single, cohesive platform.",
-    "imageUrl": "/projects/mtn-global/hero.jpg",
+    "imageUrl": "/placeholder.jpg",
     "category": "Mobile Applications" as const,
     "type": "permanent",
     "details": "Spearheaded the integration of MoMo (Mobile Money) within the app, making financial transactions more accessible for unbanked populations.",
@@ -28,13 +28,13 @@ export default function MtnGlobalPage() {
         "Analyzed user data and feedback to iterate on the app's navigation, resulting in a 40% increase in daily active users."
     ],
     "images": {
-        "main": "/projects/mtn-global/main.jpg",
+        "main": "/placeholder.jpg",
         "secondary": [
-            "/projects/mtn-global/feature1.jpg",
-            "/projects/mtn-global/feature2.jpg",
-            "/projects/mtn-global/feature3.jpg",
-            "/projects/mtn-global/feature4.jpg",
-            "/projects/mtn-global/feature5.jpg"
+            "/placeholder.jpg",
+            "/placeholder.jpg",
+            "/placeholder.jpg",
+            "/placeholder.jpg",
+            "/placeholder.jpg"
         ]
     },
     "fallback": "/placeholder.svg?height=1200&width=1600&text=MTN+Global"

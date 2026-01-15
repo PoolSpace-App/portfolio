@@ -1,25 +1,30 @@
-"use client"
-
-import { useParams, useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import Navbar from "@/components/navbar"
-import { getBlogBySlug, getAllBlogs } from "@/lib/blogs"
+import { getBlogBySlugFromNotion, getAllBlogsFromNotion } from "@/lib/notion"
+import MarkdownRenderer from "@/components/markdown-renderer"
+import { Metadata } from "next"
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string
+  }>
+}
+
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+  const { slug } = await params
+  const blog = await getBlogBySlugFromNotion(slug)
+  return {
+    title: blog ? `${blog.title} | Blog` : "Blog Post Not Found",
+    description: blog?.excerpt,
   }
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
-  const router = useRouter()
-  const { slug } = useParams() || { slug: "" }
-  
-  const blogSlug = typeof slug === 'string' ? slug : Array.isArray(slug) ? slug[0] : ""
-  const blog = getBlogBySlug(blogSlug)
-  const allBlogs = getAllBlogs()
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const { slug } = await params
+  const blog = await getBlogBySlugFromNotion(slug)
+  const allBlogs = await getAllBlogsFromNotion()
   
   // Find related blogs (same category, excluding current)
   const relatedBlogs = allBlogs
@@ -50,15 +55,15 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         <Navbar variant="white" />
       </header>
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 pb-32">
           {/* Back button */}
-          <button
-            onClick={() => router.back()}
+          <Link
+            href="/blog"
             className="inline-flex items-center mb-8 hover:opacity-70 transition-opacity text-blue-950 hover-glitch"
           >
             <ArrowLeft className="mr-2 h-4 w-4 text-blue-950" />
             Back
-          </button>
+          </Link>
           
           {/* Blog header */}
           <div className="mb-12">
@@ -106,22 +111,11 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               width={1200}
               height={675}
               className="absolute inset-0 w-full h-full object-cover"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = `/placeholder.svg?height=675&width=1200&text=${blog.title.replace(/\s+/g, "+")}`;
-              }}
             />
           </div>
           
           {/* Blog content */}
-          <div 
-            className="prose prose-lg max-w-none mb-16"
-            style={{
-              color: '#1e293b',
-              lineHeight: '1.8'
-            }}
-            dangerouslySetInnerHTML={{ __html: blog.content }}
-          />
+          <MarkdownRenderer content={blog.content} />
           
           {/* Related posts */}
           {relatedBlogs.length > 0 && (
@@ -141,10 +135,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                         width={400}
                         height={300}
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = `/placeholder.svg?height=300&width=400&text=${relatedBlog.title.replace(/\s+/g, "+")}`;
-                        }}
                       />
                     </div>
                     <div className="space-y-2">
@@ -177,4 +167,4 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       </div>
     </main>
   )
-} 
+}

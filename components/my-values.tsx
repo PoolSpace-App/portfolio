@@ -55,7 +55,7 @@ export default function MyValues() {
   const activeValue = values.find((v) => v.id === activeTab) || values[0]
 
   return (
-    <section className="py-24 bg-[#050510] text-white">
+    <section className="py-24 bg-[#ffffff] text-white">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mb-16">
           <h2 className="text-4xl md:text-6xl font-light mb-6">The values we live by</h2>

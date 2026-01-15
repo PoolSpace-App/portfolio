@@ -14,7 +14,7 @@ export default function Footer() {
   const words = largeText.split(" ")
 
   return (
-    <footer className="bg-[#050510] text-white py-20 px-4 md:px-8">
+    <footer className="bg-[#050510] text-white pt-32 pb-20 px-4 md:px-8">
       <div className="container mx-auto max-w-6xl">
         {/* Logo */}
         <div className="flex justify-center mb-12">

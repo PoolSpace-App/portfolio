@@ -15,7 +15,7 @@ export default function StandardBankPage() {
     "name": "Standard Bank",
     "tagline": "Modernizing digital banking experiences for millions of users.",
     "description": "As a Senior Product Designer, I led the redesign of the core mobile banking experience, focusing on accessibility and seamless cross-border transactions.",
-    "imageUrl": "/projects/standard-bank/hero.jpg",
+    "imageUrl": "/placeholder.jpg",
     "category": "Mobile Applications" as const,
     "type": "permanent",
     "details": "Redesigned the onboarding flow, reducing dropout rates by 25%. Implemented a new design system that unified the brand across all digital touchpoints.",
@@ -28,13 +28,13 @@ export default function StandardBankPage() {
         "Presented design strategies to stakeholders, ensuring alignment with business goals and user needs."
     ],
     "images": {
-        "main": "/projects/standard-bank/main.jpg",
+        "main": "/placeholder.jpg",
         "secondary": [
-            "/projects/standard-bank/feature1.jpg",
-            "/projects/standard-bank/feature2.jpg",
-            "/projects/standard-bank/feature3.jpg",
-            "/projects/standard-bank/feature4.jpg",
-            "/projects/standard-bank/feature5.jpg"
+            "/placeholder.jpg",
+            "/placeholder.jpg",
+            "/placeholder.jpg",
+            "/placeholder.jpg",
+            "/placeholder.jpg"
         ]
     },
     "fallback": "/placeholder.svg?height=1200&width=1600&text=Standard+Bank"

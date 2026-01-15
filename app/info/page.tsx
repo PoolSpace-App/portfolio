@@ -11,7 +11,7 @@ export default function InfoPage() {
       </header>
       
       <div className="container mx-auto px-4 pt-16 pb-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="text-3xl font-light mb-8">About Me</div>
           <div>
             <p className="mb-6">
@@ -26,11 +26,8 @@ export default function InfoPage() {
           </div>
         </div>
       </div>
-
-      <MyValues />
-
       <div className="container mx-auto px-4 pt-8 pb-16">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="text-2xl font-light mb-8">Current Work Experience</div>
           <div className="space-y-10">
             <div>
@@ -56,6 +53,11 @@ export default function InfoPage() {
           </div>
         </div>
       </div>
+
+      <div className="pb-32">
+        <MyValues />
+      </div>
+
     </div>
   )
 }
