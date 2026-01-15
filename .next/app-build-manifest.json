@@ -11,30 +11,45 @@
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
     ],
-    "/Coaching/page": [
+    "/cardspace/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/Coaching/page.js"
+      "static/chunks/app/cardspace/layout.js"
     ],
-    "/info/page": [
+    "/cardspace/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/info/page.js"
+      "static/chunks/app/cardspace/page.js"
+    ],
+    "/myperks/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/myperks/layout.js"
+    ],
+    "/myperks/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/myperks/page.js"
+    ],
+    "/standard-bank/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/standard-bank/layout.js"
+    ],
+    "/standard-bank/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/standard-bank/page.js"
     ],
     "/blog/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/blog/page.js"
     ],
-    "/[projectName]/layout": [
+    "/_not-found/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/[projectName]/layout.js"
-    ],
-    "/[projectName]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/[projectName]/page.js"
+      "static/chunks/app/_not-found/page.js"
     ]
   }
 }

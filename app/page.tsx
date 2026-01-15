@@ -23,128 +23,7 @@ interface BackgroundCellsProps {
 const BackgroundCells = ({ children, className }: BackgroundCellsProps) => {
   return (
     <div className={cn("relative h-screen w-screen flex justify-center overflow-hidden", className)}>
-      <BackgroundCellCore />
       {children && <div className="relative z-50 pointer-events-none select-none w-full">{children}</div>}
-    </div>
-  )
-}
-
-const BackgroundCellCore = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const ref = useRef<HTMLDivElement>(null)
-
-  const handleMouseMove = (event: React.MouseEvent) => {
-    const rect = ref.current?.getBoundingClientRect()
-    if (rect) {
-      setMousePosition({
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top,
-      })
-    }
-  }
-
-  const size = 300
-  return (
-    <div ref={ref} onMouseMove={handleMouseMove} className="h-full w-full absolute inset-0">
-      <div className="absolute h-[20rem] w-full inset-0 overflow-hidden">
-        <div className="absolute h-full w-full pointer-events-none -bottom-2 z-40 bg-[#050510] [mask-image:linear-gradient(to_bottom,transparent,black)]" />
-        <div
-          className="absolute inset-0 z-20 bg-transparent w-full"
-          style={{
-            maskImage: `radial-gradient(${size / 4}px circle at center, white, transparent)`,
-            WebkitMaskImage: `radial-gradient(${size / 4}px circle at center, white, transparent)`,
-            WebkitMaskPosition: `${mousePosition.x - size / 2}px ${mousePosition.y - size / 2}px`,
-            WebkitMaskSize: `${size}px`,
-            maskSize: `${size}px`,
-            pointerEvents: "none",
-            maskRepeat: "no-repeat",
-            WebkitMaskRepeat: "no-repeat",
-          }}
-        >
-          <Pattern cellClassName="border-blue-600 relative z-[100]" />
-        </div>
-        <Pattern className="opacity-[0.5]" cellClassName="border-neutral-700" />
-      </div>
-    </div>
-  )
-}
-
-interface PatternProps {
-  className?: string
-  cellClassName?: string
-}
-
-const Pattern = ({ className, cellClassName }: PatternProps) => {
-  const [dimensions, setDimensions] = useState({ cols: 47, rows: 30 })
-  
-  useEffect(() => {
-    const updateDimensions = () => {
-      const cellSize = 48 // 48px per cell (h-12 w-12)
-      const cols = Math.ceil(window.innerWidth / cellSize) + 2 // +2 for overflow
-      const rows = Math.ceil(window.innerHeight / cellSize) + 2 // +2 for overflow
-      setDimensions({ cols, rows })
-    }
-    
-    updateDimensions()
-    window.addEventListener('resize', updateDimensions)
-    return () => window.removeEventListener('resize', updateDimensions)
-  }, [])
-  
-  const x = new Array(dimensions.cols).fill(0)
-  const y = new Array(dimensions.rows).fill(0)
-  const matrix = x.map((_, i) => y.map((_, j) => [i, j]))
-  const [clickedCell, setClickedCell] = useState<[number, number] | null>(null)
-  const controls = useAnimation()
-
-  const handleCellClick = useCallback((rowIdx: number, colIdx: number) => {
-    setClickedCell([rowIdx, colIdx])
-  }, [])
-
-  useEffect(() => {
-    if (clickedCell) {
-      const [rowIdx, colIdx] = clickedCell
-      matrix.forEach((row, i) => {
-        row.forEach((_, j) => {
-          const distance = Math.sqrt(Math.pow(rowIdx - i, 2) + Math.pow(colIdx - j, 2))
-          controls.start({
-            opacity: [0, 1 - distance * 0.1, 0],
-            transition: { duration: distance * 0.2 },
-          })
-        })
-      })
-    }
-  }, [clickedCell, controls, matrix])
-
-  return (
-    <div className={cn("flex flex-row relative z-30", className)}>
-      {matrix.map((row, rowIdx) => (
-        <div key={`matrix-row-${rowIdx}`} className="flex flex-col relative z-20 border-b">
-          {row.map((column, colIdx) => {
-            return (
-              <div
-                key={`matrix-col-${colIdx}`}
-                className={cn("bg-transparent border-l border-b border-neutral-600", cellClassName)}
-                onClick={() => handleCellClick(rowIdx, colIdx)}
-              >
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                  }}
-                  whileHover={{
-                    opacity: [0, 1, 0.5],
-                  }}
-                  transition={{
-                    duration: 0.5,
-                    ease: "backOut",
-                  }}
-                  animate={controls}
-                  className="bg-[rgba(14,165,233,0.3)] h-12 w-12"
-                />
-              </div>
-            )
-          })}
-        </div>
-      ))}
     </div>
   )
 }
@@ -155,7 +34,6 @@ function GlitchingTitle() {
   const [isTyping, setIsTyping] = useState(true)
   const [isDeleting, setIsDeleting] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [isComplete, setIsComplete] = useState(false)
 
   const firstTitle = ["Product", "", "Designer"]
   const secondTitle = ["AI", "UX", "", "Engineer"]
@@ -187,12 +65,10 @@ function GlitchingTitle() {
         }
       } else {
         // All words typed
-        setIsComplete(true) // Set complete when typing is finished
         timeout = setTimeout(() => {
-          setIsComplete(false) // Turn off glitch when starting to delete
           setIsDeleting(true)
           setCurrentIndex(currentTitle.length - 1)
-        }, 3000) // Increased pause before deleting to give more time for the glitch effect
+        }, 3000)
       }
     } else if (isDeleting) {
       // Deleting effect
@@ -236,10 +112,9 @@ function GlitchingTitle() {
         return (
           <span
             key={index}
-            className={`${isComplete ? "glitch-text" : ""} relative font-titling text-gray-300 inline-block ${
+            className={`relative font-titling text-gray-300 inline-block ${
               isCurrentWord && !isDeleting ? "after:content-['|'] after:ml-1 after:animate-blink" : ""
             }`}
-            data-text={displayWord}
           >
             {displayWord}
           </span>
@@ -265,8 +140,12 @@ export default function Home() {
   // Use projects data from the shared lib/projects.ts file
   const projects = projectsArray;
 
-  // Filter projects based on active category
-  const filteredProjects = projects.filter((project) => project.category === activeFilter)
+  // Split projects by type
+  const permanentProjects = projects.filter(p => p.type === 'permanent');
+  const freelanceProjects = projects.filter(p => p.type === 'freelance');
+
+  // Filter freelance projects based on active category
+  const filteredFreelanceProjects = freelanceProjects.filter((project) => project.category === activeFilter)
 
   // Handle scroll to show filter
   useEffect(() => {
@@ -302,7 +181,7 @@ export default function Home() {
       <BackgroundCells className="bg-[#050510] w-screen mx-auto">
         <div className="flex-1 flex flex-col justify-between min-h-[calc(100vh-90px)] container mx-auto">
           {/* Main content area */}
-          <div className="flex items-center justify-center flex-grow">
+          <div className="flex flex-col items-center justify-center flex-grow">
             <div className="flex flex-col items-center text-center max-w-3xl px-4 pointer-events-auto">
               {/* Fixed height container for the glitching title */}
               <div className="text-4xl sm:mb-0 md:text-9xl font-light tracking-tight flex gap-3 md:mb-12 md:h-40">
@@ -326,6 +205,19 @@ export default function Home() {
                   <div className="sm:text-lg md:text-lg">→ Save costs and ship faster (without needing huge dev teams)</div>
                 </div>
               </div>
+            </div>
+
+            {/* Logo section */}
+            <div className="mt-16 w-full max-w-7xl grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3 px-4 pointer-events-auto mx-auto pb-12">
+              {Array.from({ length: 14 }).map((_, i) => (
+                <div key={i} className="aspect-[16/10] bg-[#11111a] border border-white/5 rounded-xl flex items-center justify-center p-4 grayscale opacity-50 hover:opacity-100 hover:bg-[#1a1a2e] transition-all duration-500 group cursor-default shadow-2xl shadow-black/50">
+                  <div className="w-full h-full flex items-center justify-center relative">
+                    <div className="text-[9px] text-gray-400 uppercase tracking-[0.3em] font-bold group-hover:text-gray-200 transition-colors">
+                      Logo {i + 1}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -389,71 +281,136 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Projects section - 2 COLUMN GRID LAYOUT */}
+      {/* Projects section */}
       <div ref={projectsRef} className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
-          {filteredProjects.map((project, index) => {
-            // Create URL-friendly slug from project name
-            const slug = project.name.toLowerCase().replace(/\s+/g, "-")
-            
-            return (
-              <CardContainer key={project.id} className="inter-var">
-                <CardBody className="bg-transparent relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] w-full h-[600px] rounded-[48px] overflow-hidden">
-                  <Link
-                    href={`/${slug}`}
-                    className="group block relative overflow-hidden rounded-[48px] h-full w-full"
-                  >
-                    {/* Image */}
-                    <CardItem translateZ="50" className="w-full h-full">
-                      <Image
-                        src={normalizeImagePath(project.imageUrl)}
-                        alt={project.name}
-                        width={800}
-                        height={600}
-                        priority={index < 6} // Prioritize loading the first 6 images
-                        className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 rounded-[48px]"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = `/placeholder.svg?height=600&width=800&text=${project.name.replace(/\s+/g, "+")}`;
-                        }}
-                      />
-                    </CardItem>
+        {/* Permanent Work Section */}
+        <div className="mb-24">
+          <h2 className="text-3xl md:text-5xl font-light text-gray-300 mb-12 border-b border-gray-800 pb-4">Permanent Work</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
+            {permanentProjects.map((project, index) => {
+              const slug = project.name.toLowerCase().replace(/\s+/g, "-")
+              return (
+                <CardContainer key={project.id} className="inter-var">
+                  <CardBody className="bg-transparent relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] w-full h-[600px] rounded-[48px] overflow-hidden">
+                    <Link
+                      href={`/${slug}`}
+                      className="group block relative overflow-hidden rounded-[48px] h-full w-full"
+                    >
+                      <CardItem translateZ="50" className="w-full h-full">
+                        <Image
+                          src={normalizeImagePath(project.imageUrl)}
+                          alt={project.name}
+                          width={800}
+                          height={600}
+                          priority={index < 2}
+                          className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 rounded-[48px]"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = `/placeholder.svg?height=600&width=800&text=${project.name.replace(/\s+/g, "+")}`;
+                          }}
+                        />
+                      </CardItem>
 
-                    {/* Overlay content - visible on mobile by default, hover on desktop */}
-                    <CardItem translateZ="80" className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent md:opacity-0 opacity-100 md:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8 rounded-[48px]">
-                      <div className="transform md:translate-y-8 md:group-hover:translate-y-0 transition-transform duration-300">
-                        <CardItem translateZ="20" className="mb-3">
-                          <span className="text-xs text-white uppercase tracking-wider inline-block hover-glitch">
-                            {project.category}
-                          </span>
-                        </CardItem>
-                        <CardItem translateZ="40" className="mb-3">
-                          <div className="text-2xl font-medium text-white hover-glitch">
-                            {project.name}
-                          </div>
-                        </CardItem>
-                        <CardItem translateZ="30" className="mb-4">
-                          <p className="text-white line-clamp-3 hover-glitch">
-                            {project.tagline}
-                          </p>
-                        </CardItem>
-                        <CardItem translateZ="30" className="mb-4">
-                          <p className="text-white text-sm line-clamp-2 hover-glitch">
-                            {project.description}
-                          </p>
-                        </CardItem>
-                        <CardItem translateZ="60">
-                          <span className="inline-flex items-center text-white border-b border-white pb-1 md:group-hover:pl-2 transition-all duration-300 hover-glitch">
-                            View Project <span className="ml-2 md:group-hover:ml-3 transition-all duration-300">→</span>
-                          </span>
-                        </CardItem>
-                      </div>
-                    </CardItem>
-                  </Link>
-                </CardBody>
-              </CardContainer>
-            )
-          })}
+                      <CardItem translateZ="80" className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent md:opacity-0 opacity-100 md:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8 rounded-[48px]">
+                        <div className="transform md:translate-y-8 md:group-hover:translate-y-0 transition-transform duration-300">
+                          <CardItem translateZ="20" className="mb-3">
+                            <span className="text-xs text-white uppercase tracking-wider inline-block hover-glitch">
+                              {project.category}
+                            </span>
+                          </CardItem>
+                          <CardItem translateZ="40" className="mb-3">
+                            <div className="text-2xl font-medium text-white hover-glitch">
+                              {project.name}
+                            </div>
+                          </CardItem>
+                          <CardItem translateZ="30" className="mb-4">
+                            <p className="text-white line-clamp-3 hover-glitch">
+                              {project.tagline}
+                            </p>
+                          </CardItem>
+                          <CardItem translateZ="30" className="mb-4">
+                            <p className="text-white text-sm line-clamp-2 hover-glitch">
+                              {project.description}
+                            </p>
+                          </CardItem>
+                          <CardItem translateZ="60">
+                            <span className="inline-flex items-center text-white border-b border-white pb-1 md:group-hover:pl-2 transition-all duration-300 hover-glitch">
+                              View Project <span className="ml-2 md:group-hover:ml-3 transition-all duration-300">→</span>
+                            </span>
+                          </CardItem>
+                        </div>
+                      </CardItem>
+                    </Link>
+                  </CardBody>
+                </CardContainer>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Freelance Work Section */}
+        <div>
+          <h2 className="text-3xl md:text-5xl font-light text-gray-300 mb-12 border-b border-gray-800 pb-4">Freelance Work</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
+            {filteredFreelanceProjects.map((project, index) => {
+              const slug = project.name.toLowerCase().replace(/\s+/g, "-")
+              return (
+                <CardContainer key={project.id} className="inter-var">
+                  <CardBody className="bg-transparent relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] w-full h-[600px] rounded-[48px] overflow-hidden">
+                    <Link
+                      href={`/${slug}`}
+                      className="group block relative overflow-hidden rounded-[48px] h-full w-full"
+                    >
+                      <CardItem translateZ="50" className="w-full h-full">
+                        <Image
+                          src={normalizeImagePath(project.imageUrl)}
+                          alt={project.name}
+                          width={800}
+                          height={600}
+                          priority={index < 4}
+                          className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 rounded-[48px]"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = `/placeholder.svg?height=600&width=800&text=${project.name.replace(/\s+/g, "+")}`;
+                          }}
+                        />
+                      </CardItem>
+
+                      <CardItem translateZ="80" className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent md:opacity-0 opacity-100 md:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8 rounded-[48px]">
+                        <div className="transform md:translate-y-8 md:group-hover:translate-y-0 transition-transform duration-300">
+                          <CardItem translateZ="20" className="mb-3">
+                            <span className="text-xs text-white uppercase tracking-wider inline-block hover-glitch">
+                              {project.category}
+                            </span>
+                          </CardItem>
+                          <CardItem translateZ="40" className="mb-3">
+                            <div className="text-2xl font-medium text-white hover-glitch">
+                              {project.name}
+                            </div>
+                          </CardItem>
+                          <CardItem translateZ="30" className="mb-4">
+                            <p className="text-white line-clamp-3 hover-glitch">
+                              {project.tagline}
+                            </p>
+                          </CardItem>
+                          <CardItem translateZ="30" className="mb-4">
+                            <p className="text-white text-sm line-clamp-2 hover-glitch">
+                              {project.description}
+                            </p>
+                          </CardItem>
+                          <CardItem translateZ="60">
+                            <span className="inline-flex items-center text-white border-b border-white pb-1 md:group-hover:pl-2 transition-all duration-300 hover-glitch">
+                              View Project <span className="ml-2 md:group-hover:ml-3 transition-all duration-300">→</span>
+                            </span>
+                          </CardItem>
+                        </div>
+                      </CardItem>
+                    </Link>
+                  </CardBody>
+                </CardContainer>
+              )
+            })}
+          </div>
         </div>
       </div>
 

@@ -6,6 +6,7 @@ export interface Project {
   description: string;
   imageUrl: string;
   category: "Mobile Applications" | "Desktop Applications" | "Branding";
+  type: "freelance" | "permanent";
   details?: string;
   role?: string;
   duration?: string;
@@ -15,7 +16,45 @@ export interface Project {
 
 // Extract project data from portfolio page to be reused across the site
 export const projectData: Record<number, Project> = {
-  // Mobile Applications (9)
+  // Permanent Work (Dummy Projects)
+  101: {
+    id: 101,
+    name: "Standard Bank",
+    tagline: "Modernizing digital banking experiences for millions of users.",
+    description: "As a Senior Product Designer, I led the redesign of the core mobile banking experience, focusing on accessibility and seamless cross-border transactions.",
+    imageUrl: "/projects/standard-bank/main.jpg",
+    category: "Mobile Applications",
+    type: "permanent",
+    details: "Redesigned the onboarding flow, reducing dropout rates by 25%. Implemented a new design system that unified the brand across all digital touchpoints.",
+    role: "Senior Product Designer",
+    duration: "2 years",
+    year: "2021-2023",
+    processDetails: [
+      "Conducted extensive user research across multiple regions to identify pain points in international transfers.",
+      "Collaborated with engineering teams to build a scalable component library using React and Tailwind.",
+      "Presented design strategies to stakeholders, ensuring alignment with business goals and user needs."
+    ]
+  },
+  102: {
+    id: 102,
+    name: "MTN Global",
+    tagline: "Connecting Africa through intuitive digital ecosystems.",
+    description: "Led the UX strategy for the 'MyMTN' super app, integrating telecommunications, financial services, and entertainment into a single, cohesive platform.",
+    imageUrl: "/projects/mtn-global/main.jpg",
+    category: "Mobile Applications",
+    type: "permanent",
+    details: "Spearheaded the integration of MoMo (Mobile Money) within the app, making financial transactions more accessible for unbanked populations.",
+    role: "Lead UX Architect",
+    duration: "18 months",
+    year: "2019-2021",
+    processDetails: [
+      "Developed a comprehensive UX strategy that addressed diverse connectivity challenges across African markets.",
+      "Mentored a team of junior designers, fostering a culture of user-centric design and rapid prototyping.",
+      "Analyzed user data and feedback to iterate on the app's navigation, resulting in a 40% increase in daily active users."
+    ]
+  },
+
+  // Mobile Applications (9) - Freelance
   1: {
     id: 1,
     name: "CardSpace",
@@ -23,6 +62,7 @@ export const projectData: Record<number, Project> = {
     description: "CardSpace is a digital wallet platform for loyalty cards, gift cards, and rewards experiences, designed to replace the clutter of physical cards with a seamless, eco-friendly, and data-driven solution.",
     imageUrl: "/projects/cardspace/main.jpg",
     category: "Mobile Applications",
+    type: "freelance",
     details: "Users can: Scan and store loyalty cards in one app (no more carrying dozens of cards) and use digital cards at checkout via barcode scanning or tap-to-pay (coming soon).",
     role: "UX/UI Designer, AI/ML Engineer",
     duration: "12 months",
@@ -40,6 +80,7 @@ export const projectData: Record<number, Project> = {
     description: "MyPerks provides Kicks which are points organizations can use as incentives to unlock brand loyalty from their customers and employees.",
     imageUrl: "/projects/myperks/main.jpg",
     category: "Mobile Applications",
+    type: "freelance",
     details: "MyPerks also provides a wide variety of rewards, guaranteeing that every employee can find something that truly resonates with their preferences.",
     role: "UX/UI Designer, AI/ML Engineer",
     duration: "4 - 6 months",
@@ -55,6 +96,7 @@ export const projectData: Record<number, Project> = {
     description: "This App is ideal for Coal or bulk mineral operations, Transport & logistics companies and site supervisers needing real-time oversight of stock and container movements.",
     imageUrl: "/projects/lexmasft-coal-app/main.jpg",
     category: "Mobile Applications",
+    type: "freelance",
     details: "It is designed for businesses that handle bulk materials like coal.",
     role: "UX Researcher, User Testing & Designer",
     duration: "6 - 8 months",
@@ -70,6 +112,7 @@ export const projectData: Record<number, Project> = {
     description: "Self Care app is a mobile application that enables MTN customers to perform high-value transactions, from simple account updates to paying bills, viewing and managing customer data and services, managing support tickets, and more.",
     imageUrl: "/projects/mtn-selfcare-app/main.jpg",
     category: "Mobile Applications",
+    type: "freelance",
     details: "MTN planned to launch a 24/7 internet-based Self Care app for all subscribers (prepaid and postpaid). ",
     role: "Research, User Testing, Prototyping & Product Designer",
     duration: "8 months",
@@ -86,6 +129,7 @@ export const projectData: Record<number, Project> = {
       "Vodacom RED Rewards offers exclusive perks and experiences such as: Discounts and vouchers on travel, dining, lifestyle, entertainment, exclusive event access, like concerts or sports games. Vodacom RED also offers travel benefits, including airport lounge access and concierge services.",
     imageUrl: "/projects/vodacom-red-rewards/main.jpg",
     category: "Mobile Applications",
+    type: "freelance",
     details: "Vodacom Red Rewards also offers exclusive travel, lifestyle, digital, and connectivity perks.",
     role: "UI Designer & Brand Identity",
     duration: "3 months",
@@ -102,6 +146,7 @@ export const projectData: Record<number, Project> = {
       "Notify.Gov is a platform that connects citizens with government services through secure identity verification methods, including two-factor authentication, biometric facial recognition, and secure image capture.",
     imageUrl: "/projects/notify.gov/main.jpg",
     category: "Mobile Applications",
+    type: "freelance",
     details: "It allows users to receive notifications, report municipal issues, and access emergency services.",
     role: "Lead Designer",
     duration: "3 months",
@@ -117,6 +162,7 @@ export const projectData: Record<number, Project> = {
     description: "CitizenC is more than just a virtual school—it's a smart, supportive learning guide designed to meet students where they are.",
     imageUrl: "/projects/citizen-c/main.jpg",
     category: "Mobile Applications",
+    type: "freelance",
     details: "CitizenC helps students stay engaged, confident, and organized. From personalized learning paths and career-focused goal setting to daily challenges, reminders, and mental health check-ins.",
     role: "Lead Designer",
     duration: "4 months",
@@ -136,7 +182,7 @@ export const projectData: Record<number, Project> = {
     ]
   },
 
-  // Desktop Applications (4)
+  // Desktop Applications (4) - Freelance
   10: {
     id: 10,
     name: "eTender Platform",
@@ -145,6 +191,7 @@ export const projectData: Record<number, Project> = {
       "The eTender platform is a locally developed digital procurement system designed to streamline and automate the tendering process for both public and private sectors in South Africa.",
     imageUrl: "/projects/etender-platform/main.jpg",
     category: "Desktop Applications",
+    type: "freelance",
     details: "Its primary audience is the public sector — including government departments, municipalities, and SOEs — while the secondary audience is private companies with procurement needs.",
     role: "Lead Designer",
     duration: "4 months",
@@ -168,6 +215,7 @@ export const projectData: Record<number, Project> = {
     description: "Lead UI designer, redesigning the Capitec Bank's digital banking platform",
     imageUrl: "/projects/capitec-bank/main.jpg",
     category: "Desktop Applications",
+    type: "freelance",
     details: "Capitec Bank is a South African commercial bank, and as of February 2024 the bank was the largest retail bank in South Africa.",
     role: "Lead UI Designer",
     duration: "3 months",
@@ -179,7 +227,7 @@ export const projectData: Record<number, Project> = {
     ]
   },
 
-  // Branding (2)
+  // Branding (2) - Freelance
   14: {
     id: 14,
     name: "TeamFinder",
@@ -188,6 +236,7 @@ export const projectData: Record<number, Project> = {
       "To revolutionise talent engagement by providing flexible, risk-free, and strategic talent solutions that empower businesses.",
     imageUrl: "/projects/teamfinder/main.jpg",
     category: "Branding",
+    type: "freelance",
     details: "TeamFinder's Talent-as-a-Service (TaaS) platform specialises in tech industries, offering AI-driven talent matching and flexible contractual terms.",
     role: "Lead Designer – Branding & UI",
     duration: "4 months",
