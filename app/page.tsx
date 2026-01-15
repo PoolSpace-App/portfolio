@@ -11,12 +11,12 @@ import Link from "next/link"
 import { motion, useAnimation } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { projectsArray } from "@/lib/projects"
-import SparklesPreview from "@/components/sparkles-demo"
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card"
 import BentoStats from "@/components/bento-stats"
 import Testimonials from "@/components/testimonials"
 import ImageMarquee from "@/components/image-marquee"
 import MyValues from "@/components/my-values"
+import LightPillar from "@/components/LightPillar/LightPillar"
 import { getAllBlogsFromNotion, type BlogPost } from "@/lib/notion"
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
 import { IconCalendar, IconClock, IconArrowRight } from "@tabler/icons-react"
@@ -30,6 +30,16 @@ interface BackgroundCellsProps {
 const BackgroundCells = ({ children, className }: BackgroundCellsProps) => {
   return (
     <div className={cn("relative h-screen w-screen flex justify-center overflow-hidden", className)}>
+      <div className="absolute inset-0 z-0">
+        <LightPillar 
+          intensity={0.7}
+          rotationSpeed={0.2}
+          pillarWidth={4.0}
+          pillarHeight={0.3}
+          topColor="#5227FF"
+          bottomColor="#FF9FFC"
+        />
+      </div>
       {children && <div className="relative z-50 pointer-events-none select-none w-full">{children}</div>}
     </div>
   )
@@ -225,11 +235,6 @@ export default function Home() {
               {/* Fixed height container for the glitching title */}
               <div className="text-4xl sm:mb-0 md:text-9xl font-light tracking-tight flex gap-3 md:mb-12 md:h-40">
                 <GlitchingTitle />
-              </div>
-
-              {/* Sparkles effect underneath the title */}
-              <div className="w-full max-w-5xl mx-auto mb-8 sm:mb-0 md:mb-12">
-                <SparklesPreview />
               </div>
 
               {/* Static text container */}
