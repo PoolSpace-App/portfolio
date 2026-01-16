@@ -3,7 +3,8 @@
 import type React from "react"
 
 import { useState, useEffect, useRef, useCallback } from "react"
-import Navbar from "@/components/navbar"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import Logo from "@/components/logo"
 import ProjectFilter from "@/components/project-filter"
 import Image from "next/image"
@@ -21,6 +22,11 @@ import { getAllBlogsFromNotion, type BlogPost } from "@/lib/notion"
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
 import { IconCalendar, IconClock, IconArrowRight } from "@tabler/icons-react"
 
+// Register GSAP plugins
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger)
+}
+
 // Background Cells Component
 interface BackgroundCellsProps {
   children?: React.ReactNode
@@ -29,7 +35,7 @@ interface BackgroundCellsProps {
 
 const BackgroundCells = ({ children, className }: BackgroundCellsProps) => {
   return (
-    <div className={cn("relative h-screen w-screen flex justify-center overflow-hidden", className)}>
+    <div className={cn("relative min-h-screen w-full flex justify-center overflow-hidden", className)}>
       <div className="absolute inset-0 z-0">
         <LightPillar 
           intensity={0.7}
@@ -40,14 +46,14 @@ const BackgroundCells = ({ children, className }: BackgroundCellsProps) => {
           bottomColor="#FF9FFC"
         />
       </div>
-      {children && <div className="relative z-50 pointer-events-none select-none w-full">{children}</div>}
+      {children && <div className="relative z-50 pointer-events-none select-none w-full flex items-center">{children}</div>}
     </div>
   )
 }
 
 function GlitchingTitle() {
   const [isFirstTitle, setIsFirstTitle] = useState(true)
-  const [displayText, setDisplayText] = useState<string[]>([])
+  const [displayText, setDisplayText] = useState<string[]>(["P"]) // Initialize with first character
   const [isTyping, setIsTyping] = useState(true)
   const [isDeleting, setIsDeleting] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -92,7 +98,17 @@ function GlitchingTitle() {
       if (currentIndex >= 0) {
         const currentLength = displayText[currentIndex]?.length || 0
 
-        if (currentLength > 0) {
+        // Always keep at least 1 character showing
+        if (currentIndex === 0 && currentLength === 1) {
+          timeout = setTimeout(() => {
+            const nextIsFirst = !isFirstTitle
+            setIsFirstTitle(nextIsFirst)
+            setIsDeleting(false)
+            setCurrentIndex(0)
+            const nextTitle = nextIsFirst ? firstTitle : secondTitle
+            setDisplayText([nextTitle[0].substring(0, 1)]) // Start next title with 1 character
+          }, 500)
+        } else if (currentLength > 0) {
           timeout = setTimeout(() => {
             setDisplayText((prev) => {
               const newText = [...prev]
@@ -109,10 +125,12 @@ function GlitchingTitle() {
       } else {
         // All words deleted
         timeout = setTimeout(() => {
-          setIsFirstTitle((prev) => !prev)
+          const nextIsFirst = !isFirstTitle
+          setIsFirstTitle(nextIsFirst)
           setIsDeleting(false)
           setCurrentIndex(0)
-          setDisplayText([])
+          const nextTitle = nextIsFirst ? firstTitle : secondTitle
+          setDisplayText([nextTitle[0].substring(0, 1)])
         }, 500)
       }
     }
@@ -129,8 +147,8 @@ function GlitchingTitle() {
         return (
           <span
             key={index}
-            className={`relative font-titling text-gray-300 inline-block ${
-              isCurrentWord && !isDeleting ? "after:content-['|'] after:ml-1 after:animate-blink" : ""
+            className={`relative font-titling text-white inline-block ${
+              isCurrentWord ? "after:content-['|'] after:ml-1 after:animate-blink" : ""
             }`}
           >
             {displayWord}
@@ -150,20 +168,19 @@ const normalizeImagePath = (path: string): string => {
 };
 
 const logos = [
-  { name: "WhereIsMyTransport", src: "/logos/whereismytransport.svg" },
-  { name: "Old Mutual", src: "/logos/old-mutual.svg" },
-  { name: "nCino", src: "/logos/ncino.svg" },
-  { name: "Suppple", src: "/logos/suppple.svg" },
-  { name: "MTN", src: "/logos/mtn.svg" },
-  { name: "Gravity Payments", src: "/logos/gravity-payments.svg" },
-  { name: "DocFox", src: "/logos/docfox.svg" },
-  { name: "Capitec Bank", src: "/logos/capitec-bank.svg" },
-  { name: "CardSpace", src: "/logos/cardspace.svg" },
-  { name: "Visio", src: "/logos/visio.svg" },
-  { name: "HSRC", src: "/logos/hsrc.svg" },
-  { name: "Mortgage Market", src: "/logos/mortgage-market.svg" },
-  { name: "Standard Bank", src: "/logos/standard-bank.svg" },
-  { name: "FCM", src: "/logos/fcm.svg" },
+  { name: "Client 2", src: "/logos/Frame@3x-1.png" },
+  { name: "Client 3", src: "/logos/Frame@3x-2.png" },
+  { name: "Client 4", src: "/logos/Frame@3x-3.png" },
+  { name: "Client 5", src: "/logos/Frame@3x-4.png" },
+  { name: "Client 6", src: "/logos/Frame@3x-5.png" },
+  { name: "Client 7", src: "/logos/Frame@3x-6.png" },
+  { name: "Client 8", src: "/logos/Frame@3x-7.png" },
+  { name: "Client 9", src: "/logos/Frame@3x-8.png" },
+  { name: "Client 10", src: "/logos/Frame@3x-9.png" },
+  { name: "Client 11", src: "/logos/Frame@3x-10.png" },
+  { name: "Client 12", src: "/logos/Frame@3x-11.png" },
+  { name: "Client 13", src: "/logos/Frame@3x-12.png" },
+  { name: "Client 14", src: "/logos/Frame@3x-13.png" },
 ];
 
 export default function Home() {
@@ -171,6 +188,63 @@ export default function Home() {
   const [showFilter, setShowFilter] = useState(false)
   const [latestBlogs, setLatestBlogs] = useState<BlogPost[]>([])
   const projectsRef = useRef<HTMLDivElement>(null)
+  const missionRef = useRef<HTMLDivElement>(null)
+
+  // GSAP Animations
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Mission statement animation
+      if (missionRef.current) {
+        gsap.fromTo(
+          missionRef.current,
+          {
+            opacity: 0,
+            y: 50,
+            filter: "blur(10px)",
+          },
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 2.5,
+            ease: "expo.out",
+            scrollTrigger: {
+              trigger: missionRef.current,
+              start: "top 80%",
+              end: "bottom 20%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        )
+      }
+
+      // Animate project items on scroll
+      const projectItems = gsap.utils.toArray(".project-card-gsap")
+      projectItems.forEach((item: any, i: number) => {
+        gsap.fromTo(
+          item,
+          {
+            opacity: 0,
+            y: 100,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.8,
+            delay: i * 0.1,
+            ease: "expo.out",
+            scrollTrigger: {
+              trigger: item,
+              start: "top 90%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        )
+      })
+    }, projectsRef) // scope
+
+    return () => ctx.revert()
+  }, [])
 
   // Fetch latest blogs
   useEffect(() => {
@@ -220,62 +294,79 @@ export default function Home() {
     }
   }
 
+  // Handle scroll to projects section
+  const scrollToProjects = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (projectsRef.current) {
+      projectsRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
   return (
     <main className="min-h-screen flex flex-col bg-[#050510]">
-      <header className="container mx-auto px-4 py-8 flex justify-between items-center">
-        <Navbar />
-      </header>
-
       {/* Hero section with background effect */}
-      <BackgroundCells className="bg-[#050510] w-screen mx-auto">
-        <div className="flex-1 flex flex-col justify-between min-h-[calc(100vh-90px)] container mx-auto">
+      <BackgroundCells className="bg-[#050510] w-full mx-auto">
+        <div className="flex-1 flex flex-col justify-between min-h-screen container mx-auto">
           {/* Main content area */}
-          <div className="flex flex-col items-center justify-center flex-grow">
+          <div className="flex flex-col items-center justify-center flex-grow pt-24 md:pt-0">
             <div className="flex flex-col items-center text-center max-w-3xl px-4 pointer-events-auto">
               {/* Fixed height container for the glitching title */}
-              <div className="text-4xl sm:mb-0 md:text-9xl font-light tracking-tight flex gap-3 md:mb-12 md:h-40">
+              <div className="text-4xl sm:mb-0 md:text-9xl font-medium tracking-tight flex gap-3 md:mb-12 md:h-40">
                 <GlitchingTitle />
               </div>
 
               {/* Static text container */}
-              <div className="z-10 -mt-24 static md:w-[800px] px-4 min-h-[200px] sm:min-h-[160px]">
-                <div className="text-2xl md:text-5xl font-light text-gray-300 mb-6">
+              <div className="z-10 mt-8 static md:w-[800px] px-4 min-h-[200px] sm:min-h-[160px]">
+                <div className="text-2xl md:text-5xl font-medium text-white mb-6">
                   Designing and building lean, scalable products for startups.
                 </div>
-                <div className="sm:text-lg md:text-xl text-gray-400 leading-relaxed">
-                  <div className="sm:text-lg md:text-3xl">Helping teams and founders:</div>
-                  <div className="sm:text-lg md:text-lg">→ Design great user experiences</div>
-                  <div className="sm:text-lg md:text-lg">→ Build functional products using AI, Cursor, React Native, Next.js </div>
-                  <div className="sm:text-lg md:text-lg">→ Save costs and ship faster (without needing huge dev teams)</div>
+                <div className="sm:text-lg md:text-xl text-white leading-relaxed">
+                  <div className="sm:text-lg md:text-3xl text-white font-medium">Partnering with teams and founders to:</div>
+                  <div className="sm:text-lg md:text-lg font-light">→ Design high-quality user experiences</div>
+                  <div className="sm:text-lg md:text-lg font-light">→ Build production-ready products using AI-assisted workflows, Cursor, React Native, Next.js, and more</div>
+                  <div className="sm:text-lg md:text-lg font-light">→ Move faster with lean teams and smarter tooling</div>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Logo section */}
-            <div className="mt-16 w-full max-w-7xl grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3 px-4 pointer-events-auto mx-auto pb-12">
-              {logos.map((logo, i) => (
-                <div key={i} className="aspect-[18/10] bg-[#11111a] border border-white/5 rounded-xl flex items-center justify-center p-6 grayscale opacity-50 hover:opacity-100 hover:bg-[#1a1a2e] transition-all duration-500 group cursor-default shadow-2xl shadow-black/50">
-                  <div className="w-full h-full flex items-center justify-center relative">
-                    <Image
-                      src={logo.src}
-                      alt={`${logo.name} logo`}
-                      width={120}
-                      height={40}
-                      className="object-contain max-h-full transition-all duration-500"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = `/placeholder.svg?height=40&width=120&text=${logo.name.replace(/\s+/g, "+")}`;
-                      }}
-                    />
+          {/* Logo section - Pinned to bottom above social links */}
+          <div className="w-full overflow-hidden pointer-events-auto pb-4">
+            <div className="flex w-max">
+              <motion.div
+                className="flex gap-12 items-center px-6"
+                animate={{
+                  x: ["-5%", "0%"],
+                }}
+                transition={{
+                  duration: 30,
+                  ease: "linear",
+                  repeat: Infinity,
+                }}
+              >
+                {[...logos, ...logos].map((logo, i) => (
+                  <div key={i} className="w-32 md:w-32 aspect-[18/10] flex items-center justify-center grayscale opacity-50 hover:opacity-100 transition-all duration-500 group cursor-default flex-shrink-0">
+                    <div className="w-full h-full flex items-center justify-center relative">
+                      <Image
+                        src={logo.src}
+                        alt={`${logo.name} logo`}
+                        fill
+                        className="object-contain transition-all duration-500"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = `/placeholder.svg?height=80&width=200&text=${logo.name.replace(/\s+/g, "+")}`;
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </motion.div>
             </div>
           </div>
 
           {/* Social Media Links - Full width at bottom of landing screen */}
-          <div className="w-full py-8 mt-8 pointer-events-auto">
-            <div className="w-full border-t border-gray-800 pt-8">
+          <div className="w-full py-8 pointer-events-auto">
+            <div className="w-full border-t border-gray-50/30 pt-8">
               <div className="container mx-auto flex justify-center space-x-16 md:space-x-24">
                 <a
                   href="https://dribbble.com/mrnqoe"
@@ -322,13 +413,13 @@ export default function Home() {
         </div>
       </BackgroundCells>
 
-      <BentoStats />
+      <BentoStats onViewCaseStudyClick={scrollToProjects} />
 
       <MyValues />
 
       {/* Filter section that appears on scroll */}
       <div
-        className={`sticky h-24 px-4 sm:h-20 sm:px-32 top-0 z-20 bg-[#050510]/40 backdrop-blur-2xl transition-all duration-500 ${
+        className={`sticky h-24 px-4 sm:h-20 sm:px-32 top-[88px] z-20 bg-[#050510]/40 backdrop-blur-2xl transition-all duration-500 ${
           showFilter ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
@@ -338,7 +429,7 @@ export default function Home() {
       </div>
 
       {/* Projects section */}
-      <div ref={projectsRef} className="container mx-auto px-4 py-16">
+      <div id="projects" ref={projectsRef} className="container mx-auto px-4 py-16">
         <div className="mb-24">
           <h2 className="text-3xl md:text-5xl font-light text-gray-300 mb-12 border-b border-gray-800 pb-4">
             {activeFilter}
@@ -347,60 +438,62 @@ export default function Home() {
             {displayedProjects.map((project, index) => {
               const slug = project.name.toLowerCase().replace(/\s+/g, "-")
               return (
-                <CardContainer key={project.id} className="inter-var w-full" containerClassName="py-4 w-full">
-                  <CardBody className="bg-[#0a0a15]/50 border border-white/5 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] w-full rounded-[48px] p-4">
-                    <Link
-                      href={`/${slug}`}
-                      className="group block relative overflow-hidden rounded-[40px] aspect-[4/5] w-full mb-6"
-                    >
-                      <CardItem translateZ="25" className="w-full h-full">
-                        <Image
-                          src={normalizeImagePath(project.imageUrl)}
-                          alt={project.name}
-                          width={800}
-                          height={1000}
-                          priority={index < 2}
-                          className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = `/placeholder.svg?height=1000&width=800&text=${project.name.replace(/\s+/g, "+")}`;
-                          }}
-                        />
-                      </CardItem>
-                    </Link>
+                <div key={project.id} className="project-card-gsap">
+                  <CardContainer className="inter-var w-full" containerClassName="py-4 w-full">
+                    <CardBody className="bg-[#0a0a15]/50 border border-white/5 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] w-full rounded-[48px] p-4">
+                      <Link
+                        href={`/${slug}`}
+                        className="group block relative overflow-hidden rounded-[40px] aspect-[4/5] w-full mb-6"
+                      >
+                        <CardItem translateZ="25" className="w-full h-full">
+                          <Image
+                            src={normalizeImagePath(project.imageUrl)}
+                            alt={project.name}
+                            width={800}
+                            height={1000}
+                            priority={index < 2}
+                            className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.src = `/placeholder.svg?height=1000&width=800&text=${project.name.replace(/\s+/g, "+")}`;
+                            }}
+                          />
+                        </CardItem>
+                      </Link>
 
-                    <div className="px-4 pb-4">
-                      <CardItem translateZ="10" className="mb-3">
-                        <span className="text-xs text-gray-400 uppercase tracking-wider inline-block">
-                          {project.category}
-                        </span>
-                      </CardItem>
-                      <CardItem translateZ="20" className="mb-3">
-                        <div className="text-3xl font-medium text-white">
-                          {project.name}
-                        </div>
-                      </CardItem>
-                      <CardItem translateZ="15" className="mb-4">
-                        <p className="text-gray-300 text-lg line-clamp-2">
-                          {project.tagline}
-                        </p>
-                      </CardItem>
-                      <CardItem translateZ="15" className="mb-8">
-                        <p className="text-gray-400 text-sm line-clamp-2">
-                          {project.description}
-                        </p>
-                      </CardItem>
-                      <CardItem translateZ="30">
-                        <Link
-                          href={`/${slug}`}
-                          className="inline-flex items-center px-10 py-4 bg-white text-black rounded-full text-sm font-bold hover:bg-neutral-200 transition-all duration-300 shadow-2xl shadow-white/10"
-                        >
-                          View Case Study
-                        </Link>
-                      </CardItem>
-                    </div>
-                  </CardBody>
-                </CardContainer>
+                      <div className="px-4 pb-4">
+                        <CardItem translateZ="10" className="mb-3">
+                          <span className="text-xs text-gray-400 uppercase tracking-wider inline-block">
+                            {project.category}
+                          </span>
+                        </CardItem>
+                        <CardItem translateZ="20" className="mb-3">
+                          <div className="text-3xl font-medium text-white">
+                            {project.name}
+                          </div>
+                        </CardItem>
+                        <CardItem translateZ="15" className="mb-4">
+                          <p className="text-gray-300 text-lg line-clamp-2">
+                            {project.tagline}
+                          </p>
+                        </CardItem>
+                        <CardItem translateZ="15" className="mb-8">
+                          <p className="text-gray-400 text-sm line-clamp-2">
+                            {project.description}
+                          </p>
+                        </CardItem>
+                        <CardItem translateZ="30">
+                          <Link
+                            href={`/${slug}`}
+                            className="inline-flex items-center px-10 py-4 bg-white text-black rounded-full text-sm font-bold hover:bg-neutral-200 transition-all duration-300 shadow-2xl shadow-white/10"
+                          >
+                            View Case Study
+                          </Link>
+                        </CardItem>
+                      </div>
+                    </CardBody>
+                  </CardContainer>
+                </div>
               )
             })}
           </div>
@@ -408,8 +501,8 @@ export default function Home() {
       </div>
 
       {/* Full-width white background section with mission statement and testimonials */}
-      <div className="w-full bg-white text-black py-24 mt-24">
-        <div className="container mx-auto px-4 mb-32">
+      <div className="w-full bg-white text-blue-950 py-24 mt-24">
+        <div className="container mx-auto px-4 mb-32" ref={missionRef}>
           <div className="text-6xl md:text-8xl lg:text-8xl max-w-5xl mx-auto text-center leading-tight">
             Creating interfaces. Guided by insights. Designed with intention. Made for humans. Generated by AI. Creating real value.
           </div>

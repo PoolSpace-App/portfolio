@@ -3,6 +3,7 @@ import type { Metadata } from "next/dist/lib/metadata/types/metadata-interface"
 import "./globals.css"
 import { mtnBrighterSans } from "./fonts"
 import Footer from "@/components/footer"
+import Header from "@/components/header"
 
 export const metadata: Metadata = {
   title: "Product Design Portfolio",
@@ -29,6 +30,7 @@ export default function RootLayout({
         className={`${mtnBrighterSans.variable} bg-[#050510] text-white min-h-screen`}
         suppressHydrationWarning
       >
+        <Header />
         {children}
         <Footer />
       </body>

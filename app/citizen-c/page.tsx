@@ -2,7 +2,6 @@
 
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
-import Navbar from "@/components/navbar"
 import { ArrowLeft } from "lucide-react"
 import ProjectCarousel from "@/components/project-carousel"
 import ProjectNavigation from "@/components/project-navigation"
@@ -54,11 +53,7 @@ export default function CitizenCPage() {
 
   return (
     <main className="min-h-screen bg-white text-black">
-      <header className="container mx-auto px-4 py-8 flex justify-between items-center bg-white text-blue-950 border-b border-gray-200">
-        <Navbar variant="white" />
-      </header>
-      
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 pt-32 pb-8">
         <button
           onClick={() => router.back()}
           className="inline-flex items-center mb-8 hover:opacity-70 transition-opacity text-blue-950 hover-glitch"

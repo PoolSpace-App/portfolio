@@ -1,9 +1,17 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import Link from "next/link"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+// Register GSAP plugins
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 interface StatCardProps {
   title: string
@@ -14,6 +22,7 @@ interface StatCardProps {
   isYellow?: boolean
   buttonText?: string
   buttonHref?: string
+  onButtonClick?: (e: React.MouseEvent) => void
 }
 
 const StatCard = ({
@@ -25,37 +34,38 @@ const StatCard = ({
   isYellow = false,
   buttonText,
   buttonHref,
+  onButtonClick,
 }: StatCardProps) => {
   return (
     <div
       className={cn(
-        "relative p-8 md:p-10 rounded-[40px] flex flex-col justify-between h-full transition-all duration-300",
+        "stat-card-gsap relative p-8 md:p-10 rounded-[56px] flex flex-col justify-between h-full transition-all duration-300",
         isYellow 
-          ? "bg-[#FACC15] text-black border border-black/10" 
-          : "bg-[#374151]/10 text-white border border-white/5 hover:border-white/10",
+          ? "bg-[#11111a] text-white border border-white/10" 
+          : "bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20",
         className
       )}
     >
       <div>
         <div className={cn(
-          "text-5xl md:text-[64px] font-bold mb-2 tracking-tighter leading-[1.2]",
-          !isYellow ? "text-white" : "text-black",
+          "text-3xl md:text-[48px] font-normal mb-2 tracking-tighter leading-[1.2]",
+          "text-white",
           titleClassName
         )}>
           {title}
         </div>
         <div className={cn(
-          "text-2xl md:text-3xl font-bold mb-4 leading-tight",
-          isYellow ? "text-white" : "text-white"
+          "text-xl md:text-xl font-normal mb-4 leading-tight",
+          "text-white"
         )}>
           {subtitle}
         </div>
         <div className={cn(
           "w-16 h-[2px] mb-8",
-          isYellow ? "bg-black/20" : "bg-white/20"
+          "bg-white/20"
         )} />
         <div className={cn(
-          "text-xl leading-relaxed mb-8 font-light",
+          "text-lg leading-relaxed mb-8 font-light",
           isYellow ? "text-white" : "text-gray-400"
         )}>
           {description}
@@ -64,61 +74,117 @@ const StatCard = ({
       
       {buttonText && (
         <div className="mt-auto">
-          <button
-            className={cn(
-              "flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold transition-all duration-300 group",
-              isYellow 
-                ? "border border-white/20 hover:bg-white hover:text-black text-white" 
-                : "border border-white/20 hover:bg-white hover:text-black"
-            )}
-          >
-            {buttonText}
-            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-          </button>
+          {buttonHref ? (
+            <Link href={buttonHref} onClick={onButtonClick}>
+              <button
+                className={cn(
+                  "flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold transition-all duration-300 group",
+                  isYellow 
+                    ? "border border-white/20 hover:bg-white hover:text-black text-white" 
+                    : "border border-white/20 hover:bg-white hover:text-black"
+                )}
+              >
+                {buttonText}
+                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              </button>
+            </Link>
+          ) : (
+            <button
+              onClick={onButtonClick}
+              className={cn(
+                "flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold transition-all duration-300 group",
+                isYellow 
+                  ? "border border-white/20 hover:bg-white hover:text-black text-white" 
+                  : "border border-white/20 hover:bg-white hover:text-black"
+              )}
+            >
+              {buttonText}
+              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            </button>
+          )}
         </div>
       )}
     </div>
   )
 }
 
-export default function BentoStats() {
+interface BentoStatsProps {
+  onViewCaseStudyClick?: (e: React.MouseEvent) => void
+}
+
+export default function BentoStats({ onViewCaseStudyClick }: BentoStatsProps) {
+  const containerRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const cards = gsap.utils.toArray(".stat-card-gsap")
+      cards.forEach((card: any, i: number) => {
+        gsap.fromTo(
+          card,
+          {
+            opacity: 0,
+            y: 60,
+            scale: 0.98,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1.8,
+            delay: i * 0.1,
+            ease: "expo.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 90%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        )
+      })
+    }, containerRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section className="w-full py-20 bg-[#050510]">
+    <section ref={containerRef} className="w-full py-20 bg-[#050510]">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <StatCard
-            title="8+"
-            subtitle="Years of leadership"
-            description="Across enterprise, startups, and design communities."
-            titleClassName="bg-[#374151] px-2 rounded-lg inline-block"
+            title="9+ Years"
+            subtitle="Building products from zero to scale"
+            description="Helping founders turn ideas into real products — from first MVP to growth-stage platforms."
           />
           <StatCard
-            title="22"
-            subtitle="Teams directed"
-            description="In a single leadership role with up to 9 direct reports."
+            title="20+"
+            subtitle="Products shipped"
+            description="Hands-on across discovery, UX, product strategy, and delivery — not just concepts."
           />
           <StatCard
-            title="151M"
-            subtitle="Users impacted"
-            description="From the products I've led and shipped."
+            title="Millions"
+            subtitle="Users reached"
+            description="Across consumer apps, fintech platforms, and internal tools used at scale."
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="md:col-span-2 text-white/10">
+          <div className="md:col-span-2 text-white">
             <StatCard
-              title="$1.2 Billion"
-              subtitle="Valuation achieved from a 4 year vision and strategy"
+              title="From idea to shipped product"
+              subtitle="I help founders turn messy ideas into clear, usable products — fast, lean, and ready for real users."
               description="Combining long-term product vision with measurable business outcomes."
-              buttonText="View case study"
+              buttonText="View case studies"
+              buttonHref="#projects"
+              onButtonClick={onViewCaseStudyClick}
             />
           </div>
           <div className="md:col-span-1">
             <StatCard
               title="Results matter."
-              subtitle="But so do people."
-              description="Learn about my background and leadership approach."
+              subtitle="Momentum matters more."
+              description="I take ownership, make decisions, and help teams move forward with confidence."
               isYellow={true}
               buttonText="About me"
+              buttonHref="/info"
             />
           </div>
         </div>

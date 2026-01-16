@@ -1,7 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
-import Navbar from "@/components/navbar"
 import { getBlogBySlugFromNotion, getAllBlogsFromNotion } from "@/lib/notion"
 import MarkdownRenderer from "@/components/markdown-renderer"
 import { Metadata } from "next"
@@ -34,9 +33,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   if (!blog) {
     return (
       <main className="min-h-screen bg-white text-black">
-        <header className="container mx-auto px-4 py-8 flex justify-between items-center bg-white text-blue-950 border-b border-gray-200">
-          <Navbar variant="white" />
-        </header>
         <div className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-4xl font-medium mb-4 text-blue-950">Blog Post Not Found</h1>
           <p className="text-gray-600 mb-8">The blog post you're looking for doesn't exist.</p>
@@ -50,12 +46,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <main className="min-h-screen bg-white text-black">
-      {/* White header variant */}
-      <header className="container mx-auto px-4 py-8 flex justify-between items-center bg-white text-blue-950 border-b border-gray-200">
-        <Navbar variant="white" />
-      </header>
-      
-      <div className="container mx-auto px-4 py-8 pb-32">
+      <div className="container mx-auto px-4 pt-32 pb-32">
           {/* Back button */}
           <Link
             href="/blog"

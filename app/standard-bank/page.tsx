@@ -2,21 +2,20 @@
 
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
-import Navbar from "@/components/navbar"
 import { ArrowLeft } from "lucide-react"
 import ProjectCarousel from "@/components/project-carousel"
 import ProjectNavigation from "@/components/project-navigation"
 
-export default function StandardBankPage() {
+export default function NcinoOnboardingPage() {
   const router = useRouter()
 
   const project = {
     "id": 101,
-    "name": "Standard Bank",
+    "name": "nCino Onboarding",
     "tagline": "Modernizing digital banking experiences for millions of users.",
     "description": "As a Senior Product Designer, I led the redesign of the core mobile banking experience, focusing on accessibility and seamless cross-border transactions.",
     "imageUrl": "/placeholder.jpg",
-    "category": "Mobile Applications" as const,
+    "category": "Desktop Applications" as const,
     "type": "permanent",
     "details": "Redesigned the onboarding flow, reducing dropout rates by 25%. Implemented a new design system that unified the brand across all digital touchpoints.",
     "role": "Senior Product Designer",
@@ -37,7 +36,7 @@ export default function StandardBankPage() {
             "/placeholder.jpg"
         ]
     },
-    "fallback": "/placeholder.svg?height=1200&width=1600&text=Standard+Bank"
+    "fallback": "/placeholder.svg?height=1200&width=1600&text=nCino+Onboarding"
 }
 
   useEffect(() => {
@@ -46,11 +45,7 @@ export default function StandardBankPage() {
 
   return (
     <main className="min-h-screen bg-white text-black">
-      <header className="container mx-auto px-4 py-8 flex justify-between items-center bg-white text-blue-950 border-b border-gray-200">
-        <Navbar variant="white" />
-      </header>
-      
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 pt-32 pb-8">
         <button
           onClick={() => router.back()}
           className="inline-flex items-center mb-8 hover:opacity-70 transition-opacity text-blue-950 hover-glitch"

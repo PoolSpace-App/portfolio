@@ -19,11 +19,11 @@ export const projectData: Record<number, Project> = {
   // Permanent Work (Dummy Projects)
   101: {
     id: 101,
-    name: "Standard Bank",
+    name: "nCino Onboarding",
     tagline: "Modernizing digital banking experiences for millions of users.",
     description: "As a Senior Product Designer, I led the redesign of the core mobile banking experience, focusing on accessibility and seamless cross-border transactions.",
     imageUrl: "/placeholder.jpg",
-    category: "Mobile Applications",
+    category: "Desktop Applications",
     type: "permanent",
     details: "Redesigned the onboarding flow, reducing dropout rates by 25%. Implemented a new design system that unified the brand across all digital touchpoints.",
     role: "Senior Product Designer",

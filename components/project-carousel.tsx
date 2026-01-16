@@ -68,43 +68,7 @@ export default function ProjectCarousel({ project }: ProjectCarouselProps) {
         </div>
       </div>
 
-      {project.category === "Desktop Applications" ? (
-        <div className="mt-16 space-y-8">
-          <div className="w-full overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group" onClick={() => openCarousel(1)}>
-            <div className="relative h-[445px] md:h-auto md:pt-[75%] rounded-6xl overflow-hidden w-full">
-              <Image
-                src={project.images.main || "/placeholder.svg"}
-                alt={`${project.name} main view`}
-                width={1600}
-                height={1200}
-                className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-6xl"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = `/placeholder.svg?height=1200&width=1600&text=${project.name.replace(/\s+/g, "+")}+Main`;
-                }}
-              />
-            </div>
-          </div>
-
-          {project.images.secondary.map((imageSrc, index) => (
-            <div key={index} className="w-full overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group" onClick={() => openCarousel(index + 2)}>
-              <div className="relative w-full pt-[200%] rounded-6xl overflow-hidden">
-                <Image
-                  src={imageSrc || "/placeholder.svg"}
-                  alt={`${project.name} view ${index + 1}`}
-                  width={800}
-                  height={1600}
-                  className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-6xl"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = `/placeholder.svg?height=1600&width=800&text=${project.name.replace(/\s+/g, "+")}+View+${index + 1}`;
-                  }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : project.category === "Branding" ? (
+      {project.category === "Desktop Applications" ? null : project.category === "Branding" ? (
         <div className="mt-16 space-y-8">
           <div className="w-full overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group" onClick={() => openCarousel(1)}>
             <div className="relative h-[445px] md:h-auto md:pt-[56.25%] rounded-6xl overflow-hidden w-full">

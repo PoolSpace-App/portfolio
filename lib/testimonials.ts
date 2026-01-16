@@ -18,58 +18,58 @@ export const testimonials: Testimonial[] = [
   },
   {
     id: 2,
-    name: "Sarah Jenkins",
-    role: "Product Manager",
-    company: "TechFlow",
+    name: "Manenga Mungandi",
+    role: "Senior Software Engineer",
+    company: "22Seven",
     image: "/placeholder-user.jpg",
-    quote: "A rare talent who combines deep design thinking with a practical understanding of business goals."
+    quote: "Mr.Q is a creative with fresh ideas and solid table tennis skills 🏓 he's a team player and highly skilled designer & photographer."
   },
   {
     id: 3,
-    name: "Michael Chen",
-    role: "Head of Engineering",
-    company: "ScaleUp",
+    name: "Mathew Marsden",
+    role: "Growing Africa's Tech Ecosystem 🚀",
+    company: "Startup Club ZA",
     image: "/placeholder-user.jpg",
-    quote: "He doesn't just design interfaces; he builds systems that scale and solves complex user problems elegantly."
+    quote: "Working with Mr.Q exceeded expectations. Building upon our wireframes and design ideas, he offered insightful UI/UX support, skilled design capability and timeous delivery."
   },
   {
     id: 4,
-    name: "Amanda Dlamini",
-    role: "Creative Director",
-    company: "Visionary Studio",
+    name: "Sagi Chaitas",
+    role: "UX Manager, UK",
+    company: "Flight Centre Travel Group",
     image: "/placeholder-user.jpg",
-    quote: "His ability to synthesize user research into intuitive design patterns is truly remarkable."
+    quote: "Mr.Q's designs are modern and imaginative, yet they take into account usefulness, UX approach, and business needs."
   },
   {
     id: 5,
-    name: "David Smith",
+    name: "Tami Ruschin",
     role: "Founder",
-    company: "SwiftPay",
+    company: "Style ID Africa",
     image: "/placeholder-user.jpg",
-    quote: "Working with him was a game-changer for our MVP. We shipped faster and with more confidence."
+    quote: "Mr.Q is extremely professional and was a great pleasure to work with when launch the Style ID Africa influencer platform. "
   },
   {
     id: 6,
-    name: "Jessica Taylor",
-    role: "VP of Product",
-    company: "EcoNexus",
+    name: "Harley Furguson",
+    role: "Co-Founder/CEO",
+    company: "Origen",
     image: "/placeholder-user.jpg",
-    quote: "Precision, speed, and a great eye for detail. Exactly what we needed for our rebranding effort."
+    quote: "Mr.Q is by far the most talented designer that I've ever had the pleasure of working with. Beyond that, he is an incredible start up founder who is super innovative and loves to think outside the box."
   },
   {
     id: 7,
-    name: "Robert Mokoena",
-    role: "Marketing Lead",
-    company: "Connectify",
+    name: "David Lazarus",
+    role: "Product Manager",
+    company: "Basalt",
     image: "/placeholder-user.jpg",
-    quote: "The design work delivered exceeded our expectations and significantly improved our conversion rates."
+    quote: "Mr.Q has a very strong work ethic and understands clients requirements. In terms of his work he has a great eye for detail and is very good at problem solving."
   },
   {
     id: 8,
-    name: "Elena Rodriguez",
-    role: "Lead Researcher",
-    company: "InnoLabs",
+    name: "Anand Nagrik",
+    role: "Lead Product Designer",
+    company: "Whereismytransport",
     image: "/placeholder-user.jpg",
-    quote: "A collaborative partner who truly listens and translates complex data into simple, beautiful experiences."
+    quote: "Mr.Q is a methodical product designer who has a flare for creating elegant ideas on complex data driven platforms. "
   }
 ];

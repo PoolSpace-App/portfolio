@@ -5,6 +5,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --foreground-rgb: 255, 255, 255;
   --background-rgb: 5, 5, 16; /* Updated to match #050510 in RGB */

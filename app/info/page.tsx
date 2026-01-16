@@ -1,16 +1,10 @@
-import Navbar from "@/components/navbar"
 import Logo from "@/components/logo"
 import MyValues from "@/components/my-values"
 
 export default function InfoPage() {
   return (
     <div className="min-h-screen bg-[#050510]">
-      {/* Header */}
-      <header className="container mx-auto px-4 py-8 flex justify-between items-center">
-        <Navbar />
-      </header>
-      
-      <div className="container mx-auto px-4 pt-16 pb-8">
+      <div className="container mx-auto px-4 pt-32 pb-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-3xl font-light mb-8">About Me</div>
           <div>
