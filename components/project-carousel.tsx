@@ -290,10 +290,10 @@ export default function ProjectCarousel({ project }: ProjectCarouselProps) {
       )}
 
       {selectedImageIndex !== null && currentImage && (
-        <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black z-[200] flex items-center justify-center">
           <button
             onClick={closeCarousel}
-            className="absolute top-6 right-6 w-12 h-12 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/70 transition-colors z-20"
+            className="absolute top-6 right-6 w-12 h-12 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/70 transition-colors z-[210]"
           >
             <X className="w-6 h-6 text-white" />
           </button>
@@ -310,19 +310,19 @@ export default function ProjectCarousel({ project }: ProjectCarouselProps) {
 
             <button
               onClick={goToPrevious}
-              className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/70 transition-all duration-300 group z-20"
+              className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/70 transition-all duration-300 group z-[210]"
             >
               <ChevronLeft className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
             </button>
 
             <button
               onClick={goToNext}
-              className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/70 transition-all duration-300 group z-20"
+              className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/70 transition-all duration-300 group z-[210]"
             >
               <ChevronRight className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
             </button>
 
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 z-20">
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 z-[210]">
               {allImages.map((_, index) => (
                 <button
                   key={index}
@@ -334,7 +334,7 @@ export default function ProjectCarousel({ project }: ProjectCarouselProps) {
               ))}
             </div>
 
-            <div className="absolute bottom-8 right-8 text-white/70 z-20">
+            <div className="absolute bottom-8 right-8 text-white/70 z-[210]">
               {selectedImageIndex + 1} / {allImages.length}
             </div>
           </div>

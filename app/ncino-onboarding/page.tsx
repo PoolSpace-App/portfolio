@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { 
   ArrowLeft, 
@@ -19,8 +19,10 @@ import {
   ShieldCheck,
   Zap,
   Layout,
-  FileText,
-  ExternalLink
+  ExternalLink,
+  X,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react"
 import Image from "next/image"
 import { motion } from "framer-motion"
@@ -44,9 +46,9 @@ import {
 } from "@/components/ui/chart"
 import ProjectCarousel from "@/components/project-carousel"
 import ProjectNavigation from "@/components/project-navigation"
+import { TabsComponent } from "@/components/ui/tabs-component"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
 import { Separator } from "@/components/ui/separator"
@@ -54,19 +56,20 @@ import { AnimatedTooltip } from "@/components/ui/animated-tooltip"
 
 export default function NcinoOnboardingPage() {
   const router = useRouter()
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
 
   const project = {
     "id": 101,
     "name": "nCino Smart Onboarding & Monitoring",
     "tagline": "Financial institutions face major challenges when onboarding commercial customers, driven by strict KYC and KYB regulations, heavy documentation requirements, and the need to assess creditworthiness—while still meeting rising customer expectations. SmartOnboard streamlines this process by bringing all required checks and case management into a single platform, reducing manual work, supporting regulatory compliance, and delivering a smoother customer experience.",
     "description": "Redefining the digital onboarding journey for commercial banking, focusing on speed, compliance, and user empowerment.",
-    "imageUrl": "/placeholder.jpg",
+    "imageUrl": "/projects/ncino/onboarding-2.png",
     "category": "Desktop Applications" as const,
     "type": "permanent",
     "details": "Redesigned the onboarding flow, reducing dropout rates by 25%. Implemented a new design system that unified the brand across all digital touchpoints.",
     "role": "Senior Product Designer",
-    "duration": "2 years",
-    "year": "2021-2023",
+    "duration": "2.5 years",
+    "year": "2023-2026",
     "software": {
       "research": [
         { id: 1, name: "Lucid", designation: "Diagramming", image: "/placeholder-logo.png" },
@@ -91,17 +94,42 @@ export default function NcinoOnboardingPage() {
       { id: 4, name: "Manenga Mungandi", designation: "Senior Software Engineer", image: "/placeholder-user.jpg" },
     ],
     "images": {
-        "main": "/placeholder.jpg",
+        "main": "/projects/ncino/onboarding-main.png",
         "secondary": [
-            "/placeholder.jpg",
-            "/placeholder.jpg",
-            "/placeholder.jpg",
-            "/placeholder.jpg",
-            "/placeholder.jpg"
+            "/projects/ncino/onboarding-2.png",
+            "/projects/ncino/onboarding-3.png",
+            "/projects/ncino/onboarding-4.png"
         ]
     },
     "fallback": "/placeholder.svg?height=1200&width=1600&text=nCino+Smart+Onboarding+&+Monitoring"
-}
+  }
+
+  const allImages = [
+    { src: project.images.main, alt: `${project.name} main view` },
+    ...project.images.secondary.map((src, index) => ({
+      src,
+      alt: `${project.name} detail view ${index + 1}`
+    }))
+  ]
+
+  const currentImage = selectedImageIndex !== null ? allImages[selectedImageIndex] : null
+
+  const openCarousel = (index: number) => setSelectedImageIndex(index)
+  const closeCarousel = () => setSelectedImageIndex(null)
+  
+  const goToPrevious = () => {
+    if (selectedImageIndex !== null) {
+      setSelectedImageIndex(selectedImageIndex === 0 ? allImages.length - 1 : selectedImageIndex - 1)
+    }
+  }
+
+  const goToNext = () => {
+    if (selectedImageIndex !== null) {
+      setSelectedImageIndex(selectedImageIndex === allImages.length - 1 ? 0 : selectedImageIndex + 1)
+    }
+  }
+
+  const goToSlide = (index: number) => setSelectedImageIndex(index)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -197,29 +225,29 @@ export default function NcinoOnboardingPage() {
 
             <div className="w-full max-w-5xl flex flex-col items-center">
               {/* Top Step */}
-              <div className="bg-[#111827] text-white px-12 py-6 rounded-2xl font-bold text-2xl w-full md:w-80 text-center shadow-2xl transition-transform hover:scale-105 duration-300">
+              <div className="bg-[#111827] text-white px-12 py-6 rounded-full font-bold text-2xl w-full md:w-80 text-center shadow-2xl transition-transform hover:scale-105 duration-300">
                 Select company
               </div>
 
               {/* Vertical Connector */}
               <div className="h-12 w-px bg-blue-200 relative">
-                <ArrowDown className="absolute -bottom-2 -left-[7px] h-4 w-4 text-blue-300" />
+                <ArrowDown className="absolute -bottom-2 -left-[24px] h-12 w-12 text-blue-950" />
               </div>
 
               {/* Middle Row with 3 Columns */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full relative">
                 {/* Column 1 */}
                 <div className="flex flex-col items-center">
-                  <div className="bg-[#111827] text-white p-6 rounded-2xl font-bold text-center w-full min-h-[100px] flex items-center justify-center relative shadow-xl">
+                  <div className="bg-[#111827] text-white p-6 rounded-full font-bold text-center w-full min-h-[100px] flex items-center justify-center relative shadow-xl">
                     Run Business Checks
                     <div className="absolute top-1/2 -right-4 -translate-y-1/2 text-blue-200 hidden md:block">
                       <ArrowRight className="h-5 w-5" />
                     </div>
                   </div>
                   <div className="h-12 w-px bg-blue-200 relative">
-                    <ArrowDown className="absolute -bottom-2 -left-[7px] h-4 w-4 text-blue-300" />
+                    <ArrowDown className="absolute -bottom-2 -left-[24px] h-12 w-12 text-blue-950" />
                   </div>
-                  <div className="bg-blue-50/50 p-8 rounded-[40px] w-full flex flex-col gap-6 text-center min-h-[300px] justify-center text-blue-950 border border-blue-100/50 backdrop-blur-sm shadow-inner">
+                  <div className="bg-white p-8 rounded-[40px] w-full flex flex-col gap-6 text-center min-h-[300px] justify-center text-blue-950 border border-blue-950 backdrop-blur-sm shadow-inner">
                     <p className="font-bold text-lg">KYB check</p>
                     <p className="font-bold text-lg">AML & Compliance</p>
                     <p className="font-bold text-lg">Commercial Credit Checks</p>
@@ -228,34 +256,34 @@ export default function NcinoOnboardingPage() {
 
                 {/* Column 2 */}
                 <div className="flex flex-col items-center">
-                  <div className="bg-[#111827] text-white p-6 rounded-2xl font-bold text-center w-full min-h-[100px] flex items-center justify-center relative shadow-xl">
+                  <div className="bg-[#111827] text-white p-6 rounded-full font-bold text-center w-full min-h-[100px] flex items-center justify-center relative shadow-xl">
                     Run People Checks
                     <div className="absolute top-1/2 -right-4 -translate-y-1/2 text-blue-200 hidden md:block">
                       <ArrowRight className="h-5 w-5" />
                     </div>
                   </div>
                   <div className="h-12 w-px bg-blue-200 relative">
-                    <ArrowDown className="absolute -bottom-2 -left-[7px] h-4 w-4 text-blue-300" />
+                    <ArrowDown className="absolute -bottom-2 -left-[24px] h-12 w-12 text-blue-950" />
                   </div>
-                  <div className="bg-blue-50/50 p-8 rounded-[40px] w-full flex flex-col gap-6 text-center min-h-[300px] justify-center text-blue-950 border border-blue-100/50 backdrop-blur-sm shadow-inner">
+                  <div className="bg-white p-8 rounded-[40px] w-full flex flex-col gap-6 text-center min-h-[300px] justify-center text-blue-950 border border-blue-950 backdrop-blur-sm shadow-inner">
                     <p className="font-bold text-lg">eKYC Check</p>
                     <p className="font-bold text-lg">PEPs, Sanctions and Adverse Media</p>
                     <p className="font-bold text-lg">Email Validation</p>
                   </div>
                   <div className="h-12 w-px bg-blue-200 relative">
-                    <ArrowDown className="absolute -bottom-2 -left-[7px] h-4 w-4 text-blue-300" />
+                    <ArrowDown className="absolute -bottom-2 -left-[24px] h-12 w-12 text-blue-950" />
                   </div>
                 </div>
 
                 {/* Column 3 */}
                 <div className="flex flex-col items-center">
-                  <div className="bg-[#111827] text-white p-6 rounded-2xl font-bold text-center w-full min-h-[100px] flex items-center justify-center shadow-xl">
+                  <div className="bg-[#111827] text-white p-6 rounded-full font-bold text-center w-full min-h-[100px] flex items-center justify-center shadow-xl">
                     Run IDV Document Checks
                   </div>
                   <div className="h-12 w-px bg-blue-200 relative">
-                    <ArrowDown className="absolute -bottom-2 -left-[7px] h-4 w-4 text-blue-300" />
+                    <ArrowDown className="absolute -bottom-2 -left-[24px] h-12 w-12 text-blue-950" />
                   </div>
-                  <div className="bg-blue-50/50 p-8 rounded-[40px] w-full flex flex-col gap-6 text-center min-h-[300px] justify-center text-blue-950 border border-blue-100/50 backdrop-blur-sm shadow-inner">
+                  <div className="bg-white p-8 rounded-[40px] w-full flex flex-col gap-6 text-center min-h-[300px] justify-center text-blue-950 border border-blue-950 backdrop-blur-sm shadow-inner">
                     <p className="font-bold text-lg">Document verification</p>
                     <p className="font-bold text-lg">Facial comparision</p>
                   </div>
@@ -263,7 +291,7 @@ export default function NcinoOnboardingPage() {
               </div>
 
               {/* Final Step */}
-              <div className="bg-[#111827] text-white py-8 rounded-2xl font-bold text-2xl w-full text-center shadow-2xl transition-transform hover:scale-[1.02] duration-300 mt-2">
+              <div className="bg-blue-400 text-white py-8 rounded-full font-bold text-2xl w-full text-center shadow-2xl transition-transform hover:scale-[1.02] duration-300 mt-2">
                 Provide onboarding decision
               </div>
             </div>
@@ -360,182 +388,181 @@ export default function NcinoOnboardingPage() {
               Deep Dive: Survey & Cost Analysis
             </h2>
             
-            <Tabs defaultValue="survey" className="w-full">
-              <div className="flex justify-center mb-12">
-                <TabsList className="bg-slate-50 p-1 rounded-2xl h-auto border border-gray-100 overflow-x-auto max-w-full">
-                  <TabsTrigger value="survey" className="px-8 py-3 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-blue-600 font-bold transition-all">
-                    Survey
-                  </TabsTrigger>
-                  <TabsTrigger value="costs" className="px-8 py-3 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-blue-600 font-bold transition-all">
-                    Onboarding Costs
-                  </TabsTrigger>
-                </TabsList>
-              </div>
+            <TabsComponent
+              defaultValue="survey"
+              items={[
+                {
+                  value: "survey",
+                  label: "Survey",
+                  content: (
+                    <div className="bg-slate-50/50 rounded-[40px] p-8 md:p-12 border border-slate-100">
+                      <div className="text-center mb-12">
+                        <h3 className="text-2xl font-bold text-blue-950 mb-4">Respondents - Worldwide Survey</h3>
+                        <p className="text-gray-600 max-w-3xl mx-auto">Understanding the current and future state of onboarding across regions, asset segments, and stakeholders.</p>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                        {/* Regional Breakdown */}
+                        <div className="space-y-6">
+                          <h4 className="text-lg font-bold text-blue-900 text-center">Regional Breakdown</h4>
+                          <div className="h-[300px] w-full blur-md">
+                            <ChartContainer config={{
+                              emea: { label: "EMEA", color: "#0c3b6e" },
+                              na: { label: "North America", color: "#1a6cb3" },
+                              apac: { label: "APAC", color: "#4fa8e0" },
+                            }}>
+                              <PieChart>
+                                <Pie
+                                  data={[
+                                    { name: "EMEA", value: 45, fill: "#0c3b6e" },
+                                    { name: "North America", value: 35, fill: "#1a6cb3" },
+                                    { name: "APAC", value: 20, fill: "#4fa8e0" },
+                                  ]}
+                                  cx="50%"
+                                  cy="50%"
+                                  innerRadius={60}
+                                  outerRadius={80}
+                                  paddingAngle={5}
+                                  dataKey="value"
+                                >
+                                  <Cell key="cell-0" fill="#0c3b6e" />
+                                  <Cell key="cell-1" fill="#1a6cb3" />
+                                  <Cell key="cell-2" fill="#4fa8e0" />
+                                </Pie>
+                                <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+                                <Legend />
+                              </PieChart>
+                            </ChartContainer>
+                          </div>
+                        </div>
 
-              <TabsContent value="survey" className="focus-visible:outline-none">
-                <div className="bg-slate-50/50 rounded-[40px] p-8 md:p-12 border border-slate-100">
-                  <div className="text-center mb-12">
-                    <h3 className="text-2xl font-bold text-blue-950 mb-4">409 Respondents - Worldwide Survey</h3>
-                    <p className="text-gray-600 max-w-3xl mx-auto">Understanding the current and future state of onboarding across regions, asset segments, and stakeholders.</p>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                    {/* Regional Breakdown */}
-                    <div className="space-y-6">
-                      <h4 className="text-lg font-bold text-blue-900 text-center">Regional Breakdown</h4>
-                      <div className="h-[300px] w-full">
-                        <ChartContainer config={{
-                          emea: { label: "EMEA", color: "#0c3b6e" },
-                          na: { label: "North America", color: "#1a6cb3" },
-                          apac: { label: "APAC", color: "#4fa8e0" },
-                        }}>
-                          <PieChart>
-                            <Pie
-                              data={[
-                                { name: "EMEA", value: 45, fill: "#0c3b6e" },
-                                { name: "North America", value: 35, fill: "#1a6cb3" },
-                                { name: "APAC", value: 20, fill: "#4fa8e0" },
-                              ]}
-                              cx="50%"
-                              cy="50%"
-                              innerRadius={60}
-                              outerRadius={80}
-                              paddingAngle={5}
-                              dataKey="value"
-                            >
-                              <Cell key="cell-0" fill="#0c3b6e" />
-                              <Cell key="cell-1" fill="#1a6cb3" />
-                              <Cell key="cell-2" fill="#4fa8e0" />
-                            </Pie>
-                            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-                            <Legend />
-                          </PieChart>
-                        </ChartContainer>
+                        {/* Bank Size */}
+                        <div className="space-y-6">
+                          <h4 className="text-lg font-bold text-blue-900 text-center">Bank Size (Assets)</h4>
+                          <div className="h-[300px] w-full blur-md">
+                            <ChartContainer config={{
+                              percentage: { label: "Percentage", color: "#1a6cb3" },
+                            }}>
+                              <BarChart data={[
+                                { name: "US$500B+", value: 19 },
+                                { name: "US$100-499B", value: 31 },
+                                { name: "US$50-99B", value: 13 },
+                                { name: "US$20-49B", value: 19 },
+                                { name: "US$10-19B", value: 18 },
+                              ]} layout="vertical" margin={{ left: 10, right: 20 }}>
+                                <XAxis type="number" hide />
+                                <YAxis dataKey="name" type="category" width={100} tick={{ fontSize: 10 }} />
+                                <ChartTooltip content={<ChartTooltipContent />} />
+                                <Bar dataKey="value" fill="#1a6cb3" radius={[0, 4, 4, 0]} />
+                              </BarChart>
+                            </ChartContainer>
+                          </div>
+                        </div>
+
+                        {/* Role/Responsibility */}
+                        <div className="space-y-6">
+                          <h4 className="text-lg font-bold text-blue-900 text-center">Role/Responsibility</h4>
+                          <div className="h-[300px] w-full blur-md">
+                            <ChartContainer config={{
+                              percentage: { label: "Percentage", color: "#4fa8e0" },
+                            }}>
+                              <BarChart data={[
+                                { name: "Compliance", value: 25 },
+                                { name: "Digital leads", value: 25 },
+                                { name: "Operations leads", value: 25 },
+                                { name: "Relationship managers", value: 24 },
+                              ]} layout="vertical" margin={{ left: 10, right: 20 }}>
+                                <XAxis type="number" hide />
+                                <YAxis dataKey="name" type="category" width={120} tick={{ fontSize: 10 }} />
+                                <ChartTooltip content={<ChartTooltipContent />} />
+                                <Bar dataKey="value" fill="#4fa8e0" radius={[0, 4, 4, 0]} />
+                              </BarChart>
+                            </ChartContainer>
+                          </div>
+                        </div>
                       </div>
                     </div>
+                  )
+                },
+                {
+                  value: "costs",
+                  label: "Onboarding Costs",
+                  content: (
+                    <div className="bg-slate-50/50 rounded-[40px] p-8 md:p-12 border border-slate-100">
+                      <div className="text-center mb-12">
+                        <h3 className="text-2xl font-bold text-blue-950 mb-4">Onboarding Costs & Resource Intensity</h3>
+                        <p className="text-gray-600">The high price of manual processes and regulatory complexity.</p>
+                      </div>
 
-                    {/* Bank Size */}
-                    <div className="space-y-6">
-                      <h4 className="text-lg font-bold text-blue-900 text-center">Bank Size (Assets)</h4>
-                      <div className="h-[300px] w-full">
-                        <ChartContainer config={{
-                          percentage: { label: "Percentage", color: "#1a6cb3" },
-                        }}>
-                          <BarChart data={[
-                            { name: "US$500B+", value: 19 },
-                            { name: "US$100-499B", value: 31 },
-                            { name: "US$50-99B", value: 13 },
-                            { name: "US$20-49B", value: 19 },
-                            { name: "US$10-19B", value: 18 },
-                          ]} layout="vertical" margin={{ left: 10, right: 20 }}>
-                            <XAxis type="number" hide />
-                            <YAxis dataKey="name" type="category" width={100} tick={{ fontSize: 10 }} />
-                            <ChartTooltip content={<ChartTooltipContent />} />
-                            <Bar dataKey="value" fill="#1a6cb3" radius={[0, 4, 4, 0]} />
-                          </BarChart>
-                        </ChartContainer>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {/* Spending Chart */}
+                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                          <h4 className="text-xs font-bold text-blue-900 mb-6 text-center uppercase tracking-wider h-8 flex items-center justify-center">Avg. Annual Spending ($M)</h4>
+                          <div className="h-[250px] blur-md">
+                            <ChartContainer config={{ val: { label: "Spending ($M)", color: "#0c3b6e" } }}>
+                              <BarChart data={[
+                                { name: "Global", val: 15.9 },
+                                { name: "NA", val: 19.1 },
+                                { name: "EMEA", val: 14.9 },
+                                { name: "APAC", val: 12.2 },
+                                { name: "$50bn+", val: 19.0 },
+                                { name: "$10-50bn", val: 9.3 },
+                              ]}>
+                                <XAxis dataKey="name" tick={{ fontSize: 9 }} />
+                                <ChartTooltip content={<ChartTooltipContent />} />
+                                <Bar dataKey="val" fill="#0c3b6e" radius={[4, 4, 0, 0]} />
+                              </BarChart>
+                            </ChartContainer>
+                          </div>
+                        </div>
+
+                        {/* Cost per client Chart */}
+                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                          <h4 className="text-xs font-bold text-blue-900 mb-6 text-center uppercase tracking-wider h-8 flex items-center justify-center">Avg. Cost Per Client ($K)</h4>
+                          <div className="h-[250px] blur-md">
+                            <ChartContainer config={{ val: { label: "Cost ($K)", color: "#1a6cb3" } }}>
+                              <BarChart data={[
+                                { name: "Global", val: 14.7 },
+                                { name: "NA", val: 14.5 },
+                                { name: "EMEA", val: 14.5 },
+                                { name: "APAC", val: 15.5 },
+                                { name: "$50bn+", val: 13.3 },
+                                { name: "$10-50bn", val: 16.8 },
+                              ]}>
+                                <XAxis dataKey="name" tick={{ fontSize: 9 }} />
+                                <ChartTooltip content={<ChartTooltipContent />} />
+                                <Bar dataKey="val" fill="#1a6cb3" radius={[4, 4, 0, 0]} />
+                              </BarChart>
+                            </ChartContainer>
+                          </div>
+                        </div>
+
+                        {/* Manual Days Chart */}
+                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                          <h4 className="text-xs font-bold text-blue-900 mb-6 text-center uppercase tracking-wider h-8 flex items-center justify-center">Avg. Manual Days Spent</h4>
+                          <div className="h-[250px] blur-md">
+                            <ChartContainer config={{ val: { label: "Manual Days", color: "#4fa8e0" } }}>
+                              <BarChart data={[
+                                { name: "Global", val: 29656 },
+                                { name: "NA", val: 37031 },
+                                { name: "EMEA", val: 26902 },
+                                { name: "APAC", val: 22667 },
+                                { name: "$50bn+", val: 39142 },
+                                { name: "$10-50bn", val: 15073 },
+                              ]}>
+                                <XAxis dataKey="name" tick={{ fontSize: 9 }} />
+                                <ChartTooltip content={<ChartTooltipContent />} />
+                                <Bar dataKey="val" fill="#4fa8e0" radius={[4, 4, 0, 0]} />
+                              </BarChart>
+                            </ChartContainer>
+                          </div>
+                        </div>
                       </div>
                     </div>
-
-                    {/* Role/Responsibility */}
-                    <div className="space-y-6">
-                      <h4 className="text-lg font-bold text-blue-900 text-center">Role/Responsibility</h4>
-                      <div className="h-[300px] w-full">
-                        <ChartContainer config={{
-                          percentage: { label: "Percentage", color: "#4fa8e0" },
-                        }}>
-                          <BarChart data={[
-                            { name: "Compliance", value: 25 },
-                            { name: "Digital leads", value: 25 },
-                            { name: "Operations leads", value: 25 },
-                            { name: "Relationship managers", value: 24 },
-                          ]} layout="vertical" margin={{ left: 10, right: 20 }}>
-                            <XAxis type="number" hide />
-                            <YAxis dataKey="name" type="category" width={120} tick={{ fontSize: 10 }} />
-                            <ChartTooltip content={<ChartTooltipContent />} />
-                            <Bar dataKey="value" fill="#4fa8e0" radius={[0, 4, 4, 0]} />
-                          </BarChart>
-                        </ChartContainer>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="costs" className="focus-visible:outline-none">
-                <div className="bg-slate-50/50 rounded-[40px] p-8 md:p-12 border border-slate-100">
-                  <div className="text-center mb-12">
-                    <h3 className="text-2xl font-bold text-blue-950 mb-4">Onboarding Costs & Resource Intensity</h3>
-                    <p className="text-gray-600">The high price of manual processes and regulatory complexity.</p>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {/* Spending Chart */}
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                      <h4 className="text-xs font-bold text-blue-900 mb-6 text-center uppercase tracking-wider h-8 flex items-center justify-center">Avg. Annual Spending ($M)</h4>
-                      <div className="h-[250px]">
-                        <ChartContainer config={{ val: { label: "Spending ($M)", color: "#0c3b6e" } }}>
-                          <BarChart data={[
-                            { name: "Global", val: 15.9 },
-                            { name: "NA", val: 19.1 },
-                            { name: "EMEA", val: 14.9 },
-                            { name: "APAC", val: 12.2 },
-                            { name: "$50bn+", val: 19.0 },
-                            { name: "$10-50bn", val: 9.3 },
-                          ]}>
-                            <XAxis dataKey="name" tick={{ fontSize: 9 }} />
-                            <ChartTooltip content={<ChartTooltipContent />} />
-                            <Bar dataKey="val" fill="#0c3b6e" radius={[4, 4, 0, 0]} />
-                          </BarChart>
-                        </ChartContainer>
-                      </div>
-                    </div>
-
-                    {/* Cost per client Chart */}
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                      <h4 className="text-xs font-bold text-blue-900 mb-6 text-center uppercase tracking-wider h-8 flex items-center justify-center">Avg. Cost Per Client ($K)</h4>
-                      <div className="h-[250px]">
-                        <ChartContainer config={{ val: { label: "Cost ($K)", color: "#1a6cb3" } }}>
-                          <BarChart data={[
-                            { name: "Global", val: 14.7 },
-                            { name: "NA", val: 14.5 },
-                            { name: "EMEA", val: 14.5 },
-                            { name: "APAC", val: 15.5 },
-                            { name: "$50bn+", val: 13.3 },
-                            { name: "$10-50bn", val: 16.8 },
-                          ]}>
-                            <XAxis dataKey="name" tick={{ fontSize: 9 }} />
-                            <ChartTooltip content={<ChartTooltipContent />} />
-                            <Bar dataKey="val" fill="#1a6cb3" radius={[4, 4, 0, 0]} />
-                          </BarChart>
-                        </ChartContainer>
-                      </div>
-                    </div>
-
-                    {/* Manual Days Chart */}
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                      <h4 className="text-xs font-bold text-blue-900 mb-6 text-center uppercase tracking-wider h-8 flex items-center justify-center">Avg. Manual Days Spent</h4>
-                      <div className="h-[250px]">
-                        <ChartContainer config={{ val: { label: "Manual Days", color: "#4fa8e0" } }}>
-                          <BarChart data={[
-                            { name: "Global", val: 29656 },
-                            { name: "NA", val: 37031 },
-                            { name: "EMEA", val: 26902 },
-                            { name: "APAC", val: 22667 },
-                            { name: "$50bn+", val: 39142 },
-                            { name: "$10-50bn", val: 15073 },
-                          ]}>
-                            <XAxis dataKey="name" tick={{ fontSize: 9 }} />
-                            <ChartTooltip content={<ChartTooltipContent />} />
-                            <Bar dataKey="val" fill="#4fa8e0" radius={[4, 4, 0, 0]} />
-                          </BarChart>
-                        </ChartContainer>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
+                  )
+                }
+              ]}
+            />
           </div>
 
 
@@ -613,7 +640,7 @@ export default function NcinoOnboardingPage() {
 
           {/* Featured Image */}
            <motion.div {...fadeIn} className="mb-24">
-             <div className="mb-12 overflow-hidden group cursor-pointer rounded-6xl">
+             <div className="mb-12 overflow-hidden group cursor-pointer rounded-6xl" onClick={() => openCarousel(0)}>
                <div className="relative md:h-auto md:pt-[75%] rounded-6xl overflow-hidden w-full h-[445px]">
                  <Image
                    src={project.images.main}
@@ -771,7 +798,6 @@ export default function NcinoOnboardingPage() {
               {/* Customer Persona */}
               <div className="bg-white border border-slate-100 rounded-[32px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col">
                 <div className="bg-blue-50 p-6 flex items-center gap-3">
-                  <span className="text-2xl">🏢</span>
                   <h3 className="font-bold text-blue-950 text-xl">Customer</h3>
                 </div>
                 <div className="p-8 space-y-8 flex-grow">
@@ -805,7 +831,6 @@ export default function NcinoOnboardingPage() {
               {/* RM Persona */}
               <div className="bg-white border border-slate-100 rounded-[32px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col">
                 <div className="bg-amber-50 p-6 flex items-center gap-3">
-                  <span className="text-2xl">💼</span>
                   <h3 className="font-bold text-blue-950 text-xl">Relationship Manager</h3>
                 </div>
                 <div className="p-8 space-y-8 flex-grow">
@@ -843,7 +868,6 @@ export default function NcinoOnboardingPage() {
               {/* KYC Persona */}
               <div className="bg-white border border-slate-100 rounded-[32px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col">
                 <div className="bg-emerald-50 p-6 flex items-center gap-3">
-                  <span className="text-2xl">🏢</span>
                   <h3 className="font-bold text-blue-950 text-xl">KYC Analyst</h3>
                 </div>
                 <div className="p-8 space-y-8 flex-grow">
@@ -886,142 +910,147 @@ export default function NcinoOnboardingPage() {
               <p className="text-lg text-gray-600">A rigorous approach to solving complex problems, moving from deep research to polished delivery.</p>
             </div>
             
-            <Tabs defaultValue="research" className="w-full">
-              <div className="flex justify-center mb-12">
-                <TabsList className="bg-slate-50 p-1 rounded-2xl h-auto border border-gray-100 overflow-x-auto max-w-full">
-                  <TabsTrigger value="research" className="px-8 py-3 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-blue-600 font-bold transition-all gap-2">
-                    <Search className="h-4 w-4" /> Research
-                  </TabsTrigger>
-                  <TabsTrigger value="ideation" className="px-8 py-3 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-blue-600 font-bold transition-all gap-2">
-                    <Lightbulb className="h-4 w-4" /> Ideation
-                  </TabsTrigger>
-                  <TabsTrigger value="design" className="px-8 py-3 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-blue-600 font-bold transition-all gap-2">
-                    <PencilRuler className="h-4 w-4" /> Design
-                  </TabsTrigger>
-                  <TabsTrigger value="testing" className="px-8 py-3 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-blue-600 font-bold transition-all gap-2">
-                    <TestTube2 className="h-4 w-4" /> Testing
-                  </TabsTrigger>
-                </TabsList>
-          </div>
-
-              <TabsContent value="research" className="focus-visible:outline-none">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-slate-50/50 rounded-[40px] p-8 md:p-16 border border-slate-100">
-                  <div className="relative aspect-video rounded-3xl overflow-hidden border border-slate-200 bg-white">
-                    <Image src="/placeholder.jpg" alt="Research phase" fill className="object-cover opacity-50" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="bg-white/80 backdrop-blur px-6 py-4 rounded-2xl shadow-xl font-bold text-blue-900 border border-white">User Flow Analysis</div>
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-blue-950 mb-4">Understanding the User Journey</h3>
-                    <p className="text-gray-600 text-lg mb-6">We conducted 15+ in-depth interviews with corporate treasurers and bank relationship managers to map out the current pain points.</p>
-                    <ul className="space-y-4 mb-8">
-                      {["Journey mapping current friction points", "Competitive benchmarking with fintech leaders", "Technical feasibility audit with engineering", "Data requirement consolidation"].map((item, i) => (
-                        <li key={i} className="flex items-start gap-3 text-gray-700">
-                          <CheckCircle2 className="h-6 w-6 text-blue-600 flex-shrink-0" /> {item}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="pt-6 border-t border-slate-200/60">
-                      <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 mb-2">
-                        <Layout className="h-3 w-3" /> SOFTWARE USED
+            <TabsComponent
+              defaultValue="research"
+              items={[
+                {
+                  value: "research",
+                  label: "Research",
+                  icon: <Search className="h-4 w-4" />,
+                  content: (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-slate-50/50 rounded-[40px] p-8 md:p-16 border border-slate-100">
+                      <div className="relative aspect-video rounded-4xl overflow-hidden border border-slate-200 bg-white">
+                        <Image src="/projects/ncino/ideation-1.png" alt="Research phase" fill className="object-cover blur-2xl" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="bg-white/80 backdrop-blur px-6 py-4 rounded-full shadow-xl font-bold text-blue-900 border border-white">User Flow Analysis</div>
+                        </div>
                       </div>
-                      <div className="flex flex-row items-center justify-start w-full">
-                        <AnimatedTooltip items={project.software.research} />
+                      <div>
+                        <h3 className="text-2xl font-bold text-blue-950 mb-4">Understanding the User Journey</h3>
+                        <p className="text-gray-600 text-lg mb-6">We conducted 15+ in-depth interviews with corporate treasurers and bank relationship managers to map out the current pain points.</p>
+                        <ul className="space-y-4 mb-8">
+                          {["Journey mapping current friction points", "Competitive benchmarking with bank managers", "Technical feasibility audit with engineering", "Data requirement consolidation"].map((item, i) => (
+                            <li key={i} className="flex items-start gap-3 text-gray-700">
+                              <CheckCircle2 className="h-6 w-6 text-blue-600 flex-shrink-0" /> {item}
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="pt-6 border-t border-slate-200/60">
+                          <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 mb-2">
+                            <Layout className="h-3 w-3" /> SOFTWARE USED
+                          </div>
+                          <div className="flex flex-row items-center justify-start w-full">
+                            <AnimatedTooltip items={project.software.research} />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </TabsContent>
-              {/* Other Tabs content would follow similar pattern */}
-              <TabsContent value="ideation" className="focus-visible:outline-none">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-slate-50/50 rounded-[40px] p-8 md:p-16 border border-slate-100">
-                  <div className="order-2 md:order-1">
-                    <h3 className="text-2xl font-bold text-blue-950 mb-4">Wireframing & Solutioning</h3>
-                    <p className="text-gray-600 text-lg mb-6">Moving from abstract problems to concrete solutions through rapid sketching and low-fidelity prototypes.</p>
-                    <ul className="space-y-4 mb-8">
-                      {["Whiteboarding collaborative sessions", "Information architecture restructuring", "Task flow optimization", "Rapid prototyping for key features"].map((item, i) => (
-                        <li key={i} className="flex items-start gap-3 text-gray-700">
-                          <CheckCircle2 className="h-6 w-6 text-blue-600 flex-shrink-0" /> {item}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="pt-6 border-t border-slate-200/60">
-                      <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 mb-2">
-                        <Layout className="h-3 w-3" /> SOFTWARE USED
+                  )
+                },
+                {
+                  value: "ideation",
+                  label: "Ideation",
+                  icon: <Lightbulb className="h-4 w-4" />,
+                  content: (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-slate-50/50 rounded-[40px] p-8 md:p-16 border border-slate-100">
+                      <div className="order-2 md:order-1">
+                        <h3 className="text-2xl font-bold text-blue-950 mb-4">Wireframing & Solutioning</h3>
+                        <p className="text-gray-600 text-lg mb-6">Moving from abstract problems to concrete solutions through rapid sketching and low-fidelity prototypes.</p>
+                        <ul className="space-y-4 mb-8">
+                          {["Whiteboarding collaborative sessions", "Information architecture restructuring", "Task flow optimization", "Rapid prototyping for key features"].map((item, i) => (
+                            <li key={i} className="flex items-start gap-3 text-gray-700">
+                              <CheckCircle2 className="h-6 w-6 text-blue-600 flex-shrink-0" /> {item}
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="pt-6 border-t border-slate-200/60">
+                          <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 mb-2">
+                            <Layout className="h-3 w-3" /> SOFTWARE USED
+                          </div>
+                          <div className="flex flex-row items-center justify-start w-full">
+                            <AnimatedTooltip items={project.software.ideation} />
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex flex-row items-center justify-start w-full">
-                        <AnimatedTooltip items={project.software.ideation} />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="relative aspect-video rounded-3xl overflow-hidden border border-slate-200 bg-white order-1 md:order-2">
-                    <Image src="/placeholder.jpg" alt="Ideation phase" fill className="object-cover opacity-50" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="bg-white/80 backdrop-blur px-6 py-4 rounded-2xl shadow-xl font-bold text-blue-900 border border-white">Rapid Prototyping</div>
-                    </div>
-                  </div>
-                </div>
-              </TabsContent>
-              <TabsContent value="design" className="focus-visible:outline-none">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-slate-50/50 rounded-[40px] p-8 md:p-16 border border-slate-100">
-                   <div className="relative aspect-video rounded-3xl overflow-hidden border border-slate-200 bg-white">
-                    <Image src="/placeholder.jpg" alt="Design phase" fill className="object-cover opacity-50" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="bg-white/80 backdrop-blur px-6 py-4 rounded-2xl shadow-xl font-bold text-blue-900 border border-white">High Fidelity UI</div>
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-blue-950 mb-4">Crafting the Interface</h3>
-                    <p className="text-gray-600 text-lg mb-6">Applying the new design system to high-fidelity screens, focusing on pixel-perfection and accessibility.</p>
-                    <ul className="space-y-4 mb-8">
-                      {["Systematic component library build", "Responsive layout design (Web & Mobile)", "Interactive micro-interactions", "Developer handoff documentation"].map((item, i) => (
-                        <li key={i} className="flex items-start gap-3 text-gray-700">
-                          <CheckCircle2 className="h-6 w-6 text-blue-600 flex-shrink-0" /> {item}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="pt-6 border-t border-slate-200/60">
-                      <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 mb-2">
-                        <Layout className="h-3 w-3" /> SOFTWARE USED
-                      </div>
-                      <div className="flex flex-row items-center justify-start w-full">
-                        <AnimatedTooltip items={project.software.design} />
+                      <div className="relative aspect-video rounded-4xl overflow-hidden border border-slate-200 bg-white order-1 md:order-2">
+                        <Image src="/projects/ncino/ideation.png" alt="Ideation phase" fill className="object-cover blur-2xl" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="bg-white/80 backdrop-blur px-6 py-4 rounded-full shadow-xl font-bold text-blue-900 border border-white">Rapid Prototyping</div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </TabsContent>
-              <TabsContent value="testing" className="focus-visible:outline-none">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-slate-50/50 rounded-[40px] p-8 md:p-16 border border-slate-100">
-                  <div className="order-2 md:order-1">
-                    <h3 className="text-2xl font-bold text-blue-950 mb-4">Validation & Iteration</h3>
-                    <p className="text-gray-600 text-lg mb-6">Ensuring the design works in the real world through usability testing and feedback loops.</p>
-                    <ul className="space-y-4 mb-8">
-                      {["Remote usability testing sessions", "Accessibility (WCAG 2.1) audit", "Performance and load time testing", "Stakeholder feedback integration"].map((item, i) => (
-                        <li key={i} className="flex items-start gap-3 text-gray-700">
-                          <CheckCircle2 className="h-6 w-6 text-blue-600 flex-shrink-0" /> {item}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="pt-6 border-t border-slate-200/60">
-                      <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 mb-2">
-                        <Layout className="h-3 w-3" /> SOFTWARE USED
+                  )
+                },
+                {
+                  value: "design",
+                  label: "Design",
+                  icon: <PencilRuler className="h-4 w-4" />,
+                  content: (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-slate-50/50 rounded-[40px] p-8 md:p-16 border border-slate-100">
+                       <div className="relative aspect-video rounded-4xl overflow-hidden border border-slate-200 bg-white">
+                        <Image src="/projects/ncino/design.png" alt="Design phase" fill className="object-cover blur-2xl" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="bg-white/80 backdrop-blur px-6 py-4 rounded-full shadow-xl font-bold text-blue-900 border border-white">High Fidelity UI</div>
+                        </div>
                       </div>
-                      <div className="flex flex-row items-center justify-start w-full">
-                        <AnimatedTooltip items={project.software.testing} />
+                      <div>
+                        <h3 className="text-2xl font-bold text-blue-950 mb-4">Crafting the Interface</h3>
+                        <p className="text-gray-600 text-lg mb-6">Applying the new design system to high-fidelity screens, focusing on pixel-perfection and accessibility.</p>
+                        <ul className="space-y-4 mb-8">
+                          {["Systematic component library build", "Responsive layout design (Web & Mobile)", "Interactive micro-interactions", "Developer handoff documentation"].map((item, i) => (
+                            <li key={i} className="flex items-start gap-3 text-gray-700">
+                              <CheckCircle2 className="h-6 w-6 text-blue-600 flex-shrink-0" /> {item}
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="pt-6 border-t border-slate-200/60">
+                          <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 mb-2">
+                            <Layout className="h-3 w-3" /> SOFTWARE USED
+                          </div>
+                          <div className="flex flex-row items-center justify-start w-full">
+                            <AnimatedTooltip items={project.software.design} />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="relative aspect-video rounded-3xl overflow-hidden border border-slate-200 bg-white order-1 md:order-2">
-                    <Image src="/placeholder.jpg" alt="Testing phase" fill className="object-cover opacity-50" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="bg-white/80 backdrop-blur px-6 py-4 rounded-2xl shadow-xl font-bold text-blue-900 border border-white">User Testing</div>
+                  )
+                },
+                {
+                  value: "testing",
+                  label: "Testing",
+                  icon: <TestTube2 className="h-4 w-4" />,
+                  content: (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-slate-50/50 rounded-[40px] p-8 md:p-16 border border-slate-100">
+                      <div className="order-2 md:order-1">
+                        <h3 className="text-2xl font-bold text-blue-950 mb-4">Validation & Iteration</h3>
+                        <p className="text-gray-600 text-lg mb-6">Ensuring the design works in the real world through usability testing and feedback loops.</p>
+                        <ul className="space-y-4 mb-8">
+                          {["Remote usability testing sessions", "Accessibility (WCAG 2.1) audit", "Performance and load time testing", "Stakeholder feedback interviews"].map((item, i) => (
+                            <li key={i} className="flex items-start gap-3 text-gray-700">
+                              <CheckCircle2 className="h-6 w-6 text-blue-600 flex-shrink-0" /> {item}
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="pt-6 border-t border-slate-200/60">
+                          <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 mb-2">
+                            <Layout className="h-3 w-3" /> SOFTWARE USED
+                          </div>
+                          <div className="flex flex-row items-center justify-start w-full">
+                            <AnimatedTooltip items={project.software.testing} />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="relative aspect-video rounded-4xl overflow-hidden border border-slate-200 bg-white order-1 md:order-2">
+                        <Image src="/projects/ncino/testing.png" alt="Testing phase" fill className="object-cover blur-2xl" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="bg-white/80 backdrop-blur px-6 py-4 rounded-full shadow-xl font-bold text-blue-900 border border-white">User Testing</div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-          </div>
-              </TabsContent>
-            </Tabs>
+                  )
+                }
+              ]}
+            />
           </section>
 
           {/* Final Deliverables Section */}
@@ -1032,7 +1061,7 @@ export default function NcinoOnboardingPage() {
                 Final Deliverables
               </h2>
               <a 
-                href="https://www.figma.com" 
+                href="https://house-plaque-75814816.figma.site/" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-8 py-4 bg-blue-600 text-white rounded-full text-base font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-200 group"
@@ -1043,7 +1072,7 @@ export default function NcinoOnboardingPage() {
             </div>
 
             <div className="mt-16 grid grid-cols-12 gap-4">
-              <div className="col-span-12 md:col-span-8 overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group">
+              <div className="col-span-12 md:col-span-8 overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group" onClick={() => openCarousel(0)}>
                 <div className="relative h-[445px] md:h-auto md:pt-[64%] rounded-6xl overflow-hidden w-full">
                   <Image
                     src={project.images.main || "/placeholder.svg"}
@@ -1054,7 +1083,7 @@ export default function NcinoOnboardingPage() {
                   />
                 </div>
               </div>
-              <div className="col-span-12 md:col-span-4 overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group">
+              <div className="col-span-12 md:col-span-4 overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group" onClick={() => openCarousel(1)}>
                 <div className="relative h-[445px] md:h-auto md:pt-[130%] rounded-6xl overflow-hidden w-full">
                   <Image
                     src={project.images.secondary[0] || "/placeholder.svg"}
@@ -1066,7 +1095,7 @@ export default function NcinoOnboardingPage() {
                 </div>
               </div>
 
-              <div className="col-span-12 md:col-span-4 overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group">
+              <div className="col-span-12 md:col-span-4 overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group" onClick={() => openCarousel(2)}>
                 <div className="relative h-[445px] md:h-auto md:pt-[138%] rounded-6xl overflow-hidden w-full">
                   <Image
                     src={project.images.secondary[1] || "/placeholder.svg"}
@@ -1077,7 +1106,7 @@ export default function NcinoOnboardingPage() {
                   />
                 </div>
               </div>
-              <div className="col-span-12 md:col-span-8 overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group">
+              <div className="col-span-12 md:col-span-8 overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group" onClick={() => openCarousel(3)}>
                 <div className="relative h-[445px] md:h-auto md:pt-[68%] rounded-6xl overflow-hidden w-full">
                   <Image
                     src={project.images.secondary[2] || "/placeholder.svg"}
@@ -1098,11 +1127,11 @@ export default function NcinoOnboardingPage() {
               <h2 className="text-4xl font-bold text-blue-950 mb-8">The Result & Impact</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                 <div>
-                  <div className="text-5xl font-bold text-blue-600 mb-2">25%</div>
+                  <div className="text-5xl font-bold text-blue-600 mb-2">75%</div>
                   <p className="text-gray-600 font-medium">Reduction in dropout rates</p>
                 </div>
                 <div>
-                  <div className="text-5xl font-bold text-blue-600 mb-2">12 → 2</div>
+                  <div className="text-5xl font-bold text-blue-600 mb-2">49 → 7</div>
                   <p className="text-gray-600 font-medium">Avg. days to onboard</p>
                 </div>
                 <div>
@@ -1111,13 +1140,13 @@ export default function NcinoOnboardingPage() {
                 </div>
               </div>
               <p className="text-xl text-gray-700 leading-relaxed mb-12 font-light">
-                "The new nCino Smart Onboarding & Monitoring experience has fundamentally changed how we acquire and serve our commercial clients. It's not just a UI update; it's a competitive advantage."
+                "Wow, this experience is so clean & Intuitive. One of banking clients even requested an additional hour to deep dive into the future mockups beacuse we are solving some of their biggest pain points. Great work!!"
               </p>
               <div className="flex items-center justify-center gap-4">
                 <div className="h-12 w-12 rounded-full bg-slate-200"></div>
                 <div className="text-left">
-                  <div className="font-bold text-blue-950">Jane Doe</div>
-                  <div className="text-sm text-gray-500">Director of Digital Strategy</div>
+                  <div className="font-bold text-blue-950">Cody Poole</div>
+                  <div className="text-sm text-gray-500">Principal Product Manager</div>
                 </div>
               </div>
           </div>
@@ -1126,6 +1155,59 @@ export default function NcinoOnboardingPage() {
           <ProjectNavigation currentProjectId={project.id} />
         </div>
       </div>
+
+      {/* Image Gallery Modal */}
+      {selectedImageIndex !== null && currentImage && (
+        <div className="fixed inset-0 bg-black z-[200] flex items-center justify-center">
+          <button
+            onClick={closeCarousel}
+            className="absolute top-6 right-6 w-12 h-12 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/70 transition-colors z-[210]"
+          >
+            <X className="w-6 h-6 text-white" />
+          </button>
+
+          <div className="relative w-full h-full flex items-center justify-center">
+            <div className="relative w-full h-full">
+              <Image src={currentImage.src} alt={currentImage.alt} fill className="object-contain" priority />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+              <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12 z-10">
+                <h2 className="text-2xl md:text-3xl font-medium mb-2 text-white">{project.name}</h2>
+                <p className="text-lg text-gray-200">{currentImage.alt}</p>
+              </div>
+            </div>
+
+            <button
+              onClick={goToPrevious}
+              className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/70 transition-all duration-300 group z-[210]"
+            >
+              <ChevronLeft className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+            </button>
+
+            <button
+              onClick={goToNext}
+              className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/70 transition-all duration-300 group z-[210]"
+            >
+              <ChevronRight className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+            </button>
+
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 z-[210]">
+              {allImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === selectedImageIndex ? "bg-white scale-125" : "bg-white/30 hover:bg-white/50"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <div className="absolute bottom-8 right-8 text-white/70 z-[210]">
+              {selectedImageIndex + 1} / {allImages.length}
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   )
 }
