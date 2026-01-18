@@ -436,13 +436,12 @@ export default function Home() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 w-full">
             {displayedProjects.map((project, index) => {
-              const slug = project.name.toLowerCase().replace(/\s+/g, "-")
               return (
                 <div key={project.id} className="project-card-gsap">
                   <CardContainer className="inter-var w-full" containerClassName="py-4 w-full">
                     <CardBody className="bg-[#0a0a15]/50 border border-white/5 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] w-full rounded-[48px] p-4">
                       <Link
-                        href={`/${slug}`}
+                        href={`/${project.slug}`}
                         className="group block relative overflow-hidden rounded-[40px] aspect-[4/5] w-full mb-6"
                       >
                         <CardItem translateZ="25" className="w-full h-full">
@@ -484,7 +483,7 @@ export default function Home() {
                         </CardItem>
                         <CardItem translateZ="30">
                           <Link
-                            href={`/${slug}`}
+                            href={`/${project.slug}`}
                             className="inline-flex items-center px-10 py-4 bg-white text-black rounded-full text-sm font-bold hover:bg-neutral-200 transition-all duration-300 shadow-2xl shadow-white/10"
                           >
                             View Case Study

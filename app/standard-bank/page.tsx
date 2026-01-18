@@ -11,7 +11,7 @@ export default function NcinoOnboardingPage() {
 
   const project = {
     "id": 101,
-    "name": "nCino Onboarding",
+    "name": "nCino Smart Onboarding & Monitoring",
     "tagline": "Modernizing digital banking experiences for millions of users.",
     "description": "As a Senior Product Designer, I led the redesign of the core mobile banking experience, focusing on accessibility and seamless cross-border transactions.",
     "imageUrl": "/placeholder.jpg",
@@ -36,7 +36,7 @@ export default function NcinoOnboardingPage() {
             "/placeholder.jpg"
         ]
     },
-    "fallback": "/placeholder.svg?height=1200&width=1600&text=nCino+Onboarding"
+    "fallback": "/placeholder.svg?height=1200&width=1600&text=nCino+Smart+Onboarding+&+Monitoring"
 }
 
   useEffect(() => {

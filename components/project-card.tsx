@@ -7,13 +7,12 @@ interface Project {
   description: string
   imageUrl: string
   name?: string
+  slug: string
 }
 
 export default function ProjectCard({ project }: { project: Project }) {
-  const slug = (project.name || project.title).toLowerCase().replace(/\s+/g, "-")
-  
   return (
-    <Link href={`/${slug}`} className="group block">
+    <Link href={`/${project.slug}`} className="group block">
       <div className="overflow-hidden rounded-lg">
         <Image
           src={project.imageUrl || "/placeholder.svg"}

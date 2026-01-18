@@ -4,22 +4,44 @@ import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { 
   ArrowLeft, 
+  ArrowRight,
+  ArrowDown,
   Users, 
   Clock, 
   CheckCircle2, 
   Target, 
   Lightbulb, 
   Search, 
+  Key,
   PencilRuler, 
   TestTube2, 
   Rocket,
   ShieldCheck,
   Zap,
   Layout,
-  FileText
+  FileText,
+  ExternalLink
 } from "lucide-react"
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Legend
+} from "recharts"
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"
 import ProjectCarousel from "@/components/project-carousel"
 import ProjectNavigation from "@/components/project-navigation"
 import { Badge } from "@/components/ui/badge"
@@ -28,14 +50,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
 import { Separator } from "@/components/ui/separator"
+import { AnimatedTooltip } from "@/components/ui/animated-tooltip"
 
 export default function NcinoOnboardingPage() {
   const router = useRouter()
 
   const project = {
     "id": 101,
-    "name": "nCino Onboarding",
-    "tagline": "Modernizing digital banking experiences for millions of users.",
+    "name": "nCino Smart Onboarding & Monitoring",
+    "tagline": "Financial institutions face major challenges when onboarding commercial customers, driven by strict KYC and KYB regulations, heavy documentation requirements, and the need to assess creditworthiness—while still meeting rising customer expectations. SmartOnboard streamlines this process by bringing all required checks and case management into a single platform, reducing manual work, supporting regulatory compliance, and delivering a smoother customer experience.",
     "description": "Redefining the digital onboarding journey for commercial banking, focusing on speed, compliance, and user empowerment.",
     "imageUrl": "/placeholder.jpg",
     "category": "Desktop Applications" as const,
@@ -44,10 +67,28 @@ export default function NcinoOnboardingPage() {
     "role": "Senior Product Designer",
     "duration": "2 years",
     "year": "2021-2023",
-    "processDetails": [
-        "Conducted extensive user research across multiple regions to identify pain points in international transfers.",
-        "Collaborated with engineering teams to build a scalable component library using React and Tailwind.",
-        "Presented design strategies to stakeholders, ensuring alignment with business goals and user needs."
+    "software": {
+      "research": [
+        { id: 1, name: "Lucid", designation: "Diagramming", image: "/placeholder-logo.png" },
+        { id: 2, name: "Confluence", designation: "Documentation", image: "/placeholder-logo.png" }
+      ],
+      "ideation": [
+        { id: 3, name: "Figjam", designation: "Whiteboarding", image: "/placeholder-logo.png" },
+        { id: 1, name: "Lucid", designation: "Diagramming", image: "/placeholder-logo.png" }
+      ],
+      "design": [
+        { id: 4, name: "Figma", designation: "UI Design", image: "/placeholder-logo.png" },
+        { id: 5, name: "Figma Make", designation: "AI Design", image: "/placeholder-logo.png" }
+      ],
+      "testing": [
+        { id: 6, name: "Dovetail", designation: "User Research", image: "/placeholder-logo.png" }
+      ]
+    },
+    "team": [
+      { id: 1, name: "Tshepo Mndaweni", designation: "Lead Product Designer", image: "/coaching/tshepo.png" },
+      { id: 2, name: "David Lazarus", designation: "Product Manager", image: "/placeholder-user.jpg" },
+      { id: 3, name: "Anand Nagrik", designation: "Lead Product Designer", image: "/placeholder-user.jpg" },
+      { id: 4, name: "Manenga Mungandi", designation: "Senior Software Engineer", image: "/placeholder-user.jpg" },
     ],
     "images": {
         "main": "/placeholder.jpg",
@@ -59,7 +100,7 @@ export default function NcinoOnboardingPage() {
             "/placeholder.jpg"
         ]
     },
-    "fallback": "/placeholder.svg?height=1200&width=1600&text=nCino+Onboarding"
+    "fallback": "/placeholder.svg?height=1200&width=1600&text=nCino+Smart+Onboarding+&+Monitoring"
 }
 
   useEffect(() => {
@@ -98,20 +139,20 @@ export default function NcinoOnboardingPage() {
           {/* Hero Section */}
           <motion.div {...fadeIn} className="mb-16">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
-              <div className="max-w-3xl">
+              <div className="max-w-full">
                 <Badge variant="outline" className="mb-4 border-blue-900 text-blue-900 px-3 py-1 rounded-full uppercase tracking-widest text-[10px] font-bold">
                   Case Study
                 </Badge>
                 <h1 className="text-5xl md:text-7xl font-bold mb-6 text-blue-950 tracking-tight">
                   {project.name}
                 </h1>
-                <p className="text-2xl text-blue-900/80 font-light leading-relaxed">
+                <p className="text-2xl text-gray-700 font-light leading-relaxed">
                   {project.tagline}
                 </p>
               </div>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-8 border-y border-gray-100">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 py-8 border-y border-gray-100">
               <div className="space-y-1">
                 <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
                   <Users className="h-3 w-3" /> My Role
@@ -136,114 +177,707 @@ export default function NcinoOnboardingPage() {
                 </div>
                 <div className="text-blue-950 font-medium">{project.year}</div>
               </div>
+              <div className="space-y-1">
+                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                  <Users className="h-3 w-3" /> Team
+                </div>
+                <div className="flex flex-row items-center justify-start w-full">
+                  <AnimatedTooltip items={project.team} />
+                </div>
+              </div>
             </div>
           </motion.div>
 
+          {/* How it works Diagram */}
+          <div className="mt-24 mb-20 flex flex-col items-center">
+            <div className="text-center mb-16">
+              <h3 className="text-blue-600 font-bold text-xl mb-3 uppercase tracking-widest">How it works</h3>
+              <h2 className="text-5xl md:text-6xl font-bold text-blue-950 tracking-tight">SmartOnboard</h2>
+            </div>
+
+            <div className="w-full max-w-5xl flex flex-col items-center">
+              {/* Top Step */}
+              <div className="bg-[#111827] text-white px-12 py-6 rounded-2xl font-bold text-2xl w-full md:w-80 text-center shadow-2xl transition-transform hover:scale-105 duration-300">
+                Select company
+              </div>
+
+              {/* Vertical Connector */}
+              <div className="h-12 w-px bg-blue-200 relative">
+                <ArrowDown className="absolute -bottom-2 -left-[7px] h-4 w-4 text-blue-300" />
+              </div>
+
+              {/* Middle Row with 3 Columns */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full relative">
+                {/* Column 1 */}
+                <div className="flex flex-col items-center">
+                  <div className="bg-[#111827] text-white p-6 rounded-2xl font-bold text-center w-full min-h-[100px] flex items-center justify-center relative shadow-xl">
+                    Run Business Checks
+                    <div className="absolute top-1/2 -right-4 -translate-y-1/2 text-blue-200 hidden md:block">
+                      <ArrowRight className="h-5 w-5" />
+                    </div>
+                  </div>
+                  <div className="h-12 w-px bg-blue-200 relative">
+                    <ArrowDown className="absolute -bottom-2 -left-[7px] h-4 w-4 text-blue-300" />
+                  </div>
+                  <div className="bg-blue-50/50 p-8 rounded-[40px] w-full flex flex-col gap-6 text-center min-h-[300px] justify-center text-blue-950 border border-blue-100/50 backdrop-blur-sm shadow-inner">
+                    <p className="font-bold text-lg">KYB check</p>
+                    <p className="font-bold text-lg">AML & Compliance</p>
+                    <p className="font-bold text-lg">Commercial Credit Checks</p>
+                  </div>
+                </div>
+
+                {/* Column 2 */}
+                <div className="flex flex-col items-center">
+                  <div className="bg-[#111827] text-white p-6 rounded-2xl font-bold text-center w-full min-h-[100px] flex items-center justify-center relative shadow-xl">
+                    Run People Checks
+                    <div className="absolute top-1/2 -right-4 -translate-y-1/2 text-blue-200 hidden md:block">
+                      <ArrowRight className="h-5 w-5" />
+                    </div>
+                  </div>
+                  <div className="h-12 w-px bg-blue-200 relative">
+                    <ArrowDown className="absolute -bottom-2 -left-[7px] h-4 w-4 text-blue-300" />
+                  </div>
+                  <div className="bg-blue-50/50 p-8 rounded-[40px] w-full flex flex-col gap-6 text-center min-h-[300px] justify-center text-blue-950 border border-blue-100/50 backdrop-blur-sm shadow-inner">
+                    <p className="font-bold text-lg">eKYC Check</p>
+                    <p className="font-bold text-lg">PEPs, Sanctions and Adverse Media</p>
+                    <p className="font-bold text-lg">Email Validation</p>
+                  </div>
+                  <div className="h-12 w-px bg-blue-200 relative">
+                    <ArrowDown className="absolute -bottom-2 -left-[7px] h-4 w-4 text-blue-300" />
+                  </div>
+                </div>
+
+                {/* Column 3 */}
+                <div className="flex flex-col items-center">
+                  <div className="bg-[#111827] text-white p-6 rounded-2xl font-bold text-center w-full min-h-[100px] flex items-center justify-center shadow-xl">
+                    Run IDV Document Checks
+                  </div>
+                  <div className="h-12 w-px bg-blue-200 relative">
+                    <ArrowDown className="absolute -bottom-2 -left-[7px] h-4 w-4 text-blue-300" />
+                  </div>
+                  <div className="bg-blue-50/50 p-8 rounded-[40px] w-full flex flex-col gap-6 text-center min-h-[300px] justify-center text-blue-950 border border-blue-100/50 backdrop-blur-sm shadow-inner">
+                    <p className="font-bold text-lg">Document verification</p>
+                    <p className="font-bold text-lg">Facial comparision</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Final Step */}
+              <div className="bg-[#111827] text-white py-8 rounded-2xl font-bold text-2xl w-full text-center shadow-2xl transition-transform hover:scale-[1.02] duration-300 mt-2">
+                Provide onboarding decision
+              </div>
+            </div>
+          </div>
+
+
+          {/* Key Features & Services */}
+          <div className="mt-16 border-t border-blue-100 pt-16">
+            <h2 className="text-3xl font-bold text-blue-950 mb-8 flex items-center gap-3">
+              <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
+              Key Features & Services
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {[
+                {
+                  title: "Know Your Business (KYB)",
+                  description: "Verify the legitimacy and integrity of business entities to ensure compliance with regulatory standards."
+                },
+                {
+                  title: "Electronic Know Your Customer (eKYC)",
+                  description: "Efficiently verify customer identities through digital processes, enhancing security and user experience."
+                },
+                {
+                  title: "PEPs, Sanctions & Adverse Media Checks",
+                  description: "Conduct rigorous checks against Politically Exposed Persons (PEPs), sanctions lists, and adverse media to significantly reduce risk and ensure compliance."
+                },
+                {
+                  title: "Email Validation",
+                  description: "Confirm the authenticity of customer email addresses to prevent fraud and improve communication."
+                },
+                {
+                  title: "Identity Verification (ID&V)",
+                  description: "Authenticate customer identities using advanced verification techniques to ensure legitimacy."
+                },
+                {
+                  title: "Case Management",
+                  description: "Efficiently handle all onboarding cases in one platform, ensuring streamlined workflows and swift resolution of compliance tasks."
+                }
+              ].map((feature, index) => (
+                <div key={index} className="space-y-2">
+                  <h3 className="text-xl font-bold text-blue-600">{feature.title}</h3>
+                  <p className="text-gray-700 leading-relaxed">{feature.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+
+          
+
+          {/* Business Impact Section */}
+          <div className="mt-16 border-t border-blue-100 pt-16">
+            <h2 className="text-3xl font-bold text-blue-950 mb-12 flex items-center gap-3">
+              <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
+              Market Context & Impact
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
+              <div className="space-y-12">
+                <div className="group">
+                  <div className="text-4xl font-bold text-blue-600 mb-2 transition-transform group-hover:translate-x-1">$15.9M</div>
+                  <p className="text-lg text-gray-700 leading-snug">in average annual spending on the onboarding process per bank</p>
+                </div>
+                <div className="group">
+                  <div className="text-4xl font-bold text-blue-600 mb-2 transition-transform group-hover:translate-x-1">$14,700</div>
+                  <p className="text-lg text-gray-700 leading-snug">average cost per client onboarded.</p>
+                </div>
+                <div className="group">
+                  <div className="text-4xl font-bold text-blue-600 mb-2 transition-transform group-hover:translate-x-1">67%</div>
+                  <p className="text-lg text-gray-700 leading-snug">of respondents state that it costs more to onboard a customer than a year ago.</p>
+                </div>
+              </div>
+              <div className="space-y-12">
+                <div className="group">
+                  <div className="text-4xl font-bold text-blue-600 mb-2 transition-transform group-hover:translate-x-1">+77 relationships</div>
+                  <p className="text-lg text-gray-700 leading-snug">a year for a bank onboarding 1,000 customers annually</p>
+                </div>
+                <div className="group">
+                  <div className="text-4xl font-bold text-blue-600 mb-2 transition-transform group-hover:translate-x-1">$300,000</div>
+                  <p className="text-lg text-gray-700 leading-snug">daily revenue earned from a day reduction in the onboarding process for a bank earning $100M in new sales annually</p>
+                </div>
+                <div className="group">
+                  <div className="text-4xl font-bold text-blue-600 mb-2 transition-transform group-hover:translate-x-1">85%</div>
+                  <p className="text-lg text-gray-700 leading-snug">of respondents state that a positive onboarding experience leads to higher lifetime revenue for a customer.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          {/* Data Insights Section */}
+          <div className="mt-16 border-t border-blue-100 pt-16">
+            <h2 className="text-3xl font-bold text-blue-950 mb-8 flex items-center gap-3">
+              <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
+              Deep Dive: Survey & Cost Analysis
+            </h2>
+            
+            <Tabs defaultValue="survey" className="w-full">
+              <div className="flex justify-center mb-12">
+                <TabsList className="bg-slate-50 p-1 rounded-2xl h-auto border border-gray-100 overflow-x-auto max-w-full">
+                  <TabsTrigger value="survey" className="px-8 py-3 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-blue-600 font-bold transition-all">
+                    Survey
+                  </TabsTrigger>
+                  <TabsTrigger value="costs" className="px-8 py-3 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-blue-600 font-bold transition-all">
+                    Onboarding Costs
+                  </TabsTrigger>
+                </TabsList>
+              </div>
+
+              <TabsContent value="survey" className="focus-visible:outline-none">
+                <div className="bg-slate-50/50 rounded-[40px] p-8 md:p-12 border border-slate-100">
+                  <div className="text-center mb-12">
+                    <h3 className="text-2xl font-bold text-blue-950 mb-4">409 Respondents - Worldwide Survey</h3>
+                    <p className="text-gray-600 max-w-3xl mx-auto">Understanding the current and future state of onboarding across regions, asset segments, and stakeholders.</p>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                    {/* Regional Breakdown */}
+                    <div className="space-y-6">
+                      <h4 className="text-lg font-bold text-blue-900 text-center">Regional Breakdown</h4>
+                      <div className="h-[300px] w-full">
+                        <ChartContainer config={{
+                          emea: { label: "EMEA", color: "#0c3b6e" },
+                          na: { label: "North America", color: "#1a6cb3" },
+                          apac: { label: "APAC", color: "#4fa8e0" },
+                        }}>
+                          <PieChart>
+                            <Pie
+                              data={[
+                                { name: "EMEA", value: 45, fill: "#0c3b6e" },
+                                { name: "North America", value: 35, fill: "#1a6cb3" },
+                                { name: "APAC", value: 20, fill: "#4fa8e0" },
+                              ]}
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={60}
+                              outerRadius={80}
+                              paddingAngle={5}
+                              dataKey="value"
+                            >
+                              <Cell key="cell-0" fill="#0c3b6e" />
+                              <Cell key="cell-1" fill="#1a6cb3" />
+                              <Cell key="cell-2" fill="#4fa8e0" />
+                            </Pie>
+                            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+                            <Legend />
+                          </PieChart>
+                        </ChartContainer>
+                      </div>
+                    </div>
+
+                    {/* Bank Size */}
+                    <div className="space-y-6">
+                      <h4 className="text-lg font-bold text-blue-900 text-center">Bank Size (Assets)</h4>
+                      <div className="h-[300px] w-full">
+                        <ChartContainer config={{
+                          percentage: { label: "Percentage", color: "#1a6cb3" },
+                        }}>
+                          <BarChart data={[
+                            { name: "US$500B+", value: 19 },
+                            { name: "US$100-499B", value: 31 },
+                            { name: "US$50-99B", value: 13 },
+                            { name: "US$20-49B", value: 19 },
+                            { name: "US$10-19B", value: 18 },
+                          ]} layout="vertical" margin={{ left: 10, right: 20 }}>
+                            <XAxis type="number" hide />
+                            <YAxis dataKey="name" type="category" width={100} tick={{ fontSize: 10 }} />
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <Bar dataKey="value" fill="#1a6cb3" radius={[0, 4, 4, 0]} />
+                          </BarChart>
+                        </ChartContainer>
+                      </div>
+                    </div>
+
+                    {/* Role/Responsibility */}
+                    <div className="space-y-6">
+                      <h4 className="text-lg font-bold text-blue-900 text-center">Role/Responsibility</h4>
+                      <div className="h-[300px] w-full">
+                        <ChartContainer config={{
+                          percentage: { label: "Percentage", color: "#4fa8e0" },
+                        }}>
+                          <BarChart data={[
+                            { name: "Compliance", value: 25 },
+                            { name: "Digital leads", value: 25 },
+                            { name: "Operations leads", value: 25 },
+                            { name: "Relationship managers", value: 24 },
+                          ]} layout="vertical" margin={{ left: 10, right: 20 }}>
+                            <XAxis type="number" hide />
+                            <YAxis dataKey="name" type="category" width={120} tick={{ fontSize: 10 }} />
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <Bar dataKey="value" fill="#4fa8e0" radius={[0, 4, 4, 0]} />
+                          </BarChart>
+                        </ChartContainer>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="costs" className="focus-visible:outline-none">
+                <div className="bg-slate-50/50 rounded-[40px] p-8 md:p-12 border border-slate-100">
+                  <div className="text-center mb-12">
+                    <h3 className="text-2xl font-bold text-blue-950 mb-4">Onboarding Costs & Resource Intensity</h3>
+                    <p className="text-gray-600">The high price of manual processes and regulatory complexity.</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {/* Spending Chart */}
+                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                      <h4 className="text-xs font-bold text-blue-900 mb-6 text-center uppercase tracking-wider h-8 flex items-center justify-center">Avg. Annual Spending ($M)</h4>
+                      <div className="h-[250px]">
+                        <ChartContainer config={{ val: { label: "Spending ($M)", color: "#0c3b6e" } }}>
+                          <BarChart data={[
+                            { name: "Global", val: 15.9 },
+                            { name: "NA", val: 19.1 },
+                            { name: "EMEA", val: 14.9 },
+                            { name: "APAC", val: 12.2 },
+                            { name: "$50bn+", val: 19.0 },
+                            { name: "$10-50bn", val: 9.3 },
+                          ]}>
+                            <XAxis dataKey="name" tick={{ fontSize: 9 }} />
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <Bar dataKey="val" fill="#0c3b6e" radius={[4, 4, 0, 0]} />
+                          </BarChart>
+                        </ChartContainer>
+                      </div>
+                    </div>
+
+                    {/* Cost per client Chart */}
+                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                      <h4 className="text-xs font-bold text-blue-900 mb-6 text-center uppercase tracking-wider h-8 flex items-center justify-center">Avg. Cost Per Client ($K)</h4>
+                      <div className="h-[250px]">
+                        <ChartContainer config={{ val: { label: "Cost ($K)", color: "#1a6cb3" } }}>
+                          <BarChart data={[
+                            { name: "Global", val: 14.7 },
+                            { name: "NA", val: 14.5 },
+                            { name: "EMEA", val: 14.5 },
+                            { name: "APAC", val: 15.5 },
+                            { name: "$50bn+", val: 13.3 },
+                            { name: "$10-50bn", val: 16.8 },
+                          ]}>
+                            <XAxis dataKey="name" tick={{ fontSize: 9 }} />
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <Bar dataKey="val" fill="#1a6cb3" radius={[4, 4, 0, 0]} />
+                          </BarChart>
+                        </ChartContainer>
+                      </div>
+                    </div>
+
+                    {/* Manual Days Chart */}
+                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                      <h4 className="text-xs font-bold text-blue-900 mb-6 text-center uppercase tracking-wider h-8 flex items-center justify-center">Avg. Manual Days Spent</h4>
+                      <div className="h-[250px]">
+                        <ChartContainer config={{ val: { label: "Manual Days", color: "#4fa8e0" } }}>
+                          <BarChart data={[
+                            { name: "Global", val: 29656 },
+                            { name: "NA", val: 37031 },
+                            { name: "EMEA", val: 26902 },
+                            { name: "APAC", val: 22667 },
+                            { name: "$50bn+", val: 39142 },
+                            { name: "$10-50bn", val: 15073 },
+                          ]}>
+                            <XAxis dataKey="name" tick={{ fontSize: 9 }} />
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <Bar dataKey="val" fill="#4fa8e0" radius={[4, 4, 0, 0]} />
+                          </BarChart>
+                        </ChartContainer>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+
+
+          {/* Key Takeaways & Recommendations Section */}
+          <div className="my-16 border-t border-blue-100 pt-16">
+            <h2 className="text-3xl font-bold text-blue-950 mb-12 flex items-center gap-3">
+              <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
+              Key Takeaways & Strategic Recommendations
+            </h2>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Key Takeaways */}
+              <div className="bg-slate-50/50 rounded-[40px] p-8 md:p-12 border border-slate-100">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="bg-white p-3 rounded-2xl shadow-sm">
+                    <Key className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-blue-950">Key Takeaways</h3>
+                </div>
+                
+                <div className="space-y-8">
+                  <div className="group">
+                    <h4 className="font-bold text-blue-900 mb-2 group-hover:text-blue-600 transition-colors">Manual vs. Automated Processing</h4>
+                    <p className="text-gray-700 leading-relaxed">
+                      The industry exhibits a stark dichotomy: while some stages are highly automated, early-stage activities like prospecting and acquisition remain heavily manual and resource-intensive, creating significant bottlenecks.
+                    </p>
+                  </div>
+                  <div className="group">
+                    <h4 className="font-bold text-blue-900 mb-2 group-hover:text-blue-600 transition-colors">The 49-Day Benchmark</h4>
+                    <p className="text-gray-700 leading-relaxed">
+                      With a global average onboarding time of 49 days, there is massive room for optimization. Markets vary wildly, highlighting the potential for standardized digital workflows to bring all regions up to speed.
+                    </p>
+                  </div>
+                  <div className="group">
+                    <h4 className="font-bold text-blue-900 mb-2 group-hover:text-blue-600 transition-colors">Spending Volatility</h4>
+                    <p className="text-gray-700 leading-relaxed">
+                      Onboarding costs are increasingly unpredictable. Lower total spending is often a false economy, frequently offset by disproportionately high costs per individual client due to inefficient manual overrides and legacy friction.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Strategic Recommendations */}
+              <div className="bg-blue-950 rounded-[40px] p-8 md:p-12 text-white relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-800/20 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                
+                <div className="flex items-center gap-4 mb-8 relative z-10">
+                  <div className="bg-blue-900/50 p-3 rounded-2xl border border-blue-800">
+                    <Lightbulb className="h-6 w-6 text-blue-400" />
+                  </div>
+                  <h3 className="text-2xl font-bold">Strategic Recommendations</h3>
+                </div>
+                
+                <div className="space-y-10 relative z-10">
+                  <div className="bg-blue-900/30 p-6 rounded-3xl border border-blue-800/50 hover:bg-blue-900/40 transition-colors">
+                    <h4 className="font-bold text-blue-300 mb-3 flex items-center gap-3">
+                      <CheckCircle2 className="h-5 w-5 text-blue-400" /> Standardize Variability
+                    </h4>
+                    <p className="text-blue-100/80 leading-relaxed">
+                      Identify and automate the specific high-manual-effort stages that consume the majority of your onboarding timeline. Focus on building robust SLAs for steps that are historically the most frustrating for clients.
+                    </p>
+                  </div>
+                  <div className="bg-blue-900/30 p-6 rounded-3xl border border-blue-800/50 hover:bg-blue-900/40 transition-colors">
+                    <h4 className="font-bold text-blue-300 mb-3 flex items-center gap-3">
+                      <CheckCircle2 className="h-5 w-5 text-blue-400" /> Bridge the Performance Gap
+                    </h4>
+                    <p className="text-blue-100/80 leading-relaxed">
+                      Leverage regional best practices in document handling and acquisition. Prospecting remains the single largest opportunity for automation—standardizing this stage can drastically reduce both time and cost-per-client.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Featured Image */}
-          <motion.div {...fadeIn} className="mb-24">
-          <ProjectCarousel project={project} />
+           <motion.div {...fadeIn} className="mb-24">
+             <div className="mb-12 overflow-hidden group cursor-pointer rounded-6xl">
+               <div className="relative md:h-auto md:pt-[75%] rounded-6xl overflow-hidden w-full h-[445px]">
+                 <Image
+                   src={project.images.main}
+                   alt={project.name}
+                   width={1600}
+                   height={1200}
+                   className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-6xl"
+                 />
+               </div>
+             </div>
           </motion.div>
 
           {/* Project Overview Section */}
-          <section className="mb-32">
+          <section className="my-32 ">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
               <div className="lg:col-span-5">
                 <h2 className="text-3xl font-bold text-blue-950 mb-6 flex items-center gap-3">
                   <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
-                  Project Overview
+                  What is Onboarding?
                 </h2>
                 <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
                   <p>
-                    The nCino Onboarding project was a strategic initiative aimed at revolutionizing the way commercial clients interact with digital banking. The goal was to replace a fragmented, manual process with a seamless, end-to-end digital experience.
+                    Onboarding is the critical first step in the customer lifecycle—the process of acquiring and subscribing new users while ensuring they have fast, simple access to an organization&apos;s full suite of products and services.
                   </p>
                   <p>
-                    As the Lead UX Designer, I was tasked with bridging the gap between complex regulatory requirements and a frictionless user interface, ensuring that the final product was not only compliant but also a delight to use.
+                    <strong>Onboarding is not a one-size-fits-all process.</strong> It varies significantly depending on the client, from single retail customers to complex multinational corporations. To be classified as truly digital, the journey must be completed entirely online, without requiring branch appointments or manual contract signatures.
                   </p>
                 </div>
               </div>
-              <div className="lg:col-span-7 bg-slate-50 rounded-3xl p-8 md:p-12 relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-100/50 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-blue-200/50 transition-colors duration-700"></div>
-                <h3 className="text-xl font-bold text-blue-950 mb-6 relative z-10">The Core Problem</h3>
-                <div className="space-y-6 relative z-10">
-                  <div className="flex gap-4">
-                    <div className="bg-white p-3 rounded-2xl shadow-sm h-fit">
-                      <Zap className="h-6 w-6 text-amber-500" />
+              <div className="lg:col-span-7 space-y-12">
+                <div className="bg-slate-50 rounded-3xl p-8 md:p-12 relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-blue-100/50 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-blue-200/50 transition-colors duration-700"></div>
+                  <h3 className="text-xl font-bold text-blue-950 mb-6 relative z-10">The Problem</h3>
+                  <div className="space-y-4 relative z-10">
+                    <div className="flex gap-4">
+                      <div className="bg-white p-3 rounded-2xl shadow-sm h-fit">
+                        <Zap className="h-5 w-5 text-amber-500" />
+                      </div>
+                      <p className="text-gray-600">Current onboarding is tied to rigid features within the nCino BOS, lacking the flexibility for modern integrations.</p>
                     </div>
-                    <div>
-                      <h4 className="font-bold text-blue-950 mb-1 text-lg">High Dropout Rates</h4>
-                      <p className="text-gray-600">Complex forms and redundant data entry led to a 45% abandonment rate during the document upload stage.</p>
+                    <div className="flex gap-4">
+                      <div className="bg-white p-3 rounded-2xl shadow-sm h-fit">
+                        <Layout className="h-5 w-5 text-blue-500" />
+                      </div>
+                      <p className="text-gray-600">Built on legacy technology, the existing managed package approach stifles rapid change and continuous improvement.</p>
+                    </div>
+                    <div className="flex gap-4">
+                      <div className="bg-white p-3 rounded-2xl shadow-sm h-fit">
+                        <Search className="h-5 w-5 text-purple-500" />
+                      </div>
+                      <p className="text-gray-600">Limited search capabilities and inflexible data handling create friction for both bank staff and end customers.</p>
                     </div>
                   </div>
-                  <div className="flex gap-4">
-                    <div className="bg-white p-3 rounded-2xl shadow-sm h-fit">
-                      <ShieldCheck className="h-6 w-6 text-emerald-500" />
+                </div>
+
+                <div className="bg-blue-50 rounded-3xl p-8 md:p-12 relative overflow-hidden group">
+                  <h3 className="text-xl font-bold text-blue-950 mb-6 relative z-10">Why are we doing this?</h3>
+                  <ul className="space-y-3 relative z-10 text-gray-700">
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
+                      <span><strong>Strategic Solution:</strong> Creating a long-term, scalable capability that forms part of our core messaging.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
+                      <span><strong>OOTB Expectations:</strong> Large enterprise clients (like Barclays) now expect a seamless, out-of-the-box experience.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
+                      <span><strong>Reduced Customization:</strong> Minimizing the need for custom PSO projects by providing a robust, standard platform.</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* User & Business Benefits Section */}
+          <section className="mb-32">
+            <h2 className="text-3xl font-bold text-blue-950 mb-12 flex items-center gap-3">
+              <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
+              User & Business Benefits
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+              <div className="bg-slate-50 rounded-[32px] p-8 md:p-12 border border-slate-100 group hover:bg-white hover:shadow-xl transition-all duration-500">
+                <h3 className="text-2xl font-bold text-blue-950 mb-8 flex items-center gap-3">
+                  <Clock className="h-6 w-6 text-blue-600" />
+                  Short Term
+                </h3>
+                <ul className="space-y-4 text-gray-700">
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-blue-500 mt-1 flex-shrink-0" />
+                    <span>Colleague experience UI with workflow framework</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-blue-500 mt-1 flex-shrink-0" />
+                    <span>Meaningful solution ready for adoption by fall</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-blue-500 mt-1 flex-shrink-0" />
+                    <span>Stop Barclays churn</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-blue-500 mt-1 flex-shrink-0" />
+                    <span>Flexible solution to support global use cases</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-blue-500 mt-1 flex-shrink-0" />
+                    <span>Agnostic solution to data sources that come into it</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-blue-500 mt-1 flex-shrink-0" />
+                    <span>Validation of solution with customers and geographies</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-blue-950 rounded-[32px] p-8 md:p-12 text-white group hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500">
+                <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
+                  <Target className="h-6 w-6 text-blue-400" />
+                  Long Term
+                </h3>
+                <ul className="space-y-4 text-blue-100/80">
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-blue-400 mt-1 flex-shrink-0" />
+                    <span>Quickly respond to regulatory change</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-blue-400 mt-1 flex-shrink-0" />
+                    <span>Drive cross sales</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-blue-400 mt-1 flex-shrink-0" />
+                    <span>FIs can downscale but stay in control</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-blue-400 mt-1 flex-shrink-0" />
+                    <span>nCino leading player in onboarding solution market</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-blue-400 mt-1 flex-shrink-0" />
+                    <span>Sell onboarding as its own solution with its own revenue stream</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* User Personas & Ecosystem */}
+          <section className="mb-32">
+            <h2 className="text-3xl font-bold text-blue-950 mb-12 flex items-center gap-3">
+              <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
+              Who are we building for?
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Customer Persona */}
+              <div className="bg-white border border-slate-100 rounded-[32px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col">
+                <div className="bg-blue-50 p-6 flex items-center gap-3">
+                  <span className="text-2xl">🏢</span>
+                  <h3 className="font-bold text-blue-950 text-xl">Customer</h3>
+                </div>
+                <div className="p-8 space-y-8 flex-grow">
+                  <div>
+                    <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Goals</h4>
+                    <ul className="space-y-3 text-sm text-gray-600">
+                      <li className="flex items-start gap-2">• Secure a product in a timely manner</li>
+                      <li className="flex items-start gap-2">• Visibility of what they need to do and when</li>
+                      <li className="flex items-start gap-2">• An end-to-end digital onboarding journey</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">nCino Interaction</h4>
+                    <p className="text-sm font-medium text-blue-900 bg-blue-50/50 p-3 rounded-xl inline-block w-full">Customer Portal</p>
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Painpoints</h4>
+                    <ul className="space-y-3 text-sm text-gray-600">
+                      <li className="flex items-start gap-2">• Slow onboarding time</li>
+                      <li className="flex items-start gap-2">• Lack of transparency and personalisation</li>
+                      <li className="flex items-start gap-2">• Physical signing of documents & branch visits</li>
+                    </ul>
+                  </div>
+                  <div className="pt-4 border-t border-slate-50">
+                    <h4 className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-4">Needs</h4>
+                    <p className="text-sm text-blue-900 leading-relaxed">Seamless experience in uploading documents and information input via mobile.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* RM Persona */}
+              <div className="bg-white border border-slate-100 rounded-[32px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col">
+                <div className="bg-amber-50 p-6 flex items-center gap-3">
+                  <span className="text-2xl">💼</span>
+                  <h3 className="font-bold text-blue-950 text-xl">Relationship Manager</h3>
+                </div>
+                <div className="p-8 space-y-8 flex-grow">
+                  <div>
+                    <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Goals</h4>
+                    <ul className="space-y-3 text-sm text-gray-600">
+                      <li className="flex items-start gap-2">• Visibility of end-to-end experience</li>
+                      <li className="flex items-start gap-2">• Easy case management and handover</li>
+                      <li className="flex items-start gap-2">• Communicate all requirements upfront</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">nCino Interaction</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {["Risk Assessment", "Doc Man", "Smart Checklist", "Onboarding 360"].map((tech) => (
+                        <span key={tech} className="text-[10px] font-medium text-amber-900 bg-amber-50 p-2 rounded-lg">{tech}</span>
+                      ))}
                     </div>
-            <div>
-                      <h4 className="font-bold text-blue-950 mb-1 text-lg">Compliance Friction</h4>
-                      <p className="text-gray-600">The onboarding journey was heavily gatekept by manual KYC (Know Your Customer) checks that lacked transparency.</p>
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Painpoints</h4>
+                    <ul className="space-y-3 text-sm text-gray-600">
+                      <li className="flex items-start gap-2">• Slow onboarding time</li>
+                      <li className="flex items-start gap-2">• Manual creation of connections</li>
+                      <li className="flex items-start gap-2">• Inefficient handover between teams</li>
+                    </ul>
+                  </div>
+                  <div className="pt-4 border-t border-slate-50">
+                    <h4 className="text-[10px] font-bold text-amber-600 uppercase tracking-widest mb-4">Needs</h4>
+                    <p className="text-sm text-amber-900 leading-relaxed">Faster onboarding time, less data input, and meeting monthly quotas.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* KYC Persona */}
+              <div className="bg-white border border-slate-100 rounded-[32px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col">
+                <div className="bg-emerald-50 p-6 flex items-center gap-3">
+                  <span className="text-2xl">🏢</span>
+                  <h3 className="font-bold text-blue-950 text-xl">KYC Analyst</h3>
+                </div>
+                <div className="p-8 space-y-8 flex-grow">
+                  <div>
+                    <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Goals</h4>
+                    <ul className="space-y-3 text-sm text-gray-600">
+                      <li className="flex items-start gap-2">• Efficient case management and accurately conduct assessments from a single platform</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">nCino Interaction</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {["Doc Man", "Smart Checklist", "Integrations", "Due Diligence"].map((tech) => (
+                        <span key={tech} className="text-[10px] font-medium text-emerald-900 bg-emerald-50 p-2 rounded-lg">{tech}</span>
+                      ))}
                     </div>
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Painpoints</h4>
+                    <ul className="space-y-3 text-sm text-gray-600">
+                      <li className="flex items-start gap-2">• Manual onboarding process</li>
+                      <li className="flex items-start gap-2">• Inefficient handover process</li>
+                      <li className="flex items-start gap-2">• Processing eligibility of documents</li>
+                    </ul>
+                  </div>
+                  <div className="pt-4 border-t border-slate-50">
+                    <h4 className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mb-4">Needs</h4>
+                    <p className="text-sm text-emerald-900 leading-relaxed">Faster onboarding time with less back and forth in validating data from the RM.</p>
                   </div>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* Challenges & Objectives */}
-          <section className="mb-32 bg-blue-950 rounded-[48px] p-12 md:p-24 text-white overflow-hidden relative">
-            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-400 via-transparent to-transparent"></div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
-              <div>
-                <Badge className="bg-blue-800 hover:bg-blue-700 text-white mb-6 border-none">Challenges</Badge>
-                <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="item-1" className="border-blue-900/50">
-                    <AccordionTrigger className="text-xl font-bold hover:no-underline text-blue-100">Legacy System Integration</AccordionTrigger>
-                    <AccordionContent className="text-blue-200/80 text-lg leading-relaxed pt-2">
-                      Designing a modern UI that had to communicate with legacy APIs required careful state management and informative loading experiences to maintain user trust.
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-2" className="border-blue-900/50">
-                    <AccordionTrigger className="text-xl font-bold hover:no-underline text-blue-100">Multi-Regional Compliance</AccordionTrigger>
-                    <AccordionContent className="text-blue-200/80 text-lg leading-relaxed pt-2">
-                      The onboarding flow needed to adapt dynamically to different regional regulations without breaking the unified design system.
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-3" className="border-blue-900/50">
-                    <AccordionTrigger className="text-xl font-bold hover:no-underline text-blue-100">Data Density vs. Clarity</AccordionTrigger>
-                    <AccordionContent className="text-blue-200/80 text-lg leading-relaxed pt-2">
-                      Presenting complex financial data sets and legal disclosures in a way that remains readable and manageable on mobile and desktop views.
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-            </div>
-            <div>
-                <Badge className="bg-blue-800 hover:bg-blue-700 text-white mb-6 border-none">Objectives</Badge>
-                <div className="space-y-6">
-                  <div className="bg-blue-900/40 border border-blue-800/50 p-6 rounded-3xl backdrop-blur-sm group hover:bg-blue-900/60 transition-colors">
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]">1</div>
-                      <h4 className="text-xl font-bold">Streamline Completion</h4>
-                    </div>
-                    <p className="text-blue-200/70">Reduce the average time to complete the onboarding from 12 days to under 48 hours.</p>
-                  </div>
-                  <div className="bg-blue-900/40 border border-blue-800/50 p-6 rounded-3xl backdrop-blur-sm group hover:bg-blue-900/60 transition-colors">
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]">2</div>
-                      <h4 className="text-xl font-bold">Unify Identity</h4>
-                    </div>
-                    <p className="text-blue-200/70">Implement a scalable design system that works across web, mobile, and third-party integrations.</p>
-                  </div>
-                  <div className="bg-blue-900/40 border border-blue-800/50 p-6 rounded-3xl backdrop-blur-sm group hover:bg-blue-900/60 transition-colors">
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]">3</div>
-                      <h4 className="text-xl font-bold">Boost Conversion</h4>
-                    </div>
-                    <p className="text-blue-200/70">Improve the document validation pass rate by 30% through intuitive UX guidance and real-time feedback.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
 
           {/* The Process Section */}
           <section className="mb-32">
@@ -281,13 +915,21 @@ export default function NcinoOnboardingPage() {
                   <div>
                     <h3 className="text-2xl font-bold text-blue-950 mb-4">Understanding the User Journey</h3>
                     <p className="text-gray-600 text-lg mb-6">We conducted 15+ in-depth interviews with corporate treasurers and bank relationship managers to map out the current pain points.</p>
-                    <ul className="space-y-4">
+                    <ul className="space-y-4 mb-8">
                       {["Journey mapping current friction points", "Competitive benchmarking with fintech leaders", "Technical feasibility audit with engineering", "Data requirement consolidation"].map((item, i) => (
                         <li key={i} className="flex items-start gap-3 text-gray-700">
                           <CheckCircle2 className="h-6 w-6 text-blue-600 flex-shrink-0" /> {item}
                         </li>
                       ))}
                     </ul>
+                    <div className="pt-6 border-t border-slate-200/60">
+                      <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 mb-2">
+                        <Layout className="h-3 w-3" /> SOFTWARE USED
+                      </div>
+                      <div className="flex flex-row items-center justify-start w-full">
+                        <AnimatedTooltip items={project.software.research} />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </TabsContent>
@@ -297,13 +939,21 @@ export default function NcinoOnboardingPage() {
                   <div className="order-2 md:order-1">
                     <h3 className="text-2xl font-bold text-blue-950 mb-4">Wireframing & Solutioning</h3>
                     <p className="text-gray-600 text-lg mb-6">Moving from abstract problems to concrete solutions through rapid sketching and low-fidelity prototypes.</p>
-                    <ul className="space-y-4">
+                    <ul className="space-y-4 mb-8">
                       {["Whiteboarding collaborative sessions", "Information architecture restructuring", "Task flow optimization", "Rapid prototyping for key features"].map((item, i) => (
                         <li key={i} className="flex items-start gap-3 text-gray-700">
                           <CheckCircle2 className="h-6 w-6 text-blue-600 flex-shrink-0" /> {item}
                         </li>
                       ))}
                     </ul>
+                    <div className="pt-6 border-t border-slate-200/60">
+                      <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 mb-2">
+                        <Layout className="h-3 w-3" /> SOFTWARE USED
+                      </div>
+                      <div className="flex flex-row items-center justify-start w-full">
+                        <AnimatedTooltip items={project.software.ideation} />
+                      </div>
+                    </div>
                   </div>
                   <div className="relative aspect-video rounded-3xl overflow-hidden border border-slate-200 bg-white order-1 md:order-2">
                     <Image src="/placeholder.jpg" alt="Ideation phase" fill className="object-cover opacity-50" />
@@ -324,13 +974,21 @@ export default function NcinoOnboardingPage() {
                   <div>
                     <h3 className="text-2xl font-bold text-blue-950 mb-4">Crafting the Interface</h3>
                     <p className="text-gray-600 text-lg mb-6">Applying the new design system to high-fidelity screens, focusing on pixel-perfection and accessibility.</p>
-                    <ul className="space-y-4">
+                    <ul className="space-y-4 mb-8">
                       {["Systematic component library build", "Responsive layout design (Web & Mobile)", "Interactive micro-interactions", "Developer handoff documentation"].map((item, i) => (
                         <li key={i} className="flex items-start gap-3 text-gray-700">
                           <CheckCircle2 className="h-6 w-6 text-blue-600 flex-shrink-0" /> {item}
                         </li>
                       ))}
                     </ul>
+                    <div className="pt-6 border-t border-slate-200/60">
+                      <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 mb-2">
+                        <Layout className="h-3 w-3" /> SOFTWARE USED
+                      </div>
+                      <div className="flex flex-row items-center justify-start w-full">
+                        <AnimatedTooltip items={project.software.design} />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </TabsContent>
@@ -339,13 +997,21 @@ export default function NcinoOnboardingPage() {
                   <div className="order-2 md:order-1">
                     <h3 className="text-2xl font-bold text-blue-950 mb-4">Validation & Iteration</h3>
                     <p className="text-gray-600 text-lg mb-6">Ensuring the design works in the real world through usability testing and feedback loops.</p>
-                    <ul className="space-y-4">
+                    <ul className="space-y-4 mb-8">
                       {["Remote usability testing sessions", "Accessibility (WCAG 2.1) audit", "Performance and load time testing", "Stakeholder feedback integration"].map((item, i) => (
                         <li key={i} className="flex items-start gap-3 text-gray-700">
                           <CheckCircle2 className="h-6 w-6 text-blue-600 flex-shrink-0" /> {item}
                         </li>
                       ))}
                     </ul>
+                    <div className="pt-6 border-t border-slate-200/60">
+                      <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 mb-2">
+                        <Layout className="h-3 w-3" /> SOFTWARE USED
+                      </div>
+                      <div className="flex flex-row items-center justify-start w-full">
+                        <AnimatedTooltip items={project.software.testing} />
+                      </div>
+                    </div>
                   </div>
                   <div className="relative aspect-video rounded-3xl overflow-hidden border border-slate-200 bg-white order-1 md:order-2">
                     <Image src="/placeholder.jpg" alt="Testing phase" fill className="object-cover opacity-50" />
@@ -358,40 +1024,71 @@ export default function NcinoOnboardingPage() {
             </Tabs>
           </section>
 
-          {/* Deliverables Section */}
+          {/* Final Deliverables Section */}
           <section className="mb-32">
-            <h2 className="text-3xl font-bold text-blue-950 mb-12 flex items-center gap-3">
-              <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
-              Final Deliverables
-            </h2>
-            <BentoGrid className="md:grid-cols-3">
-              <BentoGridItem 
-                title="Interactive Prototype" 
-                description="A high-fidelity Figma prototype covering 50+ unique user states and edge cases." 
-                icon={<Layout className="h-5 w-5 text-blue-600" />}
-                className="md:col-span-2"
-                header={<div className="h-40 bg-slate-100 rounded-lg mb-4 flex items-center justify-center"><Image src="/placeholder.jpg" alt="Prototype" fill className="object-cover opacity-20" /></div>}
-              />
-              <BentoGridItem 
-                title="Design System" 
-                description="A scalable Tailwind-based component library for rapid development." 
-                icon={<Zap className="h-5 w-5 text-blue-600" />}
-                header={<div className="h-40 bg-slate-100 rounded-lg mb-4 flex items-center justify-center"><Image src="/placeholder.jpg" alt="Design System" fill className="object-cover opacity-20" /></div>}
-              />
-              <BentoGridItem 
-                title="UX Documentation" 
-                description="Comprehensive documentation of research findings, personas, and user flows." 
-                icon={<FileText className="h-5 w-5 text-blue-600" />}
-                header={<div className="h-40 bg-slate-100 rounded-lg mb-4 flex items-center justify-center"><Image src="/placeholder.jpg" alt="Documentation" fill className="object-cover opacity-20" /></div>}
-              />
-              <BentoGridItem 
-                title="Developer Handoff" 
-                description="Detailed specs, asset exports, and interaction guidelines for the engineering team." 
-                icon={<CheckCircle2 className="h-5 w-5 text-blue-600" />}
-                className="md:col-span-2"
-                header={<div className="h-40 bg-slate-100 rounded-lg mb-4 flex items-center justify-center"><Image src="/placeholder.jpg" alt="Handoff" fill className="object-cover opacity-20" /></div>}
-              />
-            </BentoGrid>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
+              <h2 className="text-3xl font-bold text-blue-950 flex items-center gap-3">
+                <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
+                Final Deliverables
+              </h2>
+              <a 
+                href="https://www.figma.com" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-8 py-4 bg-blue-600 text-white rounded-full text-base font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-200 group"
+              >
+                View Figma Prototype
+                <ExternalLink className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
+              </a>
+            </div>
+
+            <div className="mt-16 grid grid-cols-12 gap-4">
+              <div className="col-span-12 md:col-span-8 overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group">
+                <div className="relative h-[445px] md:h-auto md:pt-[64%] rounded-6xl overflow-hidden w-full">
+                  <Image
+                    src={project.images.main || "/placeholder.svg"}
+                    alt={`${project.name} main view`}
+                    width={800}
+                    height={500}
+                    className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-6xl"
+                  />
+                </div>
+              </div>
+              <div className="col-span-12 md:col-span-4 overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group">
+                <div className="relative h-[445px] md:h-auto md:pt-[130%] rounded-6xl overflow-hidden w-full">
+                  <Image
+                    src={project.images.secondary[0] || "/placeholder.svg"}
+                    alt={`${project.name} detail view`}
+                    width={400}
+                    height={500}
+                    className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-6xl"
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-12 md:col-span-4 overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group">
+                <div className="relative h-[445px] md:h-auto md:pt-[138%] rounded-6xl overflow-hidden w-full">
+                  <Image
+                    src={project.images.secondary[1] || "/placeholder.svg"}
+                    alt={`${project.name} detail view`}
+                    width={400}
+                    height={500}
+                    className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-6xl"
+                  />
+                </div>
+              </div>
+              <div className="col-span-12 md:col-span-8 overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group">
+                <div className="relative h-[445px] md:h-auto md:pt-[68%] rounded-6xl overflow-hidden w-full">
+                  <Image
+                    src={project.images.secondary[2] || "/placeholder.svg"}
+                    alt={`${project.name} overview`}
+                    width={800}
+                    height={300}
+                    className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-6xl"
+                  />
+                </div>
+              </div>
+            </div>
           </section>
 
           {/* Final Impact Section */}
@@ -414,7 +1111,7 @@ export default function NcinoOnboardingPage() {
                 </div>
               </div>
               <p className="text-xl text-gray-700 leading-relaxed mb-12 font-light">
-                "The new nCino Onboarding experience has fundamentally changed how we acquire and serve our commercial clients. It's not just a UI update; it's a competitive advantage."
+                "The new nCino Smart Onboarding & Monitoring experience has fundamentally changed how we acquire and serve our commercial clients. It's not just a UI update; it's a competitive advantage."
               </p>
               <div className="flex items-center justify-center gap-4">
                 <div className="h-12 w-12 rounded-full bg-slate-200"></div>

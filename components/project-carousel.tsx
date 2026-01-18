@@ -2,7 +2,8 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { ChevronLeft, ChevronRight, X } from "lucide-react"
+import { ChevronLeft, ChevronRight, X, ArrowRight } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 interface ProjectCarouselProps {
   project: {
@@ -15,6 +16,48 @@ interface ProjectCarouselProps {
     }
     fallback?: string
   }
+}
+
+const StatCard = ({
+  title,
+  subtitle,
+  description,
+  className,
+  isYellow = false,
+}: {
+  title: string
+  subtitle: string
+  description: string
+  className?: string
+  isYellow?: boolean
+}) => {
+  return (
+    <div
+      className={cn(
+        "relative p-8 md:p-10 rounded-[48px] flex flex-col justify-between h-full transition-all duration-300",
+        isYellow 
+          ? "bg-[#11111a] text-white border border-white/10" 
+          : "bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20",
+        className
+      )}
+    >
+      <div>
+        <div className="text-3xl md:text-[40px] font-normal mb-2 tracking-tighter leading-[1.2] text-white">
+          {title}
+        </div>
+        <div className="text-xl font-normal mb-4 leading-tight text-white">
+          {subtitle}
+        </div>
+        <div className="w-16 h-[2px] mb-8 bg-white/20" />
+        <div className={cn(
+          "text-lg leading-relaxed mb-8 font-light",
+          isYellow ? "text-white" : "text-gray-400"
+        )}>
+          {description}
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default function ProjectCarousel({ project }: ProjectCarouselProps) {
@@ -67,6 +110,47 @@ export default function ProjectCarousel({ project }: ProjectCarouselProps) {
           />
         </div>
       </div>
+
+      {project.name === "nCino Smart Onboarding & Monitoring" && (
+        <section className="w-full py-12 bg-[#050510] rounded-[56px] mb-20 overflow-hidden">
+          <div className="px-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+              <StatCard
+                title="99.9% Compliance"
+                subtitle="Automated KYC/AML checks"
+                description="Ensuring regulatory standards are met across all regions without slowing down the commercial client onboarding experience."
+              />
+              <StatCard
+                title="25% Conversion"
+                subtitle="Reduction in drop-off"
+                description="Optimized document upload flows and real-time validation improved the application pass rate significantly."
+              />
+              <StatCard
+                title="Millions reached"
+                subtitle="Enterprise-grade scale"
+                description="Designed to handle high-volume commercial banking applications with robust, fault-tolerant architecture."
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="md:col-span-2">
+                <StatCard
+                  title="Redefining Commercial Onboarding"
+                  subtitle="From a 12-day manual process to a 2-day digital journey."
+                  description="I led the design of an end-to-end platform that unified the customer experience and streamlined back-office operations for global banking."
+                />
+              </div>
+              <div className="md:col-span-1">
+                <StatCard
+                  title="Efficiency matters."
+                  subtitle="Momentum matters more."
+                  description="Leveraging modern UX patterns to solve legacy banking problems and move teams forward with confidence."
+                  isYellow={true}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {project.category === "Desktop Applications" ? null : project.category === "Branding" ? (
         <div className="mt-16 space-y-8">

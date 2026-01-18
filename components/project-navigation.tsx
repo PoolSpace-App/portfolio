@@ -26,15 +26,14 @@ export default function ProjectNavigation({ currentProjectId }: ProjectNavigatio
   const prevProject = projectsArray[prevIndex];
   
   // Navigate to next or previous project
-  const navigateToProject = (name: string) => {
-    const slug = name.toLowerCase().replace(/\s+/g, "-")
+  const navigateToProject = (slug: string) => {
     router.push(`/${slug}`)
   }
 
   return (
     <div className="mt-16 flex justify-between items-center py-6 border-t border-b border-gray-200 bg-white text-black">
       <button
-        onClick={() => navigateToProject(prevProject.name)}
+        onClick={() => navigateToProject(prevProject.slug)}
         className="flex items-center space-x-2 group hover:text-gray-600 transition-colors"
       >
         <ChevronLeft className="h-5 w-5 transform group-hover:-translate-x-1 transition-transform" />
@@ -49,7 +48,7 @@ export default function ProjectNavigation({ currentProjectId }: ProjectNavigatio
           return (
             <button
               key={i}
-              onClick={() => navigateToProject(p.name)}
+              onClick={() => navigateToProject(p.slug)}
               className={`w-2 h-2 rounded-full transition-all ${
                 p.id === currentProjectId ? "bg-black scale-125" : "bg-gray-300 hover:bg-gray-400"
               }`}
@@ -60,7 +59,7 @@ export default function ProjectNavigation({ currentProjectId }: ProjectNavigatio
       </div>
 
       <button
-        onClick={() => navigateToProject(nextProject.name)}
+        onClick={() => navigateToProject(nextProject.slug)}
         className="flex items-center space-x-2 group hover:text-gray-600 transition-colors"
       >
         <div className="text-right">

@@ -7,6 +7,7 @@ interface ProjectShowcaseProps {
   tagline: string
   description: string
   imageUrl: string
+  slug: string
   reverse?: boolean
 }
 
@@ -16,11 +17,9 @@ export default function ProjectShowcase({
   tagline,
   description,
   imageUrl,
+  slug,
   reverse = false,
 }: ProjectShowcaseProps) {
-  // Create URL-friendly slug from project name
-  const slug = name.toLowerCase().replace(/\s+/g, "-")
-  
   return (
     <div
       className={`flex flex-col ${
