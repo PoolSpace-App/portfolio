@@ -123,19 +123,19 @@ export default function BentoStats({ onViewCaseStudyClick }: BentoStatsProps) {
           card,
           {
             opacity: 0,
-            y: 60,
-            scale: 0.98,
+            y: 30,
+            scale: 0.99,
           },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 1.8,
-            delay: i * 0.1,
-            ease: "expo.out",
+            duration: 0.8,
+            delay: i * 0.05,
+            ease: "power2.out",
             scrollTrigger: {
               trigger: card,
-              start: "top 90%",
+              start: "top 85%",
               toggleActions: "play none none reverse",
             },
           }
