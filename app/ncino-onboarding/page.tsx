@@ -72,28 +72,37 @@ export default function NcinoOnboardingPage() {
     "year": "2023-2026",
     "software": {
       "research": [
-        { id: 1, name: "Lucid", designation: "Diagramming", image: "/placeholder-logo.png" },
-        { id: 2, name: "Confluence", designation: "Documentation", image: "/placeholder-logo.png" }
+        { id: 1, name: "Lucid", designation: "Diagramming", image: "/projects/ncino/lucid.png" },
+        { id: 2, name: "Confluence", designation: "Documentation", image: "/projects/ncino/confluence.png" }
       ],
       "ideation": [
-        { id: 3, name: "Figjam", designation: "Whiteboarding", image: "/placeholder-logo.png" },
-        { id: 1, name: "Lucid", designation: "Diagramming", image: "/placeholder-logo.png" }
+        { id: 3, name: "Figjam", designation: "Whiteboarding", image: "/projects/ncino/figma.png" },
+        { id: 1, name: "Lucid", designation: "Diagramming", image: "/projects/ncino/lucid.png" }
       ],
       "design": [
-        { id: 4, name: "Figma", designation: "UI Design", image: "/placeholder-logo.png" },
-        { id: 5, name: "Figma Make", designation: "AI Design", image: "/placeholder-logo.png" }
+        { id: 4, name: "Figma", designation: "UI Design", image: "/projects/ncino/figma.png" },
+        { id: 5, name: "Figma Make", designation: "AI Design", image: "/projects/ncino/figma.png" }
       ],
       "testing": [
-        { id: 6, name: "Dovetail", designation: "User Research", image: "/placeholder-logo.png" }
+        { id: 6, name: "Dovetail", designation: "User Research", image: "/projects/ncino/dovetail.png" }
       ]
     },
     "team": [
-      { id: 1, name: "Tshepo Mndaweni", designation: "Lead Product Designer", image: "/coaching/tshepo.png" },
-      { id: 2, name: "David Lazarus", designation: "Product Manager", image: "/placeholder-user.jpg" },
-      { id: 3, name: "Anand Nagrik", designation: "Lead Product Designer", image: "/placeholder-user.jpg" },
-      { id: 4, name: "Manenga Mungandi", designation: "Senior Software Engineer", image: "/placeholder-user.jpg" },
-    ],
-    "images": {
+      { id: 1, name: "Cody Poole", designation: "Principal Product Manager", image: "/projects/ncino/cody.png" },
+      { id: 2, name: "Neal Chauhan", designation: "Principal Product Manager", image: "/projects/ncino/neal.png" },
+      { id: 3, name: "Zach Hooker", designation: "Senior Software Engineer", image: "/projects/ncino/zach.png" },
+      { id: 4, name: "Ben Peck", designation: "Director - Product Design & Global Strategy", image: "/projects/ncino/ben.png" },
+      { id: 5, name: "Jack Brandling", designation: "Senior Product Manager", image: "/projects/ncino/jack.png" },
+      { id: 6, name: "Avery Cocozziello", designation: "Senior Product Manager", image: "/projects/ncino/avery.png" },
+      { id: 7, name: "Henry Wallace", designation: "Staff Software Engineer", image: "/projects/ncino/henry.png" },
+      { id: 8, name: "Anna Gervasi", designation: "Principal Product Configuration Architect", image: "/projects/ncino/anna.png" },
+      { id: 9, name: "George Preece", designation: "Principal Software Engineer", image: "/projects/ncino/george.png" },
+      { id: 10, name: "George Wiafe", designation: "Senior Product Engineer", image: "/projects/ncino/georgew.png" },
+      { id: 11, name: "Nazia Siddique", designation: "Product Designer", image: "/projects/ncino/nazia.png" },
+      { id: 12, name: "Nishanthini Rejendran", designation: "Senior QA Engineer", image: "/projects/ncino/nishi.png" },
+      { id: 13, name: "Aishwarya Badri", designation: "Senior Software Engineer", image: "/projects/ncino/aish.png" },
+      ],
+      "images": {
         "main": "/projects/ncino/onboarding-main.png",
         "secondary": [
             "/projects/ncino/onboarding-2.png",
@@ -1143,7 +1152,14 @@ export default function NcinoOnboardingPage() {
                 "Wow, this experience is so clean & Intuitive. One of banking clients even requested an additional hour to deep dive into the future mockups beacuse we are solving some of their biggest pain points. Great work!!"
               </p>
               <div className="flex items-center justify-center gap-4">
-                <div className="h-12 w-12 rounded-full bg-slate-200"></div>
+                <div className="relative h-12 w-12 rounded-full overflow-hidden bg-slate-200">
+                  <Image
+                    src="/projects/ncino/cody.png"
+                    alt="Cody Poole"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
                 <div className="text-left">
                   <div className="font-bold text-blue-950">Cody Poole</div>
                   <div className="text-sm text-gray-500">Principal Product Manager</div>
