@@ -1136,11 +1136,11 @@ export default function NcinoOnboardingPage() {
               <h2 className="text-4xl font-bold text-blue-950 mb-8">The Result & Impact</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                 <div>
-                  <div className="text-5xl font-bold text-blue-600 mb-2">75%</div>
+                  <div className="text-5xl font-bold text-blue-600 mb-2">79%</div>
                   <p className="text-gray-600 font-medium">Reduction in dropout rates</p>
                 </div>
                 <div>
-                  <div className="text-5xl font-bold text-blue-600 mb-2">49 → 7</div>
+                  <div className="text-5xl font-bold text-blue-600 mb-2">49 → few days</div>
                   <p className="text-gray-600 font-medium">Avg. days to onboard</p>
                 </div>
                 <div>

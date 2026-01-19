@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Mtn Global | Project Detail",
-  description: "Portfolio project detail for Mtn Global",
+  title: "Docfox SICC | Project Detail",
+  description: "Portfolio project detail for Docfox SICC",
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {

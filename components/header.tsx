@@ -16,13 +16,13 @@ export default function Header() {
   }, [])
 
   return (
-    <header className={`fixed top-0 left-0 z-[100] w-full transition-all duration-500 border-b ${
+    <header className={`fixed top-0 left-0 z-[10000] w-full transition-all duration-500 border-b overflow-visible ${
       isScrolled 
-        ? "bg-white/40 backdrop-blur-xl border-white/10" 
+        ? "bg-black/40 backdrop-blur-xl border-white/10" 
         : "bg-white border-transparent"
     }`}>
       <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-        <Navbar variant="white" />
+        <Navbar variant={isScrolled ? "default" : "white"} />
       </div>
     </header>
   )
