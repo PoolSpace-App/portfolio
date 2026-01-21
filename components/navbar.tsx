@@ -66,7 +66,7 @@ export default function Navbar({ variant = "default" }: { variant?: "default" | 
   
   const navItems = [
     { name: "PORTFOLIO", path: "/" },
-    { name: "blogs", path: "/blog" },
+    { name: "BLOGS", path: "/blog" },
     { name: "COACHING", path: "/Coaching" },
     { name: "MORE ABOUT ME", path: "/info" },
   ]
