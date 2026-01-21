@@ -28,7 +28,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
             <pre className="bg-gray-900 text-gray-100 p-4 rounded-xl overflow-x-auto my-8 font-mono text-sm" {...props} />
           ),
           img: ({ node, ...props }) => (
-            <img className="rounded-2xl my-12 w-full object-cover" {...props} />
+            <img className="rounded-2xl my-12 max-w-4xl mx-auto h-auto object-contain block shadow-sm border border-gray-100" {...props} />
           ),
           a: ({ node, ...props }) => (
             <a className="text-blue-600 hover:text-blue-700 underline decoration-2 underline-offset-4" {...props} />
