@@ -14,7 +14,7 @@ export default async function BlogPage() {
   return (
     <main className="min-h-screen bg-white text-black">
       <div className="container mx-auto px-4 pt-32 pb-32">
-        <h1 className="text-4xl md:text-5xl font-medium mb-4 text-blue-950">Blog</h1>
+        <h1 className="text-4xl md:text-5xl font-medium mb-4 text-blue-950">Blogs</h1>
         <p className="text-xl text-blue-950 mb-16 max-w-2xl">
           My thoughts on design, technology, and the creative process. Sharing insights from my journey as a Product Designer.
         </p>
