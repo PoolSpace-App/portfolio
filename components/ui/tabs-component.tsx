@@ -28,10 +28,10 @@ export function TabsComponent({
 }: TabsComponentProps) {
   return (
     <Tabs defaultValue={defaultValue} className={cn("w-full", className)}>
-      <div className="flex justify-center mb-12">
+      <div className="flex md:justify-center mb-12 overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
         <TabsList
           className={cn(
-            "bg-slate-50 p-1 rounded-full h-auto border border-gray-100 overflow-x-auto max-w-full",
+            "bg-slate-50 p-1 rounded-2xl md:rounded-full h-auto border border-gray-100 flex-nowrap inline-flex min-w-max md:min-w-0",
             tabsListClassName
           )}
         >
@@ -40,7 +40,7 @@ export function TabsComponent({
               key={item.value}
               value={item.value}
               className={cn(
-                "px-8 py-3 rounded-full data-[state=active]:bg-blue-400 data-[state=active]:shadow-md data-[state=active]:text-white font-bold transition-all gap-2",
+                "px-4 md:px-8 py-2 md:py-3 rounded-xl md:rounded-full data-[state=active]:bg-blue-600 data-[state=active]:shadow-md data-[state=active]:text-white font-bold transition-all gap-2 whitespace-nowrap text-sm md:text-base",
                 triggerClassName
               )}
             >
