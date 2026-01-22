@@ -89,3 +89,14 @@ export const testimonials: Testimonial[] = [
     quote: "Mr.Q is a methodical product designer who has a flare for creating elegant ideas on complex data driven platforms. "
   }
 ];
+
+export const coachingTestimonials: Testimonial[] = [
+  {
+    id: 1,
+    name: "Tshepo Selepe",
+    role: "UX/UI Designer",
+    company: "Relocated to Cape Town",
+    image: "/coaching/tshepo.png",
+    quote: "The 2-month intensive coaching program was a game-changer for me. I mastered design thinking, AI workflows, and advanced prototyping. Two months later, I landed my dream job!"
+  },
+];

@@ -104,13 +104,13 @@ export default function CoachingProfileCards() {
                   <div className="lg:flex-1">
                     <motion.h3
                       layoutId={`profile-title-${selectedProfile.title}-${componentId}`}
-                      className="font-bold text-2xl text-blue-950 dark:text-blue-950"
+                      className="font-bold text-2xl text-blue-950"
                     >
                       {selectedProfile.title}
                     </motion.h3>
                     <motion.p
                       layoutId={`profile-description-${selectedProfile.description}-${componentId}`}
-                      className="text-blue-950 dark:text-blue-950 mb-4 lg:mb-0"
+                      className="text-blue-950 mb-4 lg:mb-0"
                     >
                       {selectedProfile.description}
                     </motion.p>
@@ -134,7 +134,7 @@ export default function CoachingProfileCards() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="text-blue-950 text-xs md:text-sm lg:text-base h-40 md:h-fit lg:h-full pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-blue-400 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
+                    className="text-blue-950 text-xs md:text-sm lg:text-base h-40 md:h-fit lg:h-full pb-10 flex flex-col items-start gap-4 overflow-auto [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
                   >
                     {selectedProfile.content()}
                   </motion.div>
@@ -199,13 +199,13 @@ function ProfileCard({
         <div className="mb-4 text-center">
           <motion.h3
             layoutId={`profile-title-${profile.title}-${componentId}`}
-            className="font-medium text-lg text-blue-950 dark:text-blue-200"
+            className="font-medium text-lg text-blue-950"
           >
             {profile.title}
           </motion.h3>
           <motion.p
             layoutId={`profile-description-${profile.description}-${componentId}`}
-            className="text-neutral-600 dark:text-neutral-400"
+            className="text-neutral-600"
           >
             {profile.description}
           </motion.p>

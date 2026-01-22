@@ -8,6 +8,7 @@ const notion = new Client({
 const n2m = new NotionToMarkdown({ notionClient: notion })
 
 const DATABASE_ID = (process.env.NOTION_DATABASE_ID || "").replace(/-/g, "").trim().replace(/^["']|["']$/g, "")
+const FAQ_DATABASE_ID = (process.env.NOTION_FAQ_DATABASE_ID || "").replace(/-/g, "").trim().replace(/^["']|["']$/g, "")
 const NOTION_TOKEN = (process.env.NOTION_TOKEN || "").trim().replace(/^["']|["']$/g, "")
 
 export interface BlogPost {
@@ -22,6 +23,12 @@ export interface BlogPost {
   category: string
   tags: string[]
   coverImage: string
+}
+
+export interface FAQ {
+  id: string
+  question: string
+  answer: string
 }
 
 export async function getAllBlogsFromNotion(): Promise<BlogPost[]> {
@@ -160,5 +167,69 @@ export async function getBlogBySlugFromNotion(slug: string): Promise<BlogPost | 
     }
   } catch (error: any) {
     return null
+  }
+}
+
+export async function getFAQsFromNotion(): Promise<FAQ[]> {
+  if (!FAQ_DATABASE_ID || !NOTION_TOKEN) return []
+
+  try {
+    const response = await fetch(`https://api.notion.com/v1/databases/${FAQ_DATABASE_ID}/query`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${NOTION_TOKEN}`,
+        "Notion-Version": "2022-06-28",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sorts: [
+          {
+            property: "Order",
+            direction: "ascending",
+          },
+        ],
+      }),
+      next: { revalidate: 0 },
+    })
+
+    if (!response.ok) return []
+
+    const data = await response.json()
+
+    const faqs = await Promise.all(data.results.map(async (page: any) => {
+      const props = page.properties
+
+      const getText = (prop: any) => {
+        if (!prop) return ""
+        if (prop.title) return prop.title[0]?.plain_text || ""
+        if (prop.rich_text) return prop.rich_text[0]?.plain_text || ""
+        return ""
+      }
+
+      // Get page content as markdown for the answer
+      let content = ""
+      try {
+        const mdblocks = await n2m.pageToMarkdown(page.id)
+        const mdString = n2m.toMarkdownString(mdblocks)
+        content = mdString.parent
+      } catch (err) {
+        console.error(`Error fetching content for FAQ ${page.id}:`, err)
+      }
+
+      return {
+        id: page.id,
+        question: getText(props.Question) || getText(props.Name) || "Untitled",
+        answer: content || getText(props.Answer) || "",
+      }
+    }))
+
+    // Filter out "Untitled" questions or empty rows
+    return faqs.filter(faq => 
+      faq.question !== "Untitled" && 
+      faq.question.trim() !== ""
+    )
+  } catch (error: any) {
+    console.error("Notion FAQ Error:", error.message)
+    return []
   }
 }

@@ -2,13 +2,19 @@
 
 import React from "react"
 import Image from "next/image"
-import { testimonials } from "@/lib/testimonials"
+import { testimonials as defaultTestimonials, type Testimonial } from "@/lib/testimonials"
 
-export default function Testimonials() {
+interface TestimonialsProps {
+  data?: Testimonial[];
+}
+
+export default function Testimonials({ data }: TestimonialsProps) {
+  const displayTestimonials = data || defaultTestimonials;
+
   return (
     <div className="container mx-auto px-4 pb-24">
-      <div className="max-w-6xl mx-auto flex flex-col gap-24">
-        {testimonials && testimonials.map((testimonial) => (
+      <div className="max-w-7xl mx-auto flex flex-col gap-24">
+        {displayTestimonials && displayTestimonials.map((testimonial) => (
           <div key={testimonial.id} className="pt-12 border-t border-gray-200">
             <div className="flex items-center gap-4 mb-12">
               <div className="relative w-16 h-16 overflow-hidden rounded-full border border-gray-100">
