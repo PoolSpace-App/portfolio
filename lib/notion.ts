@@ -43,7 +43,7 @@ export async function getAllBlogsFromNotion(): Promise<BlogPost[]> {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ page_size: 100 }),
-      next: { revalidate: 0 }, 
+      next: { revalidate: 3600 }, 
     })
 
     if (!response.ok) return []
@@ -122,7 +122,7 @@ export async function getBlogBySlugFromNotion(slug: string): Promise<BlogPost | 
       body: JSON.stringify({
         filter: { property: "Slug", rich_text: { equals: slug } },
       }),
-      next: { revalidate: 60 },
+      next: { revalidate: 3600 },
     })
 
     if (!response.ok) return null
@@ -189,7 +189,7 @@ export async function getFAQsFromNotion(): Promise<FAQ[]> {
           },
         ],
       }),
-      next: { revalidate: 0 },
+      next: { revalidate: 3600 },
     })
 
     if (!response.ok) return []
