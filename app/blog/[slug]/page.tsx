@@ -20,15 +20,23 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   }
 }
 
+export const revalidate = 3600; // Cache for 1 hour
+
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params
-  const blog = await getBlogBySlugFromNotion(slug)
-  const allBlogs = await getAllBlogsFromNotion()
+  
+  // Fetch blog and list of all blogs (for related posts) in parallel
+  const [blog, allBlogs] = await Promise.all([
+    getBlogBySlugFromNotion(slug),
+    getAllBlogsFromNotion()
+  ])
   
   // Find related blogs (same category, excluding current)
-  const relatedBlogs = allBlogs
-    .filter(b => b.category === blog?.category && b.id !== blog?.id)
-    .slice(0, 2)
+  const relatedBlogs = blog 
+    ? allBlogs
+        .filter(b => b.category === blog.category && b.id !== blog.id)
+        .slice(0, 2)
+    : []
 
   if (!blog) {
     return (

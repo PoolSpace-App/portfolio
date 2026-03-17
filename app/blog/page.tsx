@@ -8,6 +8,8 @@ import {
   IconArrowRight 
 } from "@tabler/icons-react"
 
+export const revalidate = 3600; // Cache for 1 hour
+
 export default async function BlogPage() {
   const blogs = await getAllBlogsFromNotion()
 

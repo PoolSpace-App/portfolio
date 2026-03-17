@@ -98,7 +98,7 @@ export default function NcinoOnboardingPage() {
       { id: 8, name: "Anna Gervasi", designation: "Principal Product Configuration Architect", image: "/projects/ncino/anna.png" },
       { id: 9, name: "George Preece", designation: "Principal Software Engineer", image: "/projects/ncino/george.png" },
       { id: 10, name: "George Wiafe", designation: "Senior Product Engineer", image: "/projects/ncino/georgew.png" },
-      { id: 11, name: "Nazia Siddique", designation: "Product Designer", image: "/projects/ncino/nazia.png" },
+      { id: 11, name: "Nazia Siddique", designation: "Senior Product Engineer", image: "/projects/ncino/nazia.png" },
       { id: 12, name: "Nishanthini Rejendran", designation: "Senior QA Engineer", image: "/projects/ncino/nishi.png" },
       { id: 13, name: "Aishwarya Badri", designation: "Senior Software Engineer", image: "/projects/ncino/aish.png" },
       ],
