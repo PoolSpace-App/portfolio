@@ -4,41 +4,36 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState, useEffect } from "react"
 import { createPortal } from "react-dom"
-import { Menu, X } from "lucide-react"
+import { Menu, X } from "@/components/icons"
 import Logo from "./logo"
 
-export default function Navbar({ variant = "default" }: { variant?: "default" | "white" }) {
+export default function Navbar() {
   const pathname = usePathname()
-  const isWhiteVariant = variant === "white"
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [width, setWidth] = useState(0)
-  
-  // Determine if we're on mobile
-  const isMobile = width < 768;
-  
-  // Handle component mounting
+
+  const isMobile = width < 768
+
   useEffect(() => {
     setMounted(true)
     setWidth(window.innerWidth)
-    
+
     const handleResize = () => {
       setWidth(window.innerWidth)
     }
-    
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
   }, [])
-  
-  // Close menu when route changes
+
   useEffect(() => {
     setIsMenuOpen(false)
   }, [pathname])
-  
-  // Close menu when clicking outside
+
   useEffect(() => {
-    if (!isMenuOpen) return;
-    
+    if (!isMenuOpen) return
+
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement
       if (!target.closest('[data-menu="true"]') && !target.closest('[data-menu-button="true"]')) {
@@ -46,133 +41,149 @@ export default function Navbar({ variant = "default" }: { variant?: "default" | 
       }
     }
 
-    document.addEventListener('click', handleClickOutside)
+    document.addEventListener("click", handleClickOutside)
     return () => {
-      document.removeEventListener('click', handleClickOutside)
+      document.removeEventListener("click", handleClickOutside)
     }
   }, [isMenuOpen])
 
-  // Lock scroll when menu is open
   useEffect(() => {
     if (isMenuOpen && isMobile) {
-      document.body.style.overflow = 'hidden'
+      document.body.style.overflow = "hidden"
     } else {
-      document.body.style.overflow = 'unset'
+      document.body.style.overflow = "unset"
     }
     return () => {
-      document.body.style.overflow = 'unset'
+      document.body.style.overflow = "unset"
     }
   }, [isMenuOpen, isMobile])
-  
+
   const navItems = [
-    { name: "PORTFOLIO", path: "/" },
-    { name: "BLOGS", path: "/blog" },
-    { name: "COACHING", path: "/Coaching" },
-    { name: "MORE ABOUT ME", path: "/info" },
+    { name: "Portfolio", path: "/" },
+    { name: "Blog", path: "/blog" },
+    { name: "Coaching", path: "/Coaching" },
+    { name: "About", path: "/info" },
   ]
-  
+
   const toggleMenu = (e: React.MouseEvent) => {
     e.stopPropagation()
     setIsMenuOpen(!isMenuOpen)
   }
 
-  // Don't render anything until we've measured the viewport
-  if (!mounted) return null;
-  
-  // Mobile sidebar menu
-  if (isMobile) {
+  const copyEmail = (e: React.MouseEvent) => {
+    e.preventDefault()
+    navigator.clipboard.writeText("nqovun@gmail.com").then(() => {
+      const toast = document.createElement("div")
+      toast.className =
+        "fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-2 rounded-full shadow-lg z-50 text-sm"
+      toast.innerText = "Email copied to clipboard!"
+      document.body.appendChild(toast)
+
+      setTimeout(() => {
+        toast.classList.add("opacity-0", "transition-opacity", "duration-300")
+        setTimeout(() => {
+          document.body.removeChild(toast)
+        }, 300)
+      }, 3000)
+    })
+  }
+
+  const showMobileLayout = mounted && isMobile
+
+  if (showMobileLayout) {
     return (
       <>
-        <div className="w-full flex justify-between items-center h-[40px]">
-          {/* Logo on the left */}
-          <div className="w-10 h-10 flex items-center">
-            <Logo variant={isWhiteVariant ? "dark" : "light"} />
+        <div className="flex h-12 w-full items-center justify-between">
+          <div className="flex h-12 w-12 items-center">
+            <Logo variant="dark" />
           </div>
-          
-          {/* Menu button on the right */}
-          <button 
-            onClick={toggleMenu} 
+
+          <button
+            onClick={toggleMenu}
             data-menu-button="true"
             className="relative z-[5002]"
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? (
-              <X className={`w-6 h-6 ${isWhiteVariant ? 'text-black' : 'text-white'}`} />
-            ) : (
-              <Menu className={`w-6 h-6 ${isWhiteVariant ? 'text-black' : 'text-white'}`} />
-            )}
+            {isMenuOpen ? <X className="h-6 w-6 text-blue-950" /> : <Menu className="h-6 w-6 text-blue-950" />}
           </button>
         </div>
-        
-        {/* Mobile Menu Portal */}
-        {isMobile && mounted && createPortal(
+
+        {createPortal(
           <>
-            {/* Overlay */}
             {isMenuOpen && (
-              <div 
-                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100000]"
+              <div
+                className="fixed inset-0 z-[100000] bg-black/40 backdrop-blur-sm"
                 onClick={() => setIsMenuOpen(false)}
               />
             )}
-            
-            {/* Sidebar */}
-            <div 
+
+            <div
               data-menu="true"
-              className={`fixed top-0 left-0 bottom-0 w-64 bg-white text-black p-8 z-[100001] transform transition-transform duration-300 ease-in-out shadow-2xl overflow-y-auto ${
-                isMenuOpen ? 'translate-x-0' : '-translate-x-full'
+              className={`fixed bottom-0 left-0 right-0 z-[100001] transform rounded-t-3xl bg-[#eeeee9] p-8 shadow-2xl transition-transform duration-300 ease-in-out ${
+                isMenuOpen ? "translate-y-0" : "translate-y-full"
               }`}
             >
-              <div className="mb-12 w-10 h-10">
-                <Logo variant="dark" />
-              </div>
-              <nav className="flex flex-col space-y-8">
+              <nav className="flex flex-col space-y-6">
                 {navItems.map((item) => (
                   <Link
                     key={item.name}
                     href={item.path}
-                    className={`group text-lg relative pb-1 hover-glitch ${
-                      pathname === item.path
-                        ? "after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-black"
-                        : "hover:opacity-70 transition-opacity"
-                    } text-black`}
+                    className={`text-lg font-medium ${
+                      pathname === item.path ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
+                    }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {item.name}
                   </Link>
                 ))}
+                <div className="flex flex-col gap-3 pt-4">
+                  <button onClick={copyEmail} className="btn-secondary w-full">
+                    Let&apos;s chat
+                  </button>
+                  <Link href="/#projects" className="btn-primary w-full" onClick={() => setIsMenuOpen(false)}>
+                    View work
+                  </Link>
+                </div>
               </nav>
             </div>
           </>,
           document.body
         )}
       </>
-    );
+    )
   }
-  
-  // Desktop navbar
+
   return (
-    <div className="w-full flex justify-between items-center h-[40px]">
-      {/* Logo on the left */}
-      <div className="w-10 h-10 flex items-center">
-        <Logo variant={isWhiteVariant ? "dark" : "light"} />
+    <div className="grid h-12 w-full grid-cols-[1fr_auto_1fr] items-center">
+      <div className="flex h-12 w-12 items-center">
+        <Logo variant="dark" />
       </div>
-      
-      {/* Navigation links on the right */}
-      <nav className="flex space-x-8 text-xs">
+
+      <nav className="hidden items-center gap-8 md:flex">
         {navItems.map((item) => (
           <Link
             key={item.name}
             href={item.path}
-            className={`group relative pb-1 hover-glitch ${
-              pathname === item.path
-                ? `after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-${isWhiteVariant ? 'black' : 'white'}`
-                : "hover:opacity-70 transition-opacity"
-            } ${isWhiteVariant ? 'text-black' : 'text-white'}`}
+            className={`text-sm font-medium transition-colors ${
+              pathname === item.path ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
+            }`}
           >
             {item.name}
           </Link>
         ))}
       </nav>
+
+      <div className="flex items-center justify-end gap-3">
+        <button
+          onClick={copyEmail}
+          className="hidden text-sm font-medium text-slate-600 transition-colors hover:text-blue-600 sm:inline-flex"
+        >
+          Let&apos;s chat
+        </button>
+        <Link href="/#projects" className="btn-primary">
+          View work
+        </Link>
+      </div>
     </div>
-  );
+  )
 }

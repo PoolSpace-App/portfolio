@@ -2,9 +2,10 @@
 
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft } from "@/components/icons"
 import ProjectCarousel from "@/components/project-carousel"
 import ProjectNavigation from "@/components/project-navigation"
+import PageGridShell from "@/components/page-grid-shell"
 
 export default function TeamfinderPage() {
   const router = useRouter()
@@ -57,7 +58,7 @@ export default function TeamfinderPage() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-white text-black">
+    <PageGridShell>
       <div className="container mx-auto px-4 pt-32 pb-8">
         <button
           onClick={() => router.back()}
@@ -103,6 +104,6 @@ export default function TeamfinderPage() {
           <ProjectNavigation currentProjectId={project.id} />
         </div>
       </div>
-    </main>
+    </PageGridShell>
   )
 }

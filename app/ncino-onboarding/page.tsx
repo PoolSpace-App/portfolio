@@ -6,7 +6,7 @@ import {
   ArrowLeft, 
   ArrowRight,
   ArrowDown,
-  Users, 
+  Profile, 
   Clock, 
   CheckCircle2, 
   Target, 
@@ -23,7 +23,7 @@ import {
   X,
   ChevronLeft,
   ChevronRight
-} from "lucide-react"
+} from "@/components/icons"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { 
@@ -46,6 +46,7 @@ import {
 } from "@/components/ui/chart"
 import ProjectCarousel from "@/components/project-carousel"
 import ProjectNavigation from "@/components/project-navigation"
+import PageGridShell from "@/components/page-grid-shell"
 import { TabsComponent } from "@/components/ui/tabs-component"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -159,7 +160,7 @@ export default function NcinoOnboardingPage() {
   }
 
   return (
-    <main className="min-h-screen bg-white text-black font-sans">
+    <PageGridShell>
       <div className="container mx-auto px-4 pt-32 pb-8">
         {/* Back Button */}
         <motion.button
@@ -192,7 +193,7 @@ export default function NcinoOnboardingPage() {
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 py-8 border-y border-gray-100">
               <div className="space-y-1">
                 <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                  <Users className="h-3 w-3" /> My Role
+                  <Profile className="h-3 w-3" /> My Role
                 </div>
                 <div className="text-blue-950 font-medium">{project.role}</div>
               </div>
@@ -216,7 +217,7 @@ export default function NcinoOnboardingPage() {
               </div>
               <div className="space-y-1">
                 <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                  <Users className="h-3 w-3" /> Team
+                  <Profile className="h-3 w-3" /> Team
                 </div>
                 <div className="flex flex-row items-center justify-start w-full">
                   <AnimatedTooltip items={project.team} />
@@ -234,7 +235,7 @@ export default function NcinoOnboardingPage() {
 
             <div className="w-full max-w-5xl flex flex-col items-center">
               {/* Top Step */}
-              <div className="bg-[#111827] text-white px-12 py-6 rounded-full font-bold text-2xl w-full md:w-80 text-center shadow-2xl transition-transform hover:scale-105 duration-300">
+              <div className="inline-flex items-center justify-center rounded-full bg-[#111827] px-6 py-2.5 text-sm font-medium text-white shadow-xl transition-transform duration-300 hover:scale-105">
                 Select company
               </div>
 
@@ -247,7 +248,7 @@ export default function NcinoOnboardingPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full relative">
                 {/* Column 1 */}
                 <div className="flex flex-col items-center">
-                  <div className="bg-[#111827] text-white p-6 rounded-full font-bold text-center w-full min-h-[100px] flex items-center justify-center relative shadow-xl">
+                  <div className="relative inline-flex items-center justify-center rounded-full bg-[#111827] px-6 py-2.5 text-sm font-medium text-white shadow-xl">
                     Run Business Checks
                     <div className="absolute top-1/2 -right-4 -translate-y-1/2 text-blue-200 hidden md:block">
                       <ArrowRight className="h-5 w-5" />
@@ -265,7 +266,7 @@ export default function NcinoOnboardingPage() {
 
                 {/* Column 2 */}
                 <div className="flex flex-col items-center">
-                  <div className="bg-[#111827] text-white p-6 rounded-full font-bold text-center w-full min-h-[100px] flex items-center justify-center relative shadow-xl">
+                  <div className="relative inline-flex items-center justify-center rounded-full bg-[#111827] px-6 py-2.5 text-sm font-medium text-white shadow-xl">
                     Run People Checks
                     <div className="absolute top-1/2 -right-4 -translate-y-1/2 text-blue-200 hidden md:block">
                       <ArrowRight className="h-5 w-5" />
@@ -286,7 +287,7 @@ export default function NcinoOnboardingPage() {
 
                 {/* Column 3 */}
                 <div className="flex flex-col items-center">
-                  <div className="bg-[#111827] text-white p-6 rounded-full font-bold text-center w-full min-h-[100px] flex items-center justify-center shadow-xl">
+                  <div className="inline-flex items-center justify-center rounded-full bg-[#111827] px-6 py-2.5 text-sm font-medium text-white shadow-xl">
                     Run IDV Document Checks
                   </div>
                   <div className="h-12 w-px bg-blue-200 relative">
@@ -300,7 +301,7 @@ export default function NcinoOnboardingPage() {
               </div>
 
               {/* Final Step */}
-              <div className="bg-blue-400 text-white py-8 rounded-full font-bold text-2xl w-full text-center shadow-2xl transition-transform hover:scale-[1.02] duration-300 mt-2">
+              <div className="btn-primary mt-2 transition-transform duration-300 hover:scale-[1.02]">
                 Provide onboarding decision
               </div>
             </div>
@@ -931,7 +932,7 @@ export default function NcinoOnboardingPage() {
                       <div className="relative aspect-video rounded-4xl overflow-hidden border border-slate-200 bg-white">
                         <Image src="/projects/ncino/ideation-1.png" alt="Research phase" fill className="object-cover blur-2xl" />
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="bg-white/80 backdrop-blur px-6 py-4 rounded-full shadow-xl font-bold text-blue-900 border border-white">User Flow Analysis</div>
+                          <div className="inline-flex items-center rounded-full border border-white bg-white/80 px-6 py-2.5 text-sm font-medium text-blue-950 backdrop-blur shadow-xl">User Flow Analysis</div>
                         </div>
                       </div>
                       <div>
@@ -984,7 +985,7 @@ export default function NcinoOnboardingPage() {
                       <div className="relative aspect-video rounded-4xl overflow-hidden border border-slate-200 bg-white order-1 md:order-2">
                         <Image src="/projects/ncino/ideation.png" alt="Ideation phase" fill className="object-cover blur-2xl" />
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="bg-white/80 backdrop-blur px-6 py-4 rounded-full shadow-xl font-bold text-blue-900 border border-white">Rapid Prototyping</div>
+                          <div className="inline-flex items-center rounded-full border border-white bg-white/80 px-6 py-2.5 text-sm font-medium text-blue-950 backdrop-blur shadow-xl">Rapid Prototyping</div>
                         </div>
                       </div>
                     </div>
@@ -999,7 +1000,7 @@ export default function NcinoOnboardingPage() {
                        <div className="relative aspect-video rounded-4xl overflow-hidden border border-slate-200 bg-white">
                         <Image src="/projects/ncino/design.png" alt="Design phase" fill className="object-cover blur-2xl" />
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="bg-white/80 backdrop-blur px-6 py-4 rounded-full shadow-xl font-bold text-blue-900 border border-white">High Fidelity UI</div>
+                          <div className="inline-flex items-center rounded-full border border-white bg-white/80 px-6 py-2.5 text-sm font-medium text-blue-950 backdrop-blur shadow-xl">High Fidelity UI</div>
                         </div>
                       </div>
                       <div>
@@ -1052,7 +1053,7 @@ export default function NcinoOnboardingPage() {
                       <div className="relative aspect-video rounded-4xl overflow-hidden border border-slate-200 bg-white order-1 md:order-2">
                         <Image src="/projects/ncino/testing.png" alt="Testing phase" fill className="object-cover blur-2xl" />
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="bg-white/80 backdrop-blur px-6 py-4 rounded-full shadow-xl font-bold text-blue-900 border border-white">User Testing</div>
+                          <div className="inline-flex items-center rounded-full border border-white bg-white/80 px-6 py-2.5 text-sm font-medium text-blue-950 backdrop-blur shadow-xl">User Testing</div>
                         </div>
                       </div>
                     </div>
@@ -1073,10 +1074,10 @@ export default function NcinoOnboardingPage() {
                 href="https://house-plaque-75814816.figma.site/" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-8 py-4 bg-blue-600 text-white rounded-full text-base font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-200 group"
+                className="btn-primary group"
               >
                 View Figma Prototype
-                <ExternalLink className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
+                <ExternalLink className="h-4 w-4 transition-transform group-hover:scale-110" />
               </a>
             </div>
 
@@ -1224,6 +1225,6 @@ export default function NcinoOnboardingPage() {
           </div>
         </div>
       )}
-    </main>
+    </PageGridShell>
   )
 }

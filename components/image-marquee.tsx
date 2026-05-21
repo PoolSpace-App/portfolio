@@ -29,7 +29,7 @@ export default function ImageMarquee() {
   const duplicatedImages = [...images, ...images]
 
   return (
-    <div className="w-full overflow-hidden bg-[#ffffff] py-20">
+    <div className="w-full overflow-hidden bg-slate-50 py-20">
       <div className="flex w-max">
         <motion.div
           className="flex gap-12 px-12"
@@ -45,12 +45,13 @@ export default function ImageMarquee() {
           {duplicatedImages.map((src, index) => (
             <div
               key={index}
-              className="relative w-[1100px] md:w-[1100px] aspect-[4/3] rounded-[72px] overflow-hidden border border-gray-200/10 group"
+              className="relative aspect-[4/3] w-[min(420px,80vw)] shrink-0 overflow-hidden rounded-[48px] border border-black/5 md:w-[480px]"
             >
               <Image
                 src={src}
                 alt={`Portfolio image ${index + 1}`}
                 fill
+                sizes="(max-width: 768px) 80vw, 480px"
                 className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
               />
             </div>

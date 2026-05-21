@@ -10,14 +10,64 @@ html {
 }
 
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-rgb: 5, 5, 16; /* Updated to match #050510 in RGB */
+  --foreground-rgb: 23, 37, 84;
+  --background-rgb: 238, 238, 233;
+  --el-bg: #eeeee9;
+  --el-surface: #e4e4df;
+  --el-card: #ffffff;
+  --el-border: #d4d4cf;
+  --el-text: #172554;
+  --el-accent: #2563eb;
+  --el-accent-hover: #1d4ed8;
+  --el-muted: #64748b;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  color: var(--el-text);
   background: rgb(var(--background-rgb));
   font-family: var(--font-mtn-brighter-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-medium text-white shadow-xl shadow-blue-200 transition-colors;
+    background-color: var(--el-accent);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--el-accent-hover);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-6 py-2.5 text-sm font-medium transition-colors hover:border-blue-200 hover:bg-blue-50;
+    color: var(--el-text);
+  }
+
+  .btn-secondary:hover {
+    color: var(--el-accent);
+  }
+
+  .link-accent {
+    @apply text-blue-600 transition-colors hover:text-blue-700;
+  }
+
+  .link-accent-active {
+    @apply font-medium text-blue-600;
+  }
+
+  .el-card {
+    @apply rounded-3xl border border-black/5 bg-white shadow-sm;
+  }
+
+  .el-section {
+    @apply bg-[#eeeee9];
+  }
+
+  .el-surface {
+    @apply rounded-3xl border border-black/5 bg-[#e4e4df];
+  }
 }
 
 @layer utilities {

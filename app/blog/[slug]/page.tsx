@@ -1,9 +1,10 @@
-import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft } from "@/components/icons"
 import { getBlogBySlugFromNotion, getAllBlogsFromNotion } from "@/lib/notion"
 import MarkdownRenderer from "@/components/markdown-renderer"
+import BlogCoverImage from "@/components/blog-cover-image"
 import { Metadata } from "next"
+import PageGridShell from "@/components/page-grid-shell"
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -40,7 +41,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   if (!blog) {
     return (
-      <main className="min-h-screen bg-white text-black">
+      <PageGridShell>
         <div className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-4xl font-medium mb-4 text-blue-950">Blog Post Not Found</h1>
           <p className="text-gray-600 mb-8">The blog post you're looking for doesn't exist.</p>
@@ -48,12 +49,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             ← Back to Blog
           </Link>
         </div>
-      </main>
+      </PageGridShell>
     )
   }
 
   return (
-    <main className="min-h-screen bg-white text-black">
+    <PageGridShell>
       <div className="container mx-auto px-4 pt-32 pb-32">
           {/* Back button */}
           <Link
@@ -103,13 +104,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
           
           {/* Cover image */}
-          <div className="relative overflow-hidden rounded-4xl aspect-[16/9] bg-gray-100 mb-12">
-            <Image
+          <div className="relative mb-12 aspect-[16/9] overflow-hidden rounded-4xl bg-gray-100">
+            <BlogCoverImage
               src={blog.coverImage}
               alt={blog.title}
-              width={1200}
-              height={675}
-              className="absolute inset-0 w-full h-full object-cover"
+              priority
             />
           </div>
           
@@ -127,13 +126,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     href={`/blog/${relatedBlog.slug}`}
                     className="group block"
                   >
-                    <div className="relative overflow-hidden rounded-[32px] aspect-[4/3] bg-gray-100 mb-4">
-                      <Image
+                    <div className="relative mb-4 aspect-[4/3] overflow-hidden rounded-[32px] bg-gray-100">
+                      <BlogCoverImage
                         src={relatedBlog.coverImage}
                         alt={relatedBlog.title}
-                        width={400}
-                        height={300}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
                     <div className="space-y-2">
@@ -164,6 +161,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </Link>
           </div>
       </div>
-    </main>
+    </PageGridShell>
   )
 }

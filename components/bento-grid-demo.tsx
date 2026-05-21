@@ -9,7 +9,7 @@ import {
   IconFileBroken,
   IconSignature,
   IconTableColumn,
-} from "@tabler/icons-react";
+} from "@/components/icons";
 
 export default function BentoGridDemo() {
   return (

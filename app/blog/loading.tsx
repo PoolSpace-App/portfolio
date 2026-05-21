@@ -1,8 +1,9 @@
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
+import PageGridShell from "@/components/page-grid-shell"
 
 export default function BlogLoading() {
   return (
-    <main className="min-h-screen bg-white text-black">
+    <PageGridShell>
       <div className="container mx-auto px-4 pt-32 pb-32">
         <div className="h-12 w-48 bg-gray-200 animate-pulse rounded-lg mb-4" />
         <div className="h-6 w-96 bg-gray-100 animate-pulse rounded-lg mb-16" />
@@ -18,6 +19,6 @@ export default function BlogLoading() {
           ))}
         </BentoGrid>
       </div>
-    </main>
+    </PageGridShell>
   )
 }

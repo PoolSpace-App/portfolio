@@ -1,12 +1,13 @@
 import Link from "next/link"
-import Image from "next/image"
 import { getAllBlogsFromNotion } from "@/lib/notion"
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
+import BlogCoverImage from "@/components/blog-cover-image"
+import PageGridShell from "@/components/page-grid-shell"
 import { 
   IconCalendar, 
   IconClock, 
   IconArrowRight 
-} from "@tabler/icons-react"
+} from "@/components/icons"
 
 export const revalidate = 3600; // Cache for 1 hour
 
@@ -14,7 +15,7 @@ export default async function BlogPage() {
   const blogs = await getAllBlogsFromNotion()
 
   return (
-    <main className="min-h-screen bg-white text-black">
+    <PageGridShell>
       <div className="container mx-auto px-4 pt-32 pb-32">
         <h1 className="text-4xl md:text-5xl font-medium mb-4 text-blue-950">Blogs</h1>
         <p className="text-xl text-blue-950 mb-16 max-w-2xl">
@@ -67,13 +68,12 @@ export default async function BlogPage() {
                 <BentoGridItem
                   className="group cursor-pointer rounded-[40px]"
                   header={
-                    <div className="relative overflow-hidden rounded-[32px] bg-gray-100 mb-4 w-full h-[200px]">
-                      <Image
+                    <div className="relative mb-4 h-[200px] w-full overflow-hidden rounded-[32px] bg-gray-100">
+                      <BlogCoverImage
                         src={blog.coverImage}
                         alt={blog.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105 w-full h-full"
+                        priority={index < 3}
+                        className="transition-transform duration-500 group-hover:scale-105"
                       />
                       <div className="absolute top-3 left-3">
                         <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-medium">
@@ -133,6 +133,6 @@ export default async function BlogPage() {
           </BentoGrid>
         )}
       </div>
-    </main>
+    </PageGridShell>
   )
 }

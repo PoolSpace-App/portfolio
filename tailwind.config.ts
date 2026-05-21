@@ -30,6 +30,14 @@ const config: Config = {
       colors: {
         black: "#000000",
         white: "#FFFFFF",
+        eleven: {
+          bg: "#eeeee9",
+          surface: "#e4e4df",
+          card: "#ffffff",
+          border: "#d4d4cf",
+          muted: "#6b6b6b",
+          ink: "#172554",
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

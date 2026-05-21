@@ -1,193 +1,164 @@
 "use client"
 
-import React, { useEffect, useRef } from "react"
-import { motion } from "framer-motion"
-import { ArrowRight } from "lucide-react"
-import { cn } from "@/lib/utils"
+import React from "react"
+import Image from "next/image"
 import Link from "next/link"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { ArrowRight, Layers, Profile, Rocket } from "@/components/icons"
+import { cn } from "@/lib/utils"
 
-// Register GSAP plugins
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger)
-}
-
-interface StatCardProps {
+interface LargeBentoCardProps {
   title: string
-  subtitle: string
   description: string
+  children: React.ReactNode
   className?: string
-  titleClassName?: string
-  isYellow?: boolean
   buttonText?: string
   buttonHref?: string
   onButtonClick?: (e: React.MouseEvent) => void
 }
 
-const StatCard = ({
+const LargeBentoCard = ({
   title,
-  subtitle,
   description,
+  children,
   className,
-  titleClassName,
-  isYellow = false,
   buttonText,
   buttonHref,
   onButtonClick,
-}: StatCardProps) => {
-  return (
-    <div
-      className={cn(
-        "stat-card-gsap relative p-8 md:p-10 rounded-[56px] flex flex-col justify-between h-full transition-all duration-300",
-        isYellow 
-          ? "bg-[#11111a] text-white border border-white/10" 
-          : "bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20",
-        className
-      )}
-    >
-      <div>
-        <div className={cn(
-          "text-3xl md:text-[48px] font-normal mb-2 tracking-tighter leading-[1.2]",
-          "text-white",
-          titleClassName
-        )}>
-          {title}
-        </div>
-        <div className={cn(
-          "text-xl md:text-xl font-normal mb-4 leading-tight",
-          "text-white"
-        )}>
-          {subtitle}
-        </div>
-        <div className={cn(
-          "w-16 h-[2px] mb-8",
-          "bg-white/20"
-        )} />
-        <div className={cn(
-          "text-lg leading-relaxed mb-8 font-light",
-          isYellow ? "text-white" : "text-gray-400"
-        )}>
-          {description}
-        </div>
-      </div>
-      
-      {buttonText && (
-        <div className="mt-auto">
-          {buttonHref ? (
-            <Link href={buttonHref} onClick={onButtonClick}>
-              <button
-                className={cn(
-                  "flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold transition-all duration-300 group",
-                  isYellow 
-                    ? "border border-white/20 hover:bg-white hover:text-black text-white" 
-                    : "border border-white/20 hover:bg-white hover:text-black"
-                )}
-              >
-                {buttonText}
-                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-              </button>
-            </Link>
-          ) : (
-            <button
-              onClick={onButtonClick}
-              className={cn(
-                "flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold transition-all duration-300 group",
-                isYellow 
-                  ? "border border-white/20 hover:bg-white hover:text-black text-white" 
-                  : "border border-white/20 hover:bg-white hover:text-black"
-              )}
-            >
-              {buttonText}
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </button>
-          )}
-        </div>
+}: LargeBentoCardProps) => (
+  <div
+    className={cn(
+      "flex h-full flex-col overflow-hidden rounded-[40px] bg-neutral-100",
+      className
+    )}
+  >
+    <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden">
+      {children}
+    </div>
+    <div className="p-6 md:p-8">
+      <h3
+        data-hero-animate="scroll"
+        className="mb-2 text-xl font-semibold tracking-tight text-blue-950 md:text-2xl"
+      >
+        {title}
+      </h3>
+      <p
+        data-hero-animate="scroll"
+        className="mb-4 text-sm leading-relaxed text-slate-600 md:text-base"
+      >
+        {description}
+      </p>
+      {buttonText && buttonHref && (
+        <Link href={buttonHref} onClick={onButtonClick}>
+          <button data-hero-animate="scroll" className="btn-secondary group text-sm">
+            {buttonText}
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </button>
+        </Link>
       )}
     </div>
-  )
+  </div>
+)
+
+interface SmallBentoCardProps {
+  icon: React.ReactNode
+  title: string
+  description: string
 }
+
+const SmallBentoCard = ({ icon, title, description }: SmallBentoCardProps) => (
+  <div className="flex h-full flex-col rounded-[40px] bg-neutral-100 p-6 md:p-8">
+    <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-xl bg-white text-blue-950">
+      {icon}
+    </div>
+    <h3
+      data-hero-animate="scroll"
+      className="mb-3 text-lg font-semibold tracking-tight text-blue-950"
+    >
+      {title}
+    </h3>
+    <p data-hero-animate="scroll" className="text-sm leading-relaxed text-slate-600 md:text-base">
+      {description}
+    </p>
+  </div>
+)
 
 interface BentoStatsProps {
   onViewCaseStudyClick?: (e: React.MouseEvent) => void
 }
 
 export default function BentoStats({ onViewCaseStudyClick }: BentoStatsProps) {
-  const containerRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const cards = gsap.utils.toArray(".stat-card-gsap")
-      cards.forEach((card: any, i: number) => {
-        gsap.fromTo(
-          card,
-          {
-            opacity: 0,
-            y: 30,
-            scale: 0.99,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            delay: i * 0.05,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 85%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        )
-      })
-    }, containerRef)
-
-    return () => ctx.revert()
-  }, [])
-
   return (
-    <section ref={containerRef} className="w-full py-20 bg-[#050510]">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          <StatCard
-            title="9+ Years"
-            subtitle="Building products from zero to scale"
-            description="Helping founders turn ideas into real products — from first MVP to growth-stage platforms."
+    <section className="relative w-full overflow-hidden pb-24 pt-0">
+      <div className="relative z-10">
+      <div className="container mx-auto px-4 pt-10">
+        <div className="mb-12 max-w-2xl">
+          <h2
+            data-hero-animate="scroll"
+            className="text-3xl font-semibold leading-tight tracking-tight text-blue-950 md:text-4xl lg:text-5xl"
+          >
+            Everything needed to turn ideas into shipped products.
+          </h2>
+          <p
+            data-hero-animate="scroll"
+            className="mt-6 text-base leading-relaxed text-slate-600 lg:text-lg"
+          >
+            I partner with founders and teams to design thoughtful user experiences, build
+            scalable digital products, and move faster with lean, AI-assisted workflows — from
+            early concepts to production-ready platforms used by real people.
+          </p>
+        </div>
+
+        <div className="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <LargeBentoCard
+            title="From strategy to shipped product"
+            description="Blending UX, product thinking, and modern AI tooling to help teams move from messy ideas to clean, scalable product experiences — without the unnecessary process."
+            buttonText="View case studies"
+            buttonHref="#projects"
+            onButtonClick={onViewCaseStudyClick}
+          >
+            <Image
+              src="/marquee/02.jpg"
+              alt="Product design case study preview"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+          </LargeBentoCard>
+
+          <LargeBentoCard
+            title="Discovery to delivery."
+            description="Turning product vision into scalable digital experiences — combining UX, strategy, and execution to build products used by real teams and real users."
+            buttonText="About me"
+            buttonHref="/info"
+          >
+            <Image
+              src="/marquee/06.jpg"
+              alt="Discovery to delivery case study preview"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+          </LargeBentoCard>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <SmallBentoCard
+            icon={<Rocket className="h-5 w-5" />}
+            title="10+ years designing products that scale"
+            description="Hands-on across discovery, UX, product strategy, prototyping, and delivery — helping startups and modern teams build products people actually use."
           />
-          <StatCard
-            title="20+"
-            subtitle="Products shipped"
-            description="Hands-on across discovery, UX, product strategy, and delivery — not just concepts."
+          <SmallBentoCard
+            icon={<Layers className="h-5 w-5" />}
+            title="20+ products shipped"
+            description="Hands-on across discovery, UX, product strategy, and delivery — turning ideas into production-ready products used by real people."
           />
-          <StatCard
-            title="Millions"
-            subtitle="Users reached"
-            description="Across consumer apps, fintech platforms, and internal tools used at scale."
+          <SmallBentoCard
+            icon={<Profile className="h-5 w-5" />}
+            title="Millions of users reached"
+            description="Designing products across fintech, SaaS, and consumer platforms — from startup MVPs to tools used at scale by real teams and customers."
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="md:col-span-2 text-white">
-            <StatCard
-              title="From idea to shipped product"
-              subtitle="I help founders turn messy ideas into clear, usable products — fast, lean, and ready for real users."
-              description="Combining long-term product vision with measurable business outcomes."
-              buttonText="View case studies"
-              buttonHref="#projects"
-              onButtonClick={onViewCaseStudyClick}
-            />
-          </div>
-          <div className="md:col-span-1">
-            <StatCard
-              title="Results matter."
-              subtitle="Momentum matters more."
-              description="I take ownership, make decisions, and help teams move forward with confidence."
-              isYellow={true}
-              buttonText="About me"
-              buttonHref="/info"
-            />
-          </div>
-        </div>
+      </div>
       </div>
     </section>
   )

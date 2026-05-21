@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { ChevronLeft, ChevronRight, X, ArrowRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, X, ArrowRight } from "@/components/icons"
 import { cn } from "@/lib/utils"
 
 interface ProjectCarouselProps {

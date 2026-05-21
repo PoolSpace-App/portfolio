@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body 
-        className={`${mtnBrighterSans.variable} bg-[#050510] text-white min-h-screen`}
+        className={`${mtnBrighterSans.variable} bg-eleven-bg text-blue-950 min-h-screen`}
         suppressHydrationWarning
       >
         <Header />

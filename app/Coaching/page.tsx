@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import type { FAQ } from "@/lib/notion"
+import PageGridShell from "@/components/page-grid-shell"
 
 export default function CoachingPage() {
   const [faqs, setFaqs] = useState<FAQ[]>([])
@@ -28,7 +29,7 @@ export default function CoachingPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-white relative text-blue-950">
+    <PageGridShell className="text-blue-950" as="div">
       {/* Main content */}
       <div className="container mx-auto pt-32 pb-32">
         <div className="px-4">
@@ -75,6 +76,6 @@ export default function CoachingPage() {
           </div>
         </div>
       )}
-    </div>
+    </PageGridShell>
   )
 }

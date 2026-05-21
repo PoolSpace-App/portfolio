@@ -30,13 +30,24 @@ export default function Testimonials({ data }: TestimonialsProps) {
                 />
               </div>
               <div>
-                <h4 className="text-2xl font-bold tracking-tight">{testimonial.name}</h4>
-                <p className="text-gray-500 text-sm font-medium">
+                <h4
+                  data-home-animate="scroll"
+                  className="text-2xl font-bold tracking-tight"
+                >
+                  {testimonial.name}
+                </h4>
+                <p
+                  data-home-animate="scroll"
+                  className="text-sm font-medium text-slate-500"
+                >
                   {testimonial.role} - {testimonial.company}
                 </p>
               </div>
             </div>
-            <blockquote className="text-4xl md:text-6xl font-normal leading-tight tracking-tight max-w-5xl">
+            <blockquote
+              data-home-animate="scroll"
+              className="max-w-5xl text-3xl font-normal leading-tight tracking-tight text-blue-950 md:text-5xl"
+            >
               &ldquo;{testimonial.quote}&rdquo;
             </blockquote>
           </div>

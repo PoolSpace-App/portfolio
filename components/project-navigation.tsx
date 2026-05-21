@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "@/components/icons"
 import { projectsArray } from "@/lib/projects"
 
 interface ProjectNavigationProps {

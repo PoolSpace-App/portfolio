@@ -31,7 +31,7 @@ export function TabsComponent({
       <div className="flex md:justify-center mb-12 overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
         <TabsList
           className={cn(
-            "bg-slate-50 p-1 rounded-2xl md:rounded-full h-auto border border-gray-100 flex-nowrap inline-flex min-w-max md:min-w-0",
+            "inline-flex h-auto min-w-max flex-nowrap rounded-full bg-black/5 p-1 md:min-w-0",
             tabsListClassName
           )}
         >
@@ -40,7 +40,7 @@ export function TabsComponent({
               key={item.value}
               value={item.value}
               className={cn(
-                "px-4 md:px-8 py-2 md:py-3 rounded-xl md:rounded-full data-[state=active]:bg-blue-600 data-[state=active]:shadow-md data-[state=active]:text-white font-bold transition-all gap-2 whitespace-nowrap text-sm md:text-base",
+                "inline-flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium text-slate-600 shadow-none transition-all duration-200 hover:text-blue-600 data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-none md:px-6",
                 triggerClassName
               )}
             >

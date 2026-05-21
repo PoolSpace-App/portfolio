@@ -1,8 +1,9 @@
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft } from "@/components/icons"
+import PageGridShell from "@/components/page-grid-shell"
 
 export default function BlogPostLoading() {
   return (
-    <main className="min-h-screen bg-white text-black">
+    <PageGridShell>
       <div className="container mx-auto px-4 pt-32 pb-32">
         <div className="inline-flex items-center mb-8 h-6 w-20 bg-gray-100 animate-pulse rounded" />
         
@@ -33,6 +34,6 @@ export default function BlogPostLoading() {
           <div className="h-4 w-3/4 bg-gray-100 animate-pulse rounded" />
         </div>
       </div>
-    </main>
+    </PageGridShell>
   )
 }

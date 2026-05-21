@@ -36,13 +36,14 @@ import {
   ExternalLink,
   X,
   ChevronLeft
-} from "lucide-react"
+} from "@/components/icons"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import ProjectCarousel from "@/components/project-carousel"
 import ProjectNavigation from "@/components/project-navigation"
 import { AnimatedTooltip } from "@/components/ui/animated-tooltip"
 import { Separator } from "@/components/ui/separator"
+import PageGridShell from "@/components/page-grid-shell"
 
 export default function DocfoxSiccPage() {
   const router = useRouter()
@@ -114,7 +115,7 @@ export default function DocfoxSiccPage() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-white text-black font-sans">
+    <PageGridShell>
       <div className="container mx-auto px-4 pt-32 pb-8">
         <button
           onClick={() => router.back()}
@@ -1329,10 +1330,10 @@ export default function DocfoxSiccPage() {
                 href="https://www.figma.com/proto/0WrJvjN9AusaIli8KKLIfH/SICC?page-id=3121%3A85192&node-id=3139-103218&p=f&viewport=164%2C1691%2C0.03&t=sC8xFpHvYTti56cG-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=3139%3A103218&show-proto-sidebar=1" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-8 py-4 bg-blue-600 text-white rounded-full text-base font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-200 group"
+                className="btn-primary group"
               >
                 View Figma Prototype
-                <ExternalLink className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
+                <ExternalLink className="h-4 w-4 transition-transform group-hover:scale-110" />
               </a>
             </div>
 
@@ -1492,6 +1493,6 @@ export default function DocfoxSiccPage() {
           </div>
         </div>
       )}
-    </main>
+    </PageGridShell>
   )
 }

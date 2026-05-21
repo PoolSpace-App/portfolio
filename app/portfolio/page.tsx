@@ -1,6 +1,7 @@
 import Logo from "@/components/logo"
 import ProjectCard from "@/components/project-card"
 import { projectsArray } from "@/lib/projects"
+import PageGridShell from "@/components/page-grid-shell"
 
 export default function Portfolio() {
   // Use the actual project data from lib/projects.ts
@@ -13,7 +14,7 @@ export default function Portfolio() {
   }))
 
   return (
-    <main className="min-h-screen">
+    <PageGridShell>
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {projects.map((project) => (
@@ -21,6 +22,6 @@ export default function Portfolio() {
           ))}
         </div>
       </div>
-    </main>
+    </PageGridShell>
   )
 }

@@ -1,28 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import Navbar from "./navbar"
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
   return (
-    <header className={`fixed top-0 left-0 z-[10000] w-full transition-all duration-500 border-b overflow-visible ${
-      isScrolled 
-        ? "bg-black/40 backdrop-blur-xl border-white/10" 
-        : "bg-white border-transparent"
-    }`}>
-      <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-        <Navbar variant={isScrolled ? "default" : "white"} />
+    <header className="fixed top-0 left-0 z-[10000] w-full border-b border-slate-200/90 bg-white/95 shadow-[0_1px_3px_rgba(15,23,42,0.06)] backdrop-blur-lg supports-[backdrop-filter]:bg-white/90">
+      <div className="container mx-auto px-4 py-4 md:py-5">
+        <Navbar />
       </div>
     </header>
   )

@@ -1,5 +1,6 @@
 import { Client } from "@notionhq/client"
 import { NotionToMarkdown } from "notion-to-md"
+import { getBlogCoverSrc, getCoverImageUrlFromPage } from "@/lib/notion-cover-image"
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -60,20 +61,7 @@ export async function getAllBlogsFromNotion(): Promise<BlogPost[]> {
         return ""
       }
 
-      // Helper to extract image URL from properties or cover
-      const getImageUrl = () => {
-        // 1. Check specific property "CoverImage" or "Cover Image"
-        const coverProp = props.CoverImage || props["Cover Image"]
-        if (coverProp) {
-          if (coverProp.files?.[0]) {
-            return coverProp.files[0].file?.url || coverProp.files[0].external?.url
-          }
-          if (coverProp.url) return coverProp.url
-        }
-        
-        // 2. Fallback to built-in Notion Page Cover
-        return page.cover?.external?.url || page.cover?.file?.url || "/placeholder.jpg"
-      }
+      const rawCoverImage = getCoverImageUrlFromPage(page)
 
       return {
         id: page.id,
@@ -86,7 +74,7 @@ export async function getAllBlogsFromNotion(): Promise<BlogPost[]> {
         readTime: getText(props.ReadTime) || "5 min read",
         category: props.Category?.select?.name || "General",
         tags: props.Tags?.multi_select?.map((tag: any) => tag.name) || [],
-        coverImage: getImageUrl(),
+        coverImage: getBlogCoverSrc(page.id, rawCoverImage),
       }
     })
 
@@ -141,16 +129,7 @@ export async function getBlogBySlugFromNotion(slug: string): Promise<BlogPost | 
       return ""
     }
 
-    const getImageUrl = () => {
-      const coverProp = props.CoverImage || props["Cover Image"]
-      if (coverProp) {
-        if (coverProp.files?.[0]) {
-          return coverProp.files[0].file?.url || coverProp.files[0].external?.url
-        }
-        if (coverProp.url) return coverProp.url
-      }
-      return page.cover?.external?.url || page.cover?.file?.url || "/placeholder.jpg"
-    }
+    const rawCoverImage = getCoverImageUrlFromPage(page)
 
     return {
       id: page.id,
@@ -163,7 +142,7 @@ export async function getBlogBySlugFromNotion(slug: string): Promise<BlogPost | 
       readTime: getText(props.ReadTime) || "5 min read",
       category: props.Category?.select?.name || "General",
       tags: props.Tags?.multi_select?.map((tag: any) => tag.name) || [],
-      coverImage: getImageUrl(),
+      coverImage: getBlogCoverSrc(page.id, rawCoverImage),
     }
   } catch (error: any) {
     return null
