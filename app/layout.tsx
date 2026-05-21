@@ -4,6 +4,7 @@ import "./globals.css"
 import { mtnBrighterSans } from "./fonts"
 import Footer from "@/components/footer"
 import Header from "@/components/header"
+import { Providers } from "@/components/providers"
 
 export const metadata: Metadata = {
   title: "Product Design Portfolio",
@@ -30,9 +31,11 @@ export default function RootLayout({
         className={`${mtnBrighterSans.variable} bg-[#050510] text-white min-h-screen`}
         suppressHydrationWarning
       >
-        <Header />
-        {children}
-        <Footer />
+        <Providers>
+          <Header />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   )

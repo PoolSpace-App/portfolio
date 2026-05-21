@@ -17,7 +17,7 @@ import BentoStats from "@/components/bento-stats"
 import Testimonials from "@/components/testimonials"
 import ImageMarquee from "@/components/image-marquee"
 import MyValues from "@/components/my-values"
-import LightPillar from "@/components/LightPillar/LightPillar"
+import HeroVideoBackground from "@/components/hero-video-background"
 import { getAllBlogsFromNotion, type BlogPost } from "@/lib/notion"
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
 import { IconCalendar, IconClock, IconArrowRight } from "@tabler/icons-react"
@@ -36,15 +36,8 @@ interface BackgroundCellsProps {
 const BackgroundCells = ({ children, className }: BackgroundCellsProps) => {
   return (
     <div className={cn("relative min-h-screen w-full flex justify-center overflow-hidden", className)}>
-      <div className="absolute inset-0 z-0">
-        <LightPillar 
-          intensity={0.7}
-          rotationSpeed={0.2}
-          pillarWidth={4.0}
-          pillarHeight={0.3}
-          topColor="#5227FF"
-          bottomColor="#FF9FFC"
-        />
+      <div className="absolute inset-0 z-0 min-h-full w-full">
+        <HeroVideoBackground src="/intro.mp4" />
       </div>
       {children && <div className="relative z-50 pointer-events-none select-none w-full flex items-center">{children}</div>}
     </div>

@@ -12,7 +12,7 @@ export default function ProjectFilter({ onFilterChange, activeFilter }: ProjectF
   const categories: FilterCategory[] = ["Enterprise & Product Design", "Independent & Client Projects"]
 
   return (
-    <div className="flex justify-center space-x-4 sm:space-x-12 sm:mx-16 py-6 mb-12">
+    <div className="flex justify-center space-x-4 sm:space-x-12 sm:mx-16 py-2 mb-0">
       {categories.map((category) => (
         <button
           key={category}
