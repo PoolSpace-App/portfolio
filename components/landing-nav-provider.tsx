@@ -14,7 +14,12 @@ type LandingNavContextValue = {
   setShowProjectNav: (show: boolean) => void
 }
 
-const LandingNavContext = createContext<LandingNavContextValue | null>(null)
+const defaultValue: LandingNavContextValue = {
+  showProjectNav: false,
+  setShowProjectNav: () => {},
+}
+
+const LandingNavContext = createContext<LandingNavContextValue>(defaultValue)
 
 export function LandingNavProvider({ children }: { children: ReactNode }) {
   const [showProjectNav, setShowProjectNavState] = useState(false)

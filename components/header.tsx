@@ -19,7 +19,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  if (pathname === "/" && landingNav?.showProjectNav) {
+  if (pathname === "/" && landingNav.showProjectNav) {
     return null
   }
 

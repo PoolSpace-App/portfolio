@@ -184,7 +184,7 @@ const logos = [
 ];
 
 export default function Home() {
-  const { showProjectNav, setShowProjectNav } = useLandingNav()!
+  const { showProjectNav, setShowProjectNav } = useLandingNav()
   const [activeFilter, setActiveFilter] = useState<FilterCategory>("Enterprise & Product Design")
   const [latestBlogs, setLatestBlogs] = useState<BlogPost[]>([])
   const projectsRef = useRef<HTMLDivElement>(null)
