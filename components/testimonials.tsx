@@ -17,7 +17,7 @@ export default function Testimonials({ data }: TestimonialsProps) {
         {displayTestimonials && displayTestimonials.map((testimonial) => (
           <div key={testimonial.id} className="pt-12 border-t border-gray-200">
             <div className="flex items-center gap-4 mb-12">
-              <div className="relative w-16 h-16 overflow-hidden rounded-full border border-gray-100">
+              <div className="relative size-16 shrink-0 overflow-hidden rounded-full border border-gray-100">
                 <Image
                   src={testimonial.image}
                   alt={testimonial.name}

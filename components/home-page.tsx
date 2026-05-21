@@ -150,27 +150,35 @@ export default function HomePage({ latestBlogs }: HomePageProps) {
                       }
                       description={
                         <>
-                          <p
-                            data-home-animate="scroll"
-                            className="mb-4 line-clamp-2 text-lg text-slate-700"
-                          >
-                            {blog.excerpt}
-                          </p>
-                          <div className="flex items-center gap-6 text-sm text-slate-500">
-                            <div data-home-animate="scroll" className="flex items-center gap-2">
-                              <IconClock className="h-4 w-4" />
-                              <span>{blog.readTime}</span>
+                          <div className="flex flex-1 flex-col">
+                            <p
+                              data-home-animate="scroll"
+                              className="mb-4 line-clamp-2 text-lg text-slate-700"
+                            >
+                              {blog.excerpt}
+                            </p>
+                            <div className="flex items-center gap-6 text-sm text-slate-500">
+                              <div data-home-animate="scroll" className="flex items-center gap-2">
+                                <IconClock className="h-4 w-4" />
+                                <span>{blog.readTime}</span>
+                              </div>
+                              <div data-home-animate="scroll" className="flex items-center gap-2">
+                                <IconCalendar className="h-4 w-4" />
+                                <span>
+                                  {new Date(blog.publishedAt).toLocaleDateString("en-GB", {
+                                    day: "numeric",
+                                    month: "short",
+                                    year: "numeric",
+                                  })}
+                                </span>
+                              </div>
                             </div>
-                            <div data-home-animate="scroll" className="flex items-center gap-2">
-                              <IconCalendar className="h-4 w-4" />
-                              <span>
-                                {new Date(blog.publishedAt).toLocaleDateString("en-GB", {
-                                  day: "numeric",
-                                  month: "short",
-                                  year: "numeric",
-                                })}
-                              </span>
-                            </div>
+                          </div>
+                          <div className="mt-auto shrink-0 pt-6">
+                            <span className="btn-secondary group/btn inline-flex shrink-0 items-center">
+                              Read story
+                              <IconArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
+                            </span>
                           </div>
                         </>
                       }

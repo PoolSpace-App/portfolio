@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { useState } from "react"
 import GridLinesBackground from "@/components/grid-lines-background"
 import Logo from "./logo"
@@ -23,12 +22,12 @@ export default function Footer() {
         </div>
 
         <div className="mb-4 text-center text-4xl font-light md:text-5xl">
-          Are you ready to embark on this adventure?
+          Turning ideas into products people love.
         </div>
 
         <p className="mx-auto mb-20 max-w-3xl text-center text-gray-400">
-          Great products start by bridging the gap between ideas and user experience. I&apos;m passionate about
-          transforming concepts into intuitive user experiences.
+          Transforming ideas into thoughtful, scalable digital products designed for real people and real
+          impact.
         </p>
 
         <div className="mb-20 grid grid-cols-1 justify-center gap-12 text-center md:grid-cols-2">
@@ -50,23 +49,13 @@ export default function Footer() {
           </div>
 
           <div>
-            <div className="mb-6 text-lg">Services</div>
+            <div className="mb-6 text-lg">How I Help Teams</div>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li>
-                <Link href="/services/product-design" className="transition-colors hover:text-white hover-glitch">
-                  Product Design
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/ux-design" className="transition-colors hover:text-white hover-glitch">
-                  UX Design
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/ui-design" className="transition-colors hover:text-white hover-glitch">
-                  UI Design
-                </Link>
-              </li>
+              <li>Turning ideas into production-ready products</li>
+              <li>Simplifying complex workflows</li>
+              <li>Designing scalable user experiences</li>
+              <li>Bridging design and engineering</li>
+              <li>Accelerating product teams with AI workflows</li>
             </ul>
           </div>
         </div>
@@ -94,7 +83,7 @@ export default function Footer() {
             </a>
           </div>
           <div className="text-xs text-gray-500">
-            © {currentYear} Made in Johannesburg, South Africa with Cursor.
+            © {currentYear} Made in Johannesburg, South Africa with love.
           </div>
         </div>
       </div>

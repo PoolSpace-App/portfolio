@@ -64,7 +64,7 @@ export const BentoGridItem = ({
         className={cn(
           "relative z-10",
           isCarousel
-            ? "p-5 md:p-6"
+            ? "flex flex-1 flex-col p-5 md:p-6"
             : "flex flex-1 flex-col transition duration-200 group-hover/bento:translate-x-2",
         )}
       >
@@ -72,7 +72,7 @@ export const BentoGridItem = ({
         {isCarousel ? (
           <>
             {title}
-            <div className="font-sans">{description}</div>
+            <div className="flex flex-1 flex-col font-sans">{description}</div>
           </>
         ) : (
           <>

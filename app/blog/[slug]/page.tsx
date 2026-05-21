@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowLeft } from "@/components/icons"
+import { ArrowLeft, IconArrowRight } from "@/components/icons"
 import { getBlogBySlugFromNotion, getAllBlogsFromNotion } from "@/lib/notion"
 import MarkdownRenderer from "@/components/markdown-renderer"
 import BlogCoverImage from "@/components/blog-cover-image"
@@ -119,30 +119,36 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {relatedBlogs.length > 0 && (
             <div className="border-t border-gray-200 pt-16">
               <h3 className="text-2xl font-medium mb-8 text-blue-950">Related Posts</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:items-stretch">
                 {relatedBlogs.map((relatedBlog) => (
-                  <Link 
-                    key={relatedBlog.id} 
+                  <Link
+                    key={relatedBlog.id}
                     href={`/blog/${relatedBlog.slug}`}
-                    className="group block"
+                    className="group flex h-full flex-col"
                   >
-                    <div className="relative mb-4 aspect-[4/3] overflow-hidden rounded-[32px] bg-gray-100">
+                    <div className="relative mb-4 aspect-[4/3] shrink-0 overflow-hidden rounded-[32px] bg-gray-100">
                       <BlogCoverImage
                         src={relatedBlog.coverImage}
                         alt={relatedBlog.title}
                         className="transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <div className="text-sm text-gray-700 font-medium">
-                        {relatedBlog.category} • {relatedBlog.readTime}
+                    <div className="flex flex-1 flex-col">
+                      <div className="space-y-2">
+                        <div className="text-sm font-medium text-gray-700">
+                          {relatedBlog.category} • {relatedBlog.readTime}
+                        </div>
+                        <h4 className="line-clamp-2 min-h-[3.5rem] text-lg font-medium text-blue-950 transition-colors group-hover:text-blue-700">
+                          {relatedBlog.title}
+                        </h4>
+                        <p className="line-clamp-2 text-sm text-gray-700">{relatedBlog.excerpt}</p>
                       </div>
-                      <h4 className="text-lg font-medium text-blue-950 transition-colors">
-                        {relatedBlog.title}
-                      </h4>
-                      <p className="text-gray-700 text-sm line-clamp-2">
-                        {relatedBlog.excerpt}
-                      </p>
+                      <div className="mt-auto shrink-0 pt-6">
+                        <span className="btn-secondary group/btn inline-flex shrink-0 items-center">
+                          Read more
+                          <IconArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
+                        </span>
+                      </div>
                     </div>
                   </Link>
                 ))}
