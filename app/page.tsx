@@ -16,7 +16,6 @@ import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card"
 import BentoStats from "@/components/bento-stats"
 import Testimonials from "@/components/testimonials"
 import ImageMarquee from "@/components/image-marquee"
-import MyValues from "@/components/my-values"
 import LightPillar from "@/components/LightPillar/LightPillar"
 import { getAllBlogsFromNotion, type BlogPost } from "@/lib/notion"
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
@@ -419,7 +418,7 @@ export default function Home() {
 
       {/* Filter section that appears on scroll */}
       <div
-        className={`sticky h-24 px-4 sm:h-20 sm:px-32 top-0 z-20 bg-[#050510]/40 backdrop-blur-2xl transition-all duration-500 ${
+        className={`sticky h-24 px-4 sm:h-20 sm:px-32 top-[88px] z-20 bg-[#050510]/40 backdrop-blur-2xl transition-all duration-500 ${
           showFilter ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
