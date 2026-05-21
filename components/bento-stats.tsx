@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef } from "react"
 import { ArrowRight } from "lucide-react"
-import { cn } from "@/lib/utils"
 import Link from "next/link"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
