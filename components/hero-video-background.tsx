@@ -3,11 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import LightPillar from "@/components/LightPillar/LightPillar"
 
-const VIDEO_SOURCES = [
-  "/video/video.mp4",
-  "/video/hero.mp4",
-  "/video/background.mp4",
-]
+const VIDEO_SOURCES = ["/intro.mp4"]
 
 interface HeroVideoBackgroundProps {
   src?: string
