@@ -1,112 +1,36 @@
 "use client"
 
 import React, { useEffect, useRef } from "react"
-import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-// Register GSAP plugins
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-interface StatCardProps {
-  title: string
-  subtitle: string
-  description: string
-  className?: string
-  titleClassName?: string
-  isYellow?: boolean
-  buttonText?: string
-  buttonHref?: string
-  onButtonClick?: (e: React.MouseEvent) => void
-}
-
-const StatCard = ({
-  title,
-  subtitle,
-  description,
-  className,
-  titleClassName,
-  isYellow = false,
-  buttonText,
-  buttonHref,
-  onButtonClick,
-}: StatCardProps) => {
-  return (
-    <div
-      className={cn(
-        "stat-card-gsap relative p-8 md:p-10 rounded-[56px] flex flex-col justify-between h-full transition-all duration-300",
-        isYellow 
-          ? "bg-[#11111a] text-white border border-white/10" 
-          : "bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20",
-        className
-      )}
-    >
-      <div>
-        <div className={cn(
-          "text-3xl md:text-[48px] font-normal mb-2 tracking-tighter leading-[1.2]",
-          "text-white",
-          titleClassName
-        )}>
-          {title}
-        </div>
-        <div className={cn(
-          "text-xl md:text-xl font-normal mb-4 leading-tight",
-          "text-white"
-        )}>
-          {subtitle}
-        </div>
-        <div className={cn(
-          "w-16 h-[2px] mb-8",
-          "bg-white/20"
-        )} />
-        <div className={cn(
-          "text-lg leading-relaxed mb-8 font-light",
-          isYellow ? "text-white" : "text-gray-400"
-        )}>
-          {description}
-        </div>
-      </div>
-      
-      {buttonText && (
-        <div className="mt-auto">
-          {buttonHref ? (
-            <Link href={buttonHref} onClick={onButtonClick}>
-              <button
-                className={cn(
-                  "flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold transition-all duration-300 group",
-                  isYellow 
-                    ? "border border-white/20 hover:bg-white hover:text-black text-white" 
-                    : "border border-white/20 hover:bg-white hover:text-black"
-                )}
-              >
-                {buttonText}
-                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-              </button>
-            </Link>
-          ) : (
-            <button
-              onClick={onButtonClick}
-              className={cn(
-                "flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold transition-all duration-300 group",
-                isYellow 
-                  ? "border border-white/20 hover:bg-white hover:text-black text-white" 
-                  : "border border-white/20 hover:bg-white hover:text-black"
-              )}
-            >
-              {buttonText}
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </button>
-          )}
-        </div>
-      )}
-    </div>
-  )
-}
+const stats = [
+  {
+    title: "9+ Years",
+    subtitle: "Building products from zero to scale",
+    description:
+      "Helping founders turn ideas into real products — from first MVP to growth-stage platforms.",
+  },
+  {
+    title: "20+",
+    subtitle: "Products shipped",
+    description:
+      "Hands-on across discovery, UX, product strategy, and delivery — not just concepts.",
+  },
+  {
+    title: "Millions",
+    subtitle: "Users reached",
+    description:
+      "Across consumer apps, fintech platforms, and internal tools used at scale.",
+  },
+]
 
 interface BentoStatsProps {
   onViewCaseStudyClick?: (e: React.MouseEvent) => void
@@ -117,28 +41,23 @@ export default function BentoStats({ onViewCaseStudyClick }: BentoStatsProps) {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const cards = gsap.utils.toArray(".stat-card-gsap")
-      cards.forEach((card: any, i: number) => {
+      const items = gsap.utils.toArray(".stat-item-gsap")
+      items.forEach((item: Element, i: number) => {
         gsap.fromTo(
-          card,
-          {
-            opacity: 0,
-            y: 30,
-            scale: 0.99,
-          },
+          item,
+          { opacity: 0, y: 40 },
           {
             opacity: 1,
             y: 0,
-            scale: 1,
-            duration: 0.8,
-            delay: i * 0.05,
+            duration: 0.9,
+            delay: i * 0.08,
             ease: "power2.out",
             scrollTrigger: {
-              trigger: card,
-              start: "top 85%",
+              trigger: item,
+              start: "top 88%",
               toggleActions: "play none none reverse",
             },
-          }
+          },
         )
       })
     }, containerRef)
@@ -147,45 +66,71 @@ export default function BentoStats({ onViewCaseStudyClick }: BentoStatsProps) {
   }, [])
 
   return (
-    <section ref={containerRef} className="w-full py-20 bg-[#050510]">
+    <section ref={containerRef} className="w-full py-20 md:py-28 bg-[#050510]">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          <StatCard
-            title="9+ Years"
-            subtitle="Building products from zero to scale"
-            description="Helping founders turn ideas into real products — from first MVP to growth-stage platforms."
-          />
-          <StatCard
-            title="20+"
-            subtitle="Products shipped"
-            description="Hands-on across discovery, UX, product strategy, and delivery — not just concepts."
-          />
-          <StatCard
-            title="Millions"
-            subtitle="Users reached"
-            description="Across consumer apps, fintech platforms, and internal tools used at scale."
-          />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="md:col-span-2 text-white">
-            <StatCard
-              title="From idea to shipped product"
-              subtitle="I help founders turn messy ideas into clear, usable products — fast, lean, and ready for real users."
-              description="Combining long-term product vision with measurable business outcomes."
-              buttonText="View case studies"
-              buttonHref="#projects"
-              onButtonClick={onViewCaseStudyClick}
-            />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 lg:items-center">
+          {/* Left: hero-scale stats */}
+          <div className="flex flex-col gap-14 md:gap-20">
+            {stats.map((stat) => (
+              <div key={stat.title} className="stat-item-gsap border-b border-white/10 pb-14 md:pb-20 last:border-0 last:pb-0">
+                <div className="text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] font-normal tracking-tighter text-white leading-[0.95]">
+                  {stat.title}
+                </div>
+                <div className="mt-4 text-xl md:text-2xl text-white font-normal leading-snug">
+                  {stat.subtitle}
+                </div>
+                <p className="mt-4 text-base md:text-lg text-gray-400 font-light leading-relaxed max-w-md">
+                  {stat.description}
+                </p>
+              </div>
+            ))}
           </div>
-          <div className="md:col-span-1">
-            <StatCard
-              title="Results matter."
-              subtitle="Momentum matters more."
-              description="I take ownership, make decisions, and help teams move forward with confidence."
-              isYellow={true}
-              buttonText="About me"
-              buttonHref="/info"
-            />
+
+          {/* Right: narrative + CTAs */}
+          <div className="stat-item-gsap">
+            <div className="relative p-8 md:p-12 rounded-[56px] bg-white/5 backdrop-blur-md border border-white/10 flex flex-col justify-between min-h-full">
+              <div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal text-white tracking-tight leading-[1.15] mb-6">
+                  From idea to shipped product
+                </h2>
+                <p className="text-lg md:text-xl text-white font-normal leading-relaxed mb-6">
+                  I help founders turn messy ideas into clear, usable products — fast, lean, and ready for real users.
+                </p>
+                <p className="text-base md:text-lg text-gray-400 font-light leading-relaxed mb-10">
+                  Combining long-term product vision with measurable business outcomes.
+                </p>
+
+                <div className="w-full h-px bg-white/10 mb-10" />
+
+                <h3 className="text-2xl md:text-3xl font-normal text-white tracking-tight mb-3">
+                  Results matter. Momentum matters more.
+                </h3>
+                <p className="text-base md:text-lg text-gray-400 font-light leading-relaxed">
+                  I take ownership, make decisions, and help teams move forward with confidence.
+                </p>
+              </div>
+
+              <div className="mt-10 md:mt-12 flex flex-col sm:flex-row flex-wrap gap-4">
+                <Link href="#projects" onClick={onViewCaseStudyClick}>
+                  <button
+                    type="button"
+                    className="flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold border border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300 group"
+                  >
+                    View case studies
+                    <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                  </button>
+                </Link>
+                <Link href="/info">
+                  <button
+                    type="button"
+                    className="flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold border border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300 group"
+                  >
+                    About me
+                    <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                  </button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>
