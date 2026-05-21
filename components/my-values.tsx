@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
 import { cn } from "@/lib/utils"
 import GridLinesBackground from "@/components/grid-lines-background"
+import { GlowingEffect } from "@/components/ui/glowing-effect"
 import { textRevealFrom, textRevealTo } from "@/lib/text-reveal"
 
 if (typeof window !== "undefined") {
@@ -17,43 +18,43 @@ const values = [
     id: "transparency",
     title: "Transparency",
     description:
-      "I believe in openness by default. Clear intentions, honest feedback, and visibility into decisions build trust and help teams move faster.",
+      "I believe clear communication, honest feedback, and transparency create stronger products, better collaboration, and faster-moving teams.",
   },
   {
     id: "collaboration",
     title: "Collaboration",
     description:
-      "Great products aren't built alone. I work closely with founders, engineers, and product partners — sharing ownership and solving problems together.",
+      "Great products come from strong partnerships — working closely with founders, project managers, engineers, and product teams to solve problems together and move ideas forward.",
   },
   {
     id: "experimentation",
     title: "Experimentation",
     description:
-      "If something isn't working, we change it. I value testing ideas early, learning quickly, and iterating based on real feedback rather than assumptions.",
+      "I believe in testing ideas early, learning quickly, and improving continuously through real feedback instead of assumptions.",
   },
   {
     id: "communication",
     title: "Communication",
     description:
-      "I prioritise clear, direct communication. I ask questions early, raise concerns quickly, and ask for help when I'm stuck — because progress matters more than pride.",
+      "I value direct communication, asking questions early, raising concerns quickly, and seeking help when needed — because progress matters more than ego.",
   },
   {
     id: "humility",
     title: "Humility",
     description:
-      "No egos. I care more about the outcome than being right, and I'm always open to learning from others, regardless of role or title.",
+      "I care more about building the right outcome than being right, and I'm always open to learning from others — regardless of role or title.",
   },
   {
     id: "over-deliver",
     title: "Over-deliver",
     description:
-      "I aim to exceed expectations in every project, going the extra mile to ensure quality and impact.",
+      "I aim to deliver thoughtful, high-quality work in every project — always pushing further to create meaningful impact.",
   },
   {
     id: "trust-autonomy",
     title: "Trust & autonomy",
     description:
-      "I thrive in remote environments built on trust. I take ownership of my work, manage my time responsibly, and deliver without needing constant oversight.",
+      "I thrive in trust-based remote environments — taking ownership, managing my time responsibly, and delivering consistently without needing constant oversight.",
   },
 ]
 
@@ -69,14 +70,25 @@ function ValueBentoCard({
   return (
     <div
       className={cn(
-        "value-bento-card flex h-full flex-col rounded-[40px] bg-neutral-100 p-6 md:p-8",
+        "value-bento-card group/bento relative flex h-full flex-col overflow-visible rounded-[40px] border border-neutral-200 bg-neutral-100 p-6 shadow-none transition duration-200 hover:shadow-xl md:p-8",
         className
       )}
     >
-      <h3 className="mb-3 text-lg font-semibold tracking-tight text-blue-950 md:text-xl">
-        {title}
-      </h3>
-      <p className="text-sm leading-relaxed text-slate-600 md:text-base">{description}</p>
+      <GlowingEffect
+        spread={40}
+        glow={true}
+        disabled={false}
+        proximity={64}
+        inactiveZone={0.01}
+        borderWidth={1.5}
+        className="z-10 rounded-[inherit]"
+      />
+      <div className="relative z-10 h-full">
+        <h3 className="mb-3 text-lg font-semibold tracking-tight text-blue-950 md:text-xl">
+          {title}
+        </h3>
+        <p className="text-sm leading-relaxed text-slate-600 md:text-base">{description}</p>
+      </div>
     </div>
   )
 }
