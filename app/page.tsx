@@ -36,8 +36,8 @@ interface BackgroundCellsProps {
 const BackgroundCells = ({ children, className }: BackgroundCellsProps) => {
   return (
     <div className={cn("relative min-h-screen w-full flex justify-center overflow-hidden", className)}>
-      <div className="absolute inset-0 z-0">
-        <HeroVideoBackground src="/video/hero.mp4" />
+      <div className="absolute inset-0 z-0 min-h-full w-full">
+        <HeroVideoBackground />
       </div>
       {children && <div className="relative z-50 pointer-events-none select-none w-full flex items-center">{children}</div>}
     </div>
