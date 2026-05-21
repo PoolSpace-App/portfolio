@@ -3,9 +3,11 @@
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
 import Navbar from "./navbar"
+import { useLandingNav } from "@/components/landing-nav-provider"
 
 export default function Header() {
   const pathname = usePathname()
+  const landingNav = useLandingNav()
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
@@ -16,6 +18,10 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  if (pathname === "/" && landingNav?.showProjectNav) {
+    return null
+  }
 
   return (
     <header className={`fixed top-0 left-0 z-[10000] w-full transition-all duration-500 border-b overflow-visible ${

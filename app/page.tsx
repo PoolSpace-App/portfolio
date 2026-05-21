@@ -17,6 +17,7 @@ import BentoStats from "@/components/bento-stats"
 import Testimonials from "@/components/testimonials"
 import ImageMarquee from "@/components/image-marquee"
 import LightPillar from "@/components/LightPillar/LightPillar"
+import { useLandingNav } from "@/components/landing-nav-provider"
 import { getAllBlogsFromNotion, type BlogPost } from "@/lib/notion"
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
 import { IconCalendar, IconClock, IconArrowRight } from "@tabler/icons-react"
@@ -183,11 +184,12 @@ const logos = [
 ];
 
 export default function Home() {
+  const { showProjectNav, setShowProjectNav } = useLandingNav()!
   const [activeFilter, setActiveFilter] = useState<FilterCategory>("Enterprise & Product Design")
-  const [showFilter, setShowFilter] = useState(false)
   const [latestBlogs, setLatestBlogs] = useState<BlogPost[]>([])
   const projectsRef = useRef<HTMLDivElement>(null)
   const missionRef = useRef<HTMLDivElement>(null)
+  const projectNavSentinelRef = useRef<HTMLDivElement>(null)
 
   // GSAP Animations
   useEffect(() => {
@@ -269,20 +271,24 @@ export default function Home() {
     ? enterpriseProjects 
     : independentProjects;
 
-  // Handle scroll to show filter
+  // Swap main nav for project filter when user reaches the projects section
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY
-      if (scrollPosition > 300) {
-        setShowFilter(true)
-      } else {
-        setShowFilter(false)
-      }
-    }
+    const sentinel = projectNavSentinelRef.current
+    if (!sentinel) return
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowProjectNav(entry.boundingClientRect.top < 0)
+      },
+      { threshold: [0, 1] },
+    )
+
+    observer.observe(sentinel)
+    return () => {
+      observer.disconnect()
+      setShowProjectNav(false)
+    }
+  }, [setShowProjectNav])
 
   // Handle filter change
   const handleFilterChange = (category: FilterCategory) => {
@@ -414,14 +420,19 @@ export default function Home() {
 
       <BentoStats onViewCaseStudyClick={scrollToProjects} />
 
+      <div ref={projectNavSentinelRef} className="h-px w-full" aria-hidden />
 
-      {/* Filter section that appears on scroll */}
+      {showProjectNav && <div className="h-20 sm:h-24 shrink-0" aria-hidden />}
+
       <div
-        className={`sticky h-24 px-4 sm:h-20 sm:px-32 top-0 z-20 bg-[#050510]/40 backdrop-blur-2xl transition-all duration-500 ${
-          showFilter ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
+        className={cn(
+          "left-0 right-0 z-[10000] transition-all duration-500",
+          showProjectNav
+            ? "fixed top-0 h-20 sm:h-24 px-4 sm:px-32 bg-black/40 backdrop-blur-xl border-b border-white/10"
+            : "h-0 overflow-hidden opacity-0 pointer-events-none",
+        )}
       >
-        <div className="container mx-auto">
+        <div className="container mx-auto h-full flex items-center justify-center">
           <ProjectFilter onFilterChange={handleFilterChange} activeFilter={activeFilter} />
         </div>
       </div>
