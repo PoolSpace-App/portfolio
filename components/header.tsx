@@ -1,9 +1,11 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { usePathname } from "next/navigation"
 import Navbar from "./navbar"
 
 export default function Header() {
+  const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
