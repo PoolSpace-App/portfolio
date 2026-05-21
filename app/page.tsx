@@ -16,7 +16,6 @@ import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card"
 import BentoStats from "@/components/bento-stats"
 import Testimonials from "@/components/testimonials"
 import ImageMarquee from "@/components/image-marquee"
-import MyValues from "@/components/my-values"
 import LightPillar from "@/components/LightPillar/LightPillar"
 import { getAllBlogsFromNotion, type BlogPost } from "@/lib/notion"
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
@@ -414,8 +413,6 @@ export default function Home() {
       </BackgroundCells>
 
       <BentoStats onViewCaseStudyClick={scrollToProjects} />
-
-      <MyValues />
 
       {/* Filter section that appears on scroll */}
       <div
