@@ -4,7 +4,7 @@ import ProfileCard from "@/components/ProfileCard"
 import TextType from "@/components/TextType/TextType"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, ChevronRight } from "@/components/icons"
+import { ArrowRight, ChevronRight, Dribbble, LinkedIn, Mail } from "@/components/icons"
 import { useMemo, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import gsap from "gsap"
@@ -15,6 +15,7 @@ import { projectsArray, type Project } from "@/lib/projects"
 import BentoStats from "@/components/bento-stats"
 import GridLinesBackground from "@/components/grid-lines-background"
 import { GlowingEffect } from "@/components/ui/glowing-effect"
+import { UnderlineTabs } from "@/components/ui/underline-tabs"
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
@@ -25,6 +26,10 @@ const heroHeadlines = [
   "Scaling digital products with AI-assisted workflows.",
   "Helping ambitious teams move faster.",
 ]
+
+const longestHeroHeadline = heroHeadlines.reduce((longest, headline) =>
+  headline.length > longest.length ? headline : longest
+)
 
 const textRevealFrom = {
   opacity: 0,
@@ -40,9 +45,45 @@ const textRevealTo = {
   ease: "expo.out",
 }
 
-type ProjectTab = "Enterprise & Product Design" | "Independent & Client Projects"
+const socialLinks = [
+  {
+    href: "https://www.linkedin.com/in/mrq/",
+    label: "LinkedIn",
+    icon: LinkedIn,
+    external: true,
+  },
+  {
+    href: "https://dribbble.com/mrnqoe",
+    label: "Dribbble",
+    icon: Dribbble,
+    external: true,
+  },
+  {
+    href: "mailto:nqovun@gmail.com",
+    label: "Email",
+    icon: Mail,
+    external: false,
+  },
+] as const
 
-const tabs: ProjectTab[] = ["Enterprise & Product Design", "Independent & Client Projects"]
+const socialLinkClass =
+  "group relative inline-flex items-center gap-2 pb-1 text-blue-950 transition-colors duration-300 hover:text-blue-600"
+
+const socialLinkUnderlineClass =
+  "absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 bg-blue-600 transition-transform duration-300 ease-out group-hover:scale-x-100"
+
+type ProjectTab =
+  | "Enterprise & Product Design"
+  | "Independent & Client Projects"
+  | "Independent Ventures"
+
+const tabs: ProjectTab[] = [
+  "Enterprise & Product Design",
+  "Independent & Client Projects",
+  "Independent Ventures",
+]
+
+const ventureProjectOrder = ["poolspace", "brandspace", "cardspace"]
 
 const normalizeImagePath = (path: string): string => {
   if (!path) return "/placeholder.svg"
@@ -50,26 +91,29 @@ const normalizeImagePath = (path: string): string => {
 }
 
 const logos = [
-  { name: "Client 2", src: "/logos/Frame@3x-1.png" },
-  { name: "Client 3", src: "/logos/Frame@3x-2.png" },
-  { name: "Client 4", src: "/logos/Frame@3x-3.png" },
-  { name: "Client 5", src: "/logos/Frame@3x-4.png" },
-  { name: "Client 6", src: "/logos/Frame@3x-5.png" },
-  { name: "Client 7", src: "/logos/Frame@3x-6.png" },
-  { name: "Client 8", src: "/logos/Frame@3x-7.png" },
-  { name: "Client 9", src: "/logos/Frame@3x-8.png" },
-  { name: "Client 10", src: "/logos/Frame@3x-9.png" },
-  { name: "Client 11", src: "/logos/Frame@3x-10.png" },
-  { name: "Client 12", src: "/logos/Frame@3x-11.png" },
-  { name: "Client 13", src: "/logos/Frame@3x-12.png" },
-  { name: "Client 14", src: "/logos/Frame@3x-13.png" },
+  { name: "Client 2", src: "/logos/old-mutual.svg" },
+  { name: "Client 3", src: "/logos/22seven.svg" },
+  { name: "Client 4", src: "/logos/hsrc.svg" },
+  { name: "Client 5", src: "/logos/gravity-payments.svg" },
+  { name: "Client 6", src: "/logos/capitect-bank.svg" },
+  { name: "Client 7", src: "/logos/meetcard-space.svg" },
+  { name: "Client 10", src: "/logos/fcm.svg" },
+  { name: "Client 11", src: "/logos/visio.svg" },
+  { name: "Client 12", src: "/logos/whereismytransport.svg" },
+  { name: "Client 13", src: "/logos/docfox.svg" },
+  { name: "Client 14", src: "/logos/mtn.svg" },
+  { name: "Client 15", src: "/logos/ncino.svg" },
 ]
 
 function ProjectCarouselCard({ project }: { project: Project }) {
+  const href = project.link ?? `/${project.slug}`
+  const isExternal = href.startsWith("http")
+
   return (
     <Link
-      href={`/${project.slug}`}
-      className="group/card relative flex w-[400px] flex-shrink-0 snap-start flex-col self-stretch overflow-visible rounded-[48px] border border-neutral-200 bg-white shadow-none transition duration-200 hover:shadow-xl md:w-[520px]"
+      href={href}
+      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      className="group/card relative flex w-[min(82vw,320px)] flex-shrink-0 snap-start flex-col self-stretch overflow-visible rounded-[32px] border border-neutral-200 bg-white shadow-none transition duration-200 hover:shadow-xl md:w-[520px] md:rounded-[48px]"
     >
       <GlowingEffect
         spread={40}
@@ -80,21 +124,21 @@ function ProjectCarouselCard({ project }: { project: Project }) {
         borderWidth={1.5}
         className="z-10 rounded-[inherit]"
       />
-      <div className="relative z-10 aspect-[4/3] w-full shrink-0 overflow-hidden rounded-t-[48px]">
+      <div className="relative z-10 aspect-[4/3] w-full shrink-0 overflow-hidden rounded-t-[32px] md:rounded-t-[48px]">
         <Image
           src={normalizeImagePath(project.imageUrl)}
           alt={project.name}
           fill
           className="object-cover transition-transform duration-500 group-hover/card:scale-105"
-          sizes="520px"
+          sizes="(max-width: 768px) 320px, 520px"
         />
       </div>
-      <div className="relative z-10 flex min-h-[17.5rem] flex-1 flex-col p-5 md:min-h-[18rem] md:p-6">
+      <div className="relative z-10 flex min-h-[19rem] flex-1 flex-col p-5 md:min-h-[18rem] md:p-6">
         <div className="flex flex-1 flex-col">
           <span className="mb-3 inline-block text-xs font-medium uppercase tracking-wider text-slate-500">
             {project.category}
           </span>
-          <div className="mb-3 line-clamp-2 min-h-[4.5rem] text-2xl font-semibold leading-tight tracking-tight text-blue-950">
+          <div className="mb-3 line-clamp-3 min-h-[5.25rem] text-xl font-semibold leading-snug tracking-tight text-blue-950 md:line-clamp-2 md:min-h-[4.5rem] md:text-2xl md:leading-tight">
             {project.name}
           </div>
           <p className="mb-4 line-clamp-2 min-h-[3.5rem] text-lg leading-snug text-slate-700">
@@ -106,7 +150,7 @@ function ProjectCarouselCard({ project }: { project: Project }) {
         </div>
         <div className="mt-auto shrink-0 pt-6">
           <span className="btn-secondary group/btn inline-flex shrink-0 items-center">
-            View case study
+            {project.type === "venture" ? "View link" : "View case study"}
             <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
           </span>
         </div>
@@ -117,23 +161,28 @@ function ProjectCarouselCard({ project }: { project: Project }) {
 
 interface HeroSectionProps {
   onViewPortfolio: (e: React.MouseEvent) => void
-  onCopyEmail: (e: React.MouseEvent) => void
 }
 
-export default function HeroSection({ onViewPortfolio, onCopyEmail }: HeroSectionProps) {
+export default function HeroSection({ onViewPortfolio }: HeroSectionProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const [activeTab, setActiveTab] = useState<ProjectTab>("Enterprise & Product Design")
 
-  const filteredProjects = useMemo(
-    () =>
-      projectsArray.filter((project) =>
-        activeTab === "Enterprise & Product Design"
-          ? project.type === "permanent"
-          : project.type === "freelance"
-      ),
-    [activeTab]
-  )
+  const filteredProjects = useMemo(() => {
+    const filtered = projectsArray.filter((project) => {
+      if (activeTab === "Enterprise & Product Design") return project.type === "permanent"
+      if (activeTab === "Independent Ventures") return project.type === "venture"
+      return project.type === "freelance"
+    })
+
+    if (activeTab === "Independent Ventures") {
+      return [...filtered].sort(
+        (a, b) => ventureProjectOrder.indexOf(a.slug) - ventureProjectOrder.indexOf(b.slug)
+      )
+    }
+
+    return filtered
+  }, [activeTab])
 
   useGSAP(
     () => {
@@ -178,19 +227,27 @@ export default function HeroSection({ onViewPortfolio, onCopyEmail }: HeroSectio
       <div className="container mx-auto px-4">
         <div className="mb-14 grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
-            <TextType
-              as="h1"
-              data-hero-animate="load"
-              className="max-w-xl text-4xl font-semibold leading-[1.1] tracking-tight text-blue-950 md:text-5xl lg:text-[3.25rem]"
-              text={heroHeadlines}
-              typingSpeed={35}
-              initialDelay={350}
-              pauseDuration={2500}
-              loop
-              showCursor
-              cursorCharacter="|"
-              cursorClassName="font-light text-blue-600"
-            />
+            <div className="relative max-w-xl">
+              <div
+                aria-hidden
+                className="invisible pointer-events-none text-4xl font-semibold leading-[1.1] tracking-tight md:text-5xl lg:text-[3.25rem]"
+              >
+                {longestHeroHeadline}
+              </div>
+              <TextType
+                as="h1"
+                data-hero-animate="load"
+                className="absolute left-0 top-0 max-w-xl text-4xl font-semibold leading-[1.1] tracking-tight text-blue-950 md:text-5xl lg:text-[3.25rem]"
+                text={heroHeadlines}
+                typingSpeed={35}
+                initialDelay={350}
+                pauseDuration={2500}
+                loop
+                showCursor
+                cursorCharacter="|"
+                cursorClassName="font-light text-blue-600"
+              />
+            </div>
             <p
               data-hero-animate="load"
               className="mt-6 max-w-lg text-lg leading-relaxed text-slate-600"
@@ -203,16 +260,32 @@ export default function HeroSection({ onViewPortfolio, onCopyEmail }: HeroSectio
               <button onClick={onViewPortfolio} className="btn-primary">
                 View portfolio
               </button>
-              <button onClick={onCopyEmail} className="btn-secondary">
+              <a href="mailto:nqovun@gmail.com" className="btn-secondary">
                 Let&apos;s chat
-              </button>
+              </a>
             </div>
             <p data-hero-animate="load" className="mt-6 text-sm text-slate-500">
               Trusted by teams at leading enterprises • Available for freelance &amp; contract work
             </p>
+            <div data-hero-animate="load" className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium">
+              {socialLinks.map(({ href, label, icon: Icon, external }) => (
+                <a
+                  key={label}
+                  href={href}
+                  {...(external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  className={socialLinkClass}
+                >
+                  <Icon className="h-4 w-4" />
+                  {label}
+                  <span aria-hidden className={socialLinkUnderlineClass} />
+                </a>
+              ))}
+            </div>
           </div>
 
-          <div className="relative mx-auto aspect-[4/3] w-full max-w-[640px] overflow-visible lg:aspect-square lg:ml-auto">
+          <div className="hero-profile-card-container lg:ml-auto">
             <ProfileCard
               className="hero-profile-card h-full w-full"
               avatarUrl="/cover-image.png"
@@ -234,13 +307,13 @@ export default function HeroSection({ onViewPortfolio, onCopyEmail }: HeroSectio
           <div className="overflow-hidden">
             <motion.div
               className="flex w-max items-center gap-12 px-2"
-              animate={{ x: ["0%", "-50%"] }}
+              animate={{ x: ["0%", "-30%"] }}
               transition={{ duration: 35, ease: "linear", repeat: Infinity }}
             >
               {[...logos, ...logos].map((logo, i) => (
                 <div
                   key={`${logo.name}-${i}`}
-                  className="relative flex aspect-[18/10] w-28 flex-shrink-0 items-center justify-center grayscale opacity-50 transition-opacity duration-500 hover:opacity-80 md:w-32"
+                  className="relative flex aspect-[18/10] w-28 flex-shrink-0 items-center justify-center opacity-80 transition duration-300 hover:scale-110 hover:opacity-100 md:w-32"
                 >
                   <Image
                     src={logo.src}
@@ -262,44 +335,52 @@ export default function HeroSection({ onViewPortfolio, onCopyEmail }: HeroSectio
       <BentoStats onViewCaseStudyClick={onViewPortfolio} />
 
       <div className="container mx-auto px-4">
-        <div id="projects" className="mb-6 flex justify-start overflow-x-auto">
-          <div className="inline-flex rounded-full bg-black/5 p-1">
-            {tabs.map((tab) => (
-              <button
-                key={tab}
-                onClick={() => handleTabChange(tab)}
-                className={cn(
-                  "whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 md:px-6",
-                  activeTab === tab
-                    ? "bg-blue-600 text-white"
-                    : "text-slate-600 hover:text-blue-600"
-                )}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
+        <div id="projects" className="mb-6">
+          <UnderlineTabs
+            items={tabs.map((tab) => ({ value: tab, label: tab }))}
+            value={activeTab}
+            onValueChange={(tab) => handleTabChange(tab as ProjectTab)}
+            layoutId="hero-project-tabs"
+            size="sm"
+            className="rounded-2xl bg-sky-50 px-4 py-3 md:px-6 md:py-4"
+          />
         </div>
 
-        <div className="relative">
-          <div
-            ref={scrollRef}
-            className="scrollbar-hide flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto pb-12 pt-6 px-6"
-          >
-            {filteredProjects.map((project) => (
-              <ProjectCarouselCard key={project.id} project={project} />
-            ))}
-          </div>
-
-          {filteredProjects.length > 0 && (
-            <button
-              onClick={scrollCards}
-              aria-label="Scroll project cards"
-              className="absolute -right-2 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white shadow-sm transition-colors hover:bg-neutral-50 md:flex"
-            >
-              <ChevronRight className="h-5 w-5 text-blue-950" />
-            </button>
+        <div className="relative -mx-4 md:mx-0">
+          {filteredProjects.length > 1 && (
+            <p className="mb-3 flex items-center gap-1.5 px-4 text-sm text-slate-500 md:hidden">
+              Swipe to explore
+              <ChevronRight className="h-4 w-4" aria-hidden />
+            </p>
           )}
+
+          <div className="relative">
+            {filteredProjects.length > 1 && (
+              <div
+                aria-hidden
+                className="pointer-events-none absolute right-0 top-6 z-10 h-[calc(100%-3rem)] w-12 bg-gradient-to-l from-white to-transparent md:hidden"
+              />
+            )}
+
+            <div
+              ref={scrollRef}
+              className="scrollbar-hide flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto scroll-pl-4 pb-12 pl-4 pr-8 pt-6 md:scroll-pl-0 md:px-6 md:pr-6"
+            >
+              {filteredProjects.map((project) => (
+                <ProjectCarouselCard key={project.id} project={project} />
+              ))}
+            </div>
+
+            {filteredProjects.length > 0 && (
+              <button
+                onClick={scrollCards}
+                aria-label="Scroll project cards"
+                className="absolute -right-2 top-1/2 z-30 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white shadow-sm transition-colors hover:bg-neutral-50 md:flex"
+              >
+                <ChevronRight className="h-5 w-5 text-blue-950" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
       </div>

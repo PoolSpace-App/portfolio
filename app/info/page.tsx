@@ -1,57 +1,73 @@
-import Logo from "@/components/logo"
 import MyValues from "@/components/my-values"
+import GridLinesBackground from "@/components/grid-lines-background"
+import { InfoAboutLayout } from "@/components/info-about-layout"
 
 export default function InfoPage() {
   return (
     <div className="min-h-screen bg-[#050510]">
-      <div className="container mx-auto px-4 pt-32 pb-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-3xl font-light mb-8">About Me</div>
-          <div>
-            <p className="mb-6">
-              I'm an experienced product designer with over a decade of experience creating high-impact digital products. Since 2013, I've collaborated with brilliant teams across Fintech, Travel, Health, and Blockchain—building intuitive, user-centred solutions that matter.
-            </p>
-            <p className="mb-6">
-            Lately, I've been diving deep into the intersection of design and AI—exploring how intelligent tools can enhance creativity, speed up workflows, and shape the future of product development. I'm excited about how AI is reshaping design, and I actively incorporate it into my process to stay ahead.
-            </p>
-            <p className="mb-6">
-            I thrive in collaborative environments, whether brainstorming on paper or prototyping in pixels. I adapt easily, believe in lean principles, and love seeing a product through from concept to launch. Above all, I care deeply about crafting experiences that are meaningful, scalable, and beautifully simple.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="container mx-auto px-4 pt-8 pb-16">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-2xl font-light mb-8">Current Work Experience</div>
-          <div className="space-y-10">
+      <div className="relative overflow-hidden">
+        <GridLinesBackground variant="dark" fade="bottom" />
+        <div className="relative z-10">
+          <InfoAboutLayout>
+            <div data-about-animate="load" className="text-3xl font-light mb-8">
+              About Me
+            </div>
             <div>
-              <div className="font-medium">Senior Product Designer (UX/UI) - nCino Inc formerly DocFox</div>
-              <div className="text-gray-400 text-sm mb-2">Oct 2022 - Present</div>
-              <p>
-              nCino is a cloud-based financial technology company that offers a comprehensive digital banking platform built on Salesforce. Our solutions streamline various banking operations, including loan origination, account opening, customer relationship management, and compliance tracking. 
+              <p data-about-animate="load" className="mb-6">
+                I&apos;m a Product Designer with 10+ years of experience designing and shipping
+                digital products across fintech, travel, health, and emerging technologies.
               </p>
-              <p>
-              Product Designers at nCino play a crucial role in shaping the user experience of the company's digital banking solutions. ctional teams, including engineers and product managers, to bring designs to life. 
+              <p data-about-animate="load" className="mb-6">
+                Since 2013, I&apos;ve partnered with startups, scale-ups, and enterprise teams to
+                create thoughtful, scalable user experiences — blending UX, product strategy, and
+                modern AI-assisted workflows to move products from idea to launch faster.
               </p>
-              <p>
-              By focusing on user-centric design, Product Designers at nCino ensure that the platform meets the diverse needs of financial institutions and their customers.
+              <p data-about-animate="load" className="mb-6">
+                My work spans everything from early discovery and prototyping to production-ready
+                platforms used by real teams and millions of users. Recently, I&apos;ve been focused
+                on the intersection of design and AI, exploring how intelligent tooling can
+                accelerate product development, improve workflows, and reshape how modern digital
+                products are built.
+              </p>
+              <p data-about-animate="load" className="mb-6">
+                I enjoy working closely with founders, product teams, and engineers in lean,
+                collaborative environments where speed, clarity, and execution matter.
+              </p>
+              <p data-about-animate="load" className="mb-6">
+                Currently, I&apos;m a Senior Product Designer at nCino (formerly DocFox), helping
+                shape digital banking experiences for financial institutions through scalable
+                onboarding, compliance, and customer management platforms used globally.
               </p>
             </div>
-          </div>
 
-          <div className="text-2xl font-light mt-12 mb-4">Contact</div>
-          <div className="mb-24">
-            <p className="mb-6">
-              Feel free to reach out to me at <a href="mailto:nqovun@gmail.com" className="underline">nqovun@gmail.com</a> or connect with me on <a href="https://www.linkedin.com/in/mrq/" target="_blank" rel="noopener noreferrer" className="underline">LinkedIn</a>.
-            </p>
-          </div>
+            <div data-about-animate="load" className="text-2xl font-light mt-12 mb-4">
+              Contact
+            </div>
+            <div className="mb-8">
+              <p data-about-animate="load" className="mb-6">
+                Feel free to reach out to me at{" "}
+                <a href="mailto:nqovun@gmail.com" className="underline hover:text-white/80">
+                  nqovun@gmail.com
+                </a>{" "}
+                or connect with me on{" "}
+                <a
+                  href="https://www.linkedin.com/in/mrq/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-white/80"
+                >
+                  LinkedIn
+                </a>
+                .
+              </p>
+            </div>
+          </InfoAboutLayout>
         </div>
       </div>
 
       <div className="pb-32">
         <MyValues />
       </div>
-
     </div>
   )
 }

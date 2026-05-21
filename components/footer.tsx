@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useState } from "react"
+import GridLinesBackground from "@/components/grid-lines-background"
 import Logo from "./logo"
 
 export default function Footer() {
@@ -12,8 +13,9 @@ export default function Footer() {
   const words = largeText.split(" ")
 
   return (
-    <footer className="bg-[#050510] px-4 pb-20 pt-32 text-white md:px-8">
-      <div className="container mx-auto max-w-6xl">
+    <footer className="relative overflow-hidden bg-[#050510] px-4 pb-20 pt-32 text-white md:px-8">
+      <GridLinesBackground variant="dark" fade="top" />
+      <div className="relative z-10 container mx-auto max-w-6xl">
         <div className="mb-12 flex justify-center">
           <div className="scale-150 transform">
             <Logo variant="light" />
@@ -97,7 +99,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mt-32 overflow-hidden">
+      <div className="relative z-10 mt-32 overflow-hidden">
         <div className="animate-marquee whitespace-nowrap">
           <div className="inline-flex">
             {[...Array(4)].map((_, copyIndex) => (

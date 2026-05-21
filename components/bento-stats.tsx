@@ -4,7 +4,34 @@ import React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, Layers, Profile, Rocket } from "@/components/icons"
+import { GlowingEffect } from "@/components/ui/glowing-effect"
 import { cn } from "@/lib/utils"
+
+const bentoCardShellClass =
+  "relative overflow-visible rounded-[40px] border border-neutral-200 bg-neutral-100 shadow-none transition duration-200 hover:shadow-xl"
+
+function BentoCardShell({
+  children,
+  className,
+}: {
+  children: React.ReactNode
+  className?: string
+}) {
+  return (
+    <div className={cn(bentoCardShellClass, className)}>
+      <GlowingEffect
+        spread={40}
+        glow={true}
+        disabled={false}
+        proximity={64}
+        inactiveZone={0.01}
+        borderWidth={1.5}
+        className="z-10 rounded-[inherit]"
+      />
+      <div className="relative z-10 h-full">{children}</div>
+    </div>
+  )
+}
 
 interface LargeBentoCardProps {
   title: string
@@ -25,13 +52,8 @@ const LargeBentoCard = ({
   buttonHref,
   onButtonClick,
 }: LargeBentoCardProps) => (
-  <div
-    className={cn(
-      "flex h-full flex-col overflow-hidden rounded-[40px] bg-neutral-100",
-      className
-    )}
-  >
-    <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden">
+  <BentoCardShell className={cn("flex h-full flex-col", className)}>
+    <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden rounded-t-[40px]">
       {children}
     </div>
     <div className="p-6 md:p-8">
@@ -56,7 +78,7 @@ const LargeBentoCard = ({
         </Link>
       )}
     </div>
-  </div>
+  </BentoCardShell>
 )
 
 interface SmallBentoCardProps {
@@ -66,8 +88,8 @@ interface SmallBentoCardProps {
 }
 
 const SmallBentoCard = ({ icon, title, description }: SmallBentoCardProps) => (
-  <div className="flex h-full flex-col rounded-[40px] bg-neutral-100 p-6 md:p-8">
-    <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-xl bg-white text-blue-950">
+  <BentoCardShell className="flex h-full flex-col p-6 md:p-8">
+    <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-full bg-white text-blue-950">
       {icon}
     </div>
     <h3
@@ -79,7 +101,7 @@ const SmallBentoCard = ({ icon, title, description }: SmallBentoCardProps) => (
     <p data-hero-animate="scroll" className="text-sm leading-relaxed text-slate-600 md:text-base">
       {description}
     </p>
-  </div>
+  </BentoCardShell>
 )
 
 interface BentoStatsProps {
@@ -117,8 +139,8 @@ export default function BentoStats({ onViewCaseStudyClick }: BentoStatsProps) {
             onButtonClick={onViewCaseStudyClick}
           >
             <Image
-              src="/marquee/02.jpg"
-              alt="Product design case study preview"
+              src="/nqobile-vundla-strategy.png"
+              alt="From strategy to shipped product"
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
@@ -132,8 +154,8 @@ export default function BentoStats({ onViewCaseStudyClick }: BentoStatsProps) {
             buttonHref="/info"
           >
             <Image
-              src="/marquee/06.jpg"
-              alt="Discovery to delivery case study preview"
+              src="/nqobile-vundla-discovery.png"
+              alt="Discovery to delivery"
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"

@@ -4,7 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState, useEffect } from "react"
 import { createPortal } from "react-dom"
-import { Menu, X } from "@/components/icons"
+import { Dribbble, LinkedIn, Mail, Menu, X } from "@/components/icons"
 import Logo from "./logo"
 
 export default function Navbar() {
@@ -30,6 +30,17 @@ export default function Navbar() {
   useEffect(() => {
     setIsMenuOpen(false)
   }, [pathname])
+
+  useEffect(() => {
+    if (!isMenuOpen) return
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMenuOpen(false)
+    }
+
+    document.addEventListener("keydown", handleEscape)
+    return () => document.removeEventListener("keydown", handleEscape)
+  }, [isMenuOpen])
 
   useEffect(() => {
     if (!isMenuOpen) return
@@ -62,8 +73,36 @@ export default function Navbar() {
     { name: "Portfolio", path: "/" },
     { name: "Blog", path: "/blog" },
     { name: "Coaching", path: "/Coaching" },
+    { name: "Books", path: "/books" },
     { name: "About", path: "/info" },
   ]
+
+  const socialLinks = [
+    {
+      href: "https://www.linkedin.com/in/mrq/",
+      label: "LinkedIn",
+      icon: LinkedIn,
+      external: true,
+    },
+    {
+      href: "https://dribbble.com/mrnqoe",
+      label: "Dribbble",
+      icon: Dribbble,
+      external: true,
+    },
+    {
+      href: "mailto:nqovun@gmail.com",
+      label: "Email",
+      icon: Mail,
+      external: false,
+    },
+  ] as const
+
+  const socialLinkClass =
+    "group relative inline-flex items-center gap-2 pb-1 text-blue-950 transition-colors duration-300 hover:text-blue-600"
+
+  const socialLinkUnderlineClass =
+    "absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 bg-blue-600 transition-transform duration-300 ease-out group-hover:scale-x-100"
 
   const toggleMenu = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -119,11 +158,21 @@ export default function Navbar() {
 
             <div
               data-menu="true"
-              className={`fixed bottom-0 left-0 right-0 z-[100001] transform rounded-t-3xl bg-[#eeeee9] p-8 shadow-2xl transition-transform duration-300 ease-in-out ${
-                isMenuOpen ? "translate-y-0" : "translate-y-full"
+              className={`fixed left-0 top-0 z-[100001] flex h-full w-[90%] transform flex-col bg-white p-8 shadow-2xl transition-transform duration-300 ease-in-out ${
+                isMenuOpen ? "translate-x-0" : "-translate-x-full"
               }`}
             >
-              <nav className="flex flex-col space-y-6">
+              <div className="mb-8 flex items-center justify-end">
+                <button
+                  type="button"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full text-blue-950 transition-colors hover:bg-slate-100"
+                  aria-label="Close menu"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+              <nav className="flex flex-1 flex-col space-y-6">
                 {navItems.map((item) => (
                   <Link
                     key={item.name}
@@ -136,15 +185,35 @@ export default function Navbar() {
                     {item.name}
                   </Link>
                 ))}
-                <div className="flex flex-col gap-3 pt-4">
-                  <button onClick={copyEmail} className="btn-secondary w-full">
-                    Let&apos;s chat
-                  </button>
-                  <Link href="/#projects" className="btn-primary w-full" onClick={() => setIsMenuOpen(false)}>
-                    View work
-                  </Link>
-                </div>
               </nav>
+              <div className="mt-auto flex flex-col gap-3">
+                <button onClick={copyEmail} className="btn-secondary w-full">
+                  Let&apos;s chat
+                </button>
+                <Link href="/#projects" className="btn-primary w-full" onClick={() => setIsMenuOpen(false)}>
+                  View work
+                </Link>
+              </div>
+              <div className="mt-10 pt-6">
+                <div className="mb-4 flex justify-center">
+                  <Logo variant="dark" />
+                </div>
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium">
+                  {socialLinks.map(({ href, label, icon: Icon, external }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                      className={socialLinkClass}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {label}
+                      <span aria-hidden className={socialLinkUnderlineClass} />
+                    </a>
+                  ))}
+                </div>
+              </div>
             </div>
           </>,
           document.body

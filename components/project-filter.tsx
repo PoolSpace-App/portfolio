@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "@/lib/utils"
+import { UnderlineTabs } from "@/components/ui/underline-tabs"
 
 type FilterCategory = "Enterprise & Product Design" | "Independent & Client Projects"
 
@@ -13,23 +13,13 @@ export default function ProjectFilter({ onFilterChange, activeFilter }: ProjectF
   const categories: FilterCategory[] = ["Enterprise & Product Design", "Independent & Client Projects"]
 
   return (
-    <div className="flex justify-center">
-      <div className="inline-flex rounded-full bg-black/5 p-1">
-        {categories.map((category) => (
-          <button
-            key={category}
-            onClick={() => onFilterChange(category)}
-            className={cn(
-              "rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 md:px-6",
-              activeFilter === category
-                ? "bg-blue-600 text-white"
-                : "text-slate-600 hover:text-blue-600"
-            )}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-    </div>
+    <UnderlineTabs
+      items={categories.map((category) => ({ value: category, label: category }))}
+      value={activeFilter}
+      onValueChange={(category) => onFilterChange(category as FilterCategory)}
+      layoutId="project-filter-tabs"
+      size="sm"
+      className="justify-center"
+    />
   )
 }

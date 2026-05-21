@@ -7,7 +7,8 @@ export interface Project {
   imageUrl: string;
   category: string;
   slug: string;
-  type: "freelance" | "permanent";
+  type: "freelance" | "permanent" | "venture";
+  link?: string;
   details?: string;
   role?: string;
   duration?: string;
@@ -52,12 +53,14 @@ export const projectData: Record<number, Project> = {
   1: {
     id: 1,
     name: "CardSpace",
-    tagline: "Your all-in-one loyalty app, for all your loyalty needs.",
-    description: "CardSpace is a digital wallet platform for loyalty cards, gift cards, and rewards experiences, designed to replace the clutter of physical cards with a seamless, eco-friendly, and data-driven solution.",
+    tagline:
+      "CardSpace was a platform that helped people store, manage, and use loyalty and rewards cards digitally from their phones instead of carrying physical cards around.",
+    description:
+      "Grew to more than 15 000 customers who could scan and save their loyalty cards, collect rewards, track points in one place.",
     imageUrl: "/projects/cardspace/main.jpg",
     category: "Mobile Applications",
     slug: "cardspace",
-    type: "freelance",
+    type: "venture",
     details: "Users can: Scan and store loyalty cards in one app (no more carrying dozens of cards) and use digital cards at checkout via barcode scanning or tap-to-pay (coming soon).",
     role: "UX/UI Designer, AI/ML Engineer",
     duration: "12 months",
@@ -228,6 +231,53 @@ export const projectData: Record<number, Project> = {
       "Redesigned core flows like home dashboard, transactions, accounts, and payments to improve clarity and reduce visual noise.",
       "Introduced modular design components to streamline future feature additions"
     ]
+  },
+
+  // Independent Ventures
+  15: {
+    id: 15,
+    name: "PoolSpace",
+    tagline: "PoolSpace is a platform that helps people collect money from groups using one simple payment link.",
+    description:
+      "Instead of chasing people individually, organizers can create a payment request, share it with the group, and track who has paid in one place.",
+    imageUrl: "/poolspace.png",
+    category: "Desktop Applications",
+    slug: "poolspace",
+    link: "https://www.poolspace.app/",
+    type: "venture",
+    details:
+      "Built as part of the CardSpace product family, PoolSpace removes the friction of collecting contributions across chats and spreadsheets.",
+    role: "Founder, UX/UI Designer & Product Lead",
+    duration: "Ongoing",
+    year: "2024-25",
+    processDetails: [
+      "Designed flows for creating pools, inviting contributors, tracking progress, and releasing funds when targets are met.",
+      "Focused on trust and transparency with real-time balance updates, contributor visibility, and clear payout rules.",
+      "Applied lean UX and AI-assisted workflows to ship quickly on React Native and Supabase.",
+    ],
+  },
+  16: {
+    id: 16,
+    name: "BrandSpace",
+    tagline:
+      "BrandSpace is a platform that helps businesses create and manage digital loyalty campaigns and rewards.",
+    description:
+      "Businesses can launch things like stamp cards, rewards programs, vouchers, referrals, and promotional campaigns through a simple dashboard.",
+    imageUrl: "/brandspace.png",
+    category: "Desktop Applications",
+    slug: "brandspace",
+    link: "https://lovely-communication-preview.up.railway.app/",
+    type: "venture",
+    details:
+      "BrandSpace extends the CardSpace ecosystem with tools for merchants to design, publish, and optimize loyalty programs without custom development.",
+    role: "Founder, UX/UI Designer & Product Lead",
+    duration: "Ongoing",
+    year: "2024-25",
+    processDetails: [
+      "Defined brand strategy, visual identity, and a modular design system for merchant-facing dashboards.",
+      "Designed onboarding, program builder, and analytics views to help businesses launch loyalty in days, not months.",
+      "Iterated with early adopters using rapid prototyping and AI-assisted design-to-code workflows.",
+    ],
   },
 
   // Branding (2) - Freelance

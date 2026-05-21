@@ -112,3 +112,5 @@ export const IconClipboardCopy = createIcon(Iconsax.Copy)
 export const IconFileBroken = createIcon(Iconsax.Document)
 export const IconSignature = createIcon(Iconsax.PenTool)
 export const IconTableColumn = createIcon(Iconsax.Element3)
+
+export { Dribbble, Linkedin as LinkedIn, Mail } from "lucide-react"
