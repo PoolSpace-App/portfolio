@@ -11,6 +11,12 @@ const n2m = new NotionToMarkdown({ notionClient: notion })
 const DATABASE_ID = (process.env.NOTION_DATABASE_ID || "").replace(/-/g, "").trim().replace(/^["']|["']$/g, "")
 const FAQ_DATABASE_ID = (process.env.NOTION_FAQ_DATABASE_ID || "").replace(/-/g, "").trim().replace(/^["']|["']$/g, "")
 const NOTION_TOKEN = (process.env.NOTION_TOKEN || "").trim().replace(/^["']|["']$/g, "")
+export const BLOG_REVALIDATE_SECONDS = 60
+
+const getStatusName = (props: any) => {
+  const statusProp = props.Status
+  return statusProp?.status?.name || statusProp?.select?.name || ""
+}
 
 export interface BlogPost {
   id: string
@@ -44,39 +50,41 @@ export async function getAllBlogsFromNotion(): Promise<BlogPost[]> {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ page_size: 100 }),
-      next: { revalidate: 3600 }, 
+      next: { revalidate: BLOG_REVALIDATE_SECONDS },
     })
 
     if (!response.ok) return []
 
     const data = await response.json()
-    
-    const blogs = data.results.map((page: any) => {
-      const props = page.properties
-      
-      const getText = (prop: any) => {
-        if (!prop) return ""
-        if (prop.title) return prop.title[0]?.plain_text || ""
-        if (prop.rich_text) return prop.rich_text[0]?.plain_text || ""
-        return ""
-      }
 
-      const rawCoverImage = getCoverImageUrlFromPage(page)
+    const blogs = data.results
+      .filter((page: any) => getStatusName(page.properties) === "Published")
+      .map((page: any) => {
+        const props = page.properties
 
-      return {
-        id: page.id,
-        title: getText(props.Title) || getText(props.Name) || "Untitled",
-        slug: getText(props.Slug) || "",
-        excerpt: getText(props.Excerpt) || "",
-        content: "",
-        author: getText(props.Author) || "Nqobile Vundla",
-        publishedAt: props.PublishedAt?.date?.start || props.Date?.date?.start || page.created_time,
-        readTime: getText(props.ReadTime) || "5 min read",
-        category: props.Category?.select?.name || "General",
-        tags: props.Tags?.multi_select?.map((tag: any) => tag.name) || [],
-        coverImage: getBlogCoverSrc(page.id, rawCoverImage),
-      }
-    })
+        const getText = (prop: any) => {
+          if (!prop) return ""
+          if (prop.title) return prop.title[0]?.plain_text || ""
+          if (prop.rich_text) return prop.rich_text[0]?.plain_text || ""
+          return ""
+        }
+
+        const rawCoverImage = getCoverImageUrlFromPage(page)
+
+        return {
+          id: page.id,
+          title: getText(props.Title) || getText(props.Name) || "Untitled",
+          slug: getText(props.Slug) || "",
+          excerpt: getText(props.Excerpt) || "",
+          content: "",
+          author: getText(props.Author) || "Nqobile Vundla",
+          publishedAt: props.PublishedAt?.date?.start || props.Date?.date?.start || page.created_time,
+          readTime: getText(props.ReadTime) || "5 min read",
+          category: props.Category?.select?.name || "General",
+          tags: props.Tags?.multi_select?.map((tag: any) => tag.name) || [],
+          coverImage: getBlogCoverSrc(page.id, rawCoverImage),
+        }
+      })
 
     // Filter out "Untitled" posts or posts without a slug
     // This prevents empty Notion rows from appearing as blog posts
@@ -110,7 +118,7 @@ export async function getBlogBySlugFromNotion(slug: string): Promise<BlogPost | 
       body: JSON.stringify({
         filter: { property: "Slug", rich_text: { equals: slug } },
       }),
-      next: { revalidate: 3600 },
+      next: { revalidate: BLOG_REVALIDATE_SECONDS },
     })
 
     if (!response.ok) return null
@@ -118,9 +126,12 @@ export async function getBlogBySlugFromNotion(slug: string): Promise<BlogPost | 
     if (data.results.length === 0) return null
 
     const page = data.results[0]
+    const props = page.properties
+
+    if (getStatusName(props) !== "Published") return null
+
     const mdblocks = await n2m.pageToMarkdown(page.id)
     const mdString = n2m.toMarkdownString(mdblocks)
-    const props = page.properties
 
     const getText = (prop: any) => {
       if (!prop) return ""
