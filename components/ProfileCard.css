@@ -573,6 +573,10 @@
   transform-style: preserve-3d;
 }
 
+.hero-profile-card.about-profile-card {
+  --card-radius: 0px;
+}
+
 .hero-profile-card-container {
   position: relative;
   margin-inline: auto;

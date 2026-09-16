@@ -3,10 +3,10 @@
 import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
-import { GlowingEffect } from "@/components/ui/glowing-effect";
 
 // Types for better code understanding
 type CoachingProfile = {
+  id: string;
   description: string;
   title: string;
   src: string;
@@ -41,8 +41,9 @@ export default function CoachingProfileCards() {
     return () => window.removeEventListener("keydown", handleEscapeKey);
   }, [selectedProfile]);
 
-  // Close modal when clicking outside
-  useOutsideClick(modalRef, () => setSelectedProfile(null));
+  useOutsideClick(modalRef, () => {
+    if (selectedProfile) setSelectedProfile(null)
+  })
 
   const closeModal = () => setSelectedProfile(null);
   const openProfileModal = (profile: CoachingProfile) => setSelectedProfile(profile);
@@ -70,12 +71,12 @@ export default function CoachingProfileCards() {
             
             {/* ===== MOBILE ONLY: Close Button ===== */}
             <motion.button
-              key={`close-button-${selectedProfile.title}-${componentId}`}
+              key={`close-button-${selectedProfile.id}-${componentId}`}
               layout
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, transition: { duration: 0.05 } }}
-              className="flex absolute top-8 right-4 lg:hidden items-center justify-center bg-gray-050 text-blue-950 rounded-full h-8 w-8"
+              className="absolute right-4 top-8 flex h-8 w-8 items-center justify-center border border-dashed border-slate-200 bg-white text-slate-900 lg:hidden"
               onClick={closeModal}
             >
               <CloseIcon />
@@ -83,18 +84,18 @@ export default function CoachingProfileCards() {
             
             {/* ===== MOBILE & DESKTOP SHARED: Modal Content ===== */}
             <motion.div
-              layoutId={`profile-card-${selectedProfile.title}-${componentId}`}
+              layoutId={`profile-card-${selectedProfile.id}-${componentId}`}
               ref={modalRef}
-              className="w-full max-w-6xl h-full md:h-fit md:max-h-[90%] flex flex-col lg:grid lg:grid-cols-2 bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
+              className="flex h-full w-full max-w-6xl flex-col overflow-hidden border border-dashed border-slate-200 bg-white md:h-fit md:max-h-[90%] lg:grid lg:grid-cols-2"
             >
               {/* Profile image - responsive sizing */}
-              <motion.div layoutId={`profile-image-${selectedProfile.title}-${componentId}`}>
+              <motion.div layoutId={`profile-image-${selectedProfile.id}-${componentId}`}>
                 <img
                   width={40}
                   height={40}
                   src={selectedProfile.src}
                   alt={selectedProfile.title}
-                  className="w-full h-full lg:h-full rounded-[40px] lg:rounded-none lg:rounded-l-3xl object-cover object-top"
+                  className="h-full w-full object-cover object-top grayscale"
                 />
               </motion.div>
 
@@ -103,14 +104,14 @@ export default function CoachingProfileCards() {
                 <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start p-4">
                   <div className="lg:flex-1">
                     <motion.h3
-                      layoutId={`profile-title-${selectedProfile.title}-${componentId}`}
-                      className="font-bold text-2xl text-blue-950"
+                      layoutId={`profile-title-${selectedProfile.id}-${componentId}`}
+                      className="text-2xl font-semibold tracking-tight text-slate-900"
                     >
                       {selectedProfile.title}
                     </motion.h3>
                     <motion.p
-                      layoutId={`profile-description-${selectedProfile.description}-${componentId}`}
-                      className="text-blue-950 mb-4 lg:mb-0"
+                      layoutId={`profile-description-${selectedProfile.id}-${componentId}`}
+                      className="mb-4 text-slate-500 lg:mb-0"
                     >
                       {selectedProfile.description}
                     </motion.p>
@@ -118,10 +119,10 @@ export default function CoachingProfileCards() {
 
                   {/* Call to action button */}       
                   <motion.a
-                    layoutId={`profile-cta-${selectedProfile.title}-${componentId}`}
+                    layoutId={`profile-cta-${selectedProfile.id}-${componentId}`}
                     href={selectedProfile.modalCtaLink}
                     target="_blank"
-                    className="px-8 py-2 text-sm rounded-full font-bold bg-blue-500 text-white self-start lg:self-auto lg:ml-4"
+                    className="self-start border border-dashed border-slate-900 bg-slate-900 px-6 py-2 text-sm font-medium text-white lg:ml-4 lg:self-auto"
                   >
                     {selectedProfile.modalCtaText}
                   </motion.a>
@@ -134,7 +135,7 @@ export default function CoachingProfileCards() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="text-blue-950 text-xs md:text-sm lg:text-base h-40 md:h-fit lg:h-full pb-10 flex flex-col items-start gap-4 overflow-auto [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
+                    className="flex h-40 flex-col items-start gap-4 overflow-auto pb-10 text-xs text-slate-500 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] md:h-fit md:text-sm lg:h-full lg:text-base"
                   >
                     {selectedProfile.content()}
                   </motion.div>
@@ -146,16 +147,16 @@ export default function CoachingProfileCards() {
       </AnimatePresence>
  
       {/* ===== MOBILE & DESKTOP: Profile Cards Grid ===== */}
-      <ul className="mx-auto w-full gap-4 lg:grid lg:grid-cols-3">
-        {coachingProfiles.map((profile, index) => (
+      <div className="grid grid-cols-1 divide-y divide-dashed divide-slate-200 overflow-visible md:grid-cols-3 md:divide-x md:divide-y">
+        {coachingProfiles.map((profile) => (
           <ProfileCard
-            key={`profile-${profile.title}-${componentId}`}
+            key={`profile-${profile.id}-${componentId}`}
             profile={profile}
             componentId={componentId}
             onCardClick={openProfileModal}
           />
         ))}
-      </ul>
+      </div>
     </>
   );
 }
@@ -171,55 +172,52 @@ function ProfileCard({
   onCardClick: (profile: CoachingProfile) => void; 
 }) {
   return (
-    <div className="m-4 py-4 relative h-full rounded-[40px] border-[1px] border-gray-100 md:rounded-[40px] md:p-3 hover:shadow-xl">
-      <GlowingEffect
-        spread={40}
-        glow={true}
-        disabled={false}
-        proximity={64}
-        inactiveZone={0.01}
-      />
-      <motion.div
-        layoutId={`profile-card-${profile.title}-${componentId}`}
-        onClick={() => onCardClick(profile)}
-        className="relative flex flex-col rounded-[32px] cursor-pointer h-full"
-      >
-        {/* Profile image */}
-        <motion.div layoutId={`profile-image-${profile.title}-${componentId}`} className="mb-4">
+    <motion.div
+      layoutId={`profile-card-${profile.id}-${componentId}`}
+      onClick={() => onCardClick(profile)}
+      className="cursor-target group relative flex h-full cursor-pointer flex-col overflow-visible bg-white"
+    >
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-40 border border-dashed border-transparent transition-[border-color] group-hover:border-slate-900"
+        />
+        <motion.div layoutId={`profile-image-${profile.id}-${componentId}`}>
           <img
             width={400}
             height={100}
             src={profile.src}
             alt={profile.title}
-            className="w-full rounded-[32px] object-cover object-top"
+            className="aspect-[4/5] w-full object-cover object-top grayscale transition-all duration-500 group-hover:grayscale-0"
           />
         </motion.div>
-        
-        {/* Name and role */}
-        <div className="mb-4 text-center">
+
+        <div className="flex flex-1 flex-col p-6 text-center">
           <motion.h3
-            layoutId={`profile-title-${profile.title}-${componentId}`}
-            className="font-medium text-lg text-blue-950"
+            layoutId={`profile-title-${profile.id}-${componentId}`}
+            className="text-lg font-semibold tracking-tight text-slate-900"
           >
             {profile.title}
           </motion.h3>
           <motion.p
-            layoutId={`profile-description-${profile.description}-${componentId}`}
-            className="text-neutral-600"
+            layoutId={`profile-description-${profile.id}-${componentId}`}
+            className="mt-1 text-sm text-slate-500"
           >
             {profile.description}
           </motion.p>
+
+          <motion.button
+            type="button"
+            layoutId={`profile-cta-${profile.id}-${componentId}`}
+            onClick={(event) => {
+              event.stopPropagation()
+              onCardClick(profile)
+            }}
+            className="mt-6 self-center border border-dashed border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition-colors group-hover:border-slate-900"
+          >
+            {profile.ctaText}
+          </motion.button>
         </div>
-        
-        {/* Call to action button */}
-        <motion.button
-          layoutId={`profile-cta-${profile.title}-${componentId}`}
-          className="px-4 py-2 text-sm rounded-full font-bold bg-gray-100 hover:bg-blue-500 hover:text-white text-black self-center"
-        >
-          {profile.ctaText}
-        </motion.button>
-      </motion.div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -251,6 +249,7 @@ export const CloseIcon = () => {
 // ===== DATA: Coaching Profiles =====
 const coachingProfiles: CoachingProfile[] = [
   {
+    id: "tshepo-selepe",
     description: "UX/UI Designer",
     title: "Tshepo Selepe",
     src: "/coaching/tshepo.png",
@@ -268,6 +267,7 @@ const coachingProfiles: CoachingProfile[] = [
     },
   },
   {
+    id: "coming-soon-product",
     description: "Product Designer",
     title: "Coming Soon",
     src: "/coaching/placeholder.png",
@@ -284,6 +284,7 @@ const coachingProfiles: CoachingProfile[] = [
     },
   },
   {
+    id: "coming-soon-uiux",
     description: "UI/UX Designer",
     title: "Coming Soon",
     src: "/coaching/placeholder.png",
@@ -300,6 +301,7 @@ const coachingProfiles: CoachingProfile[] = [
     },
   },
   {
+    id: "coming-soon-digital",
     description: "Digital Designer",
     title: "Coming Soon",
     src: "/coaching/placeholder.png",
@@ -316,6 +318,7 @@ const coachingProfiles: CoachingProfile[] = [
     },
   },
   {
+    id: "coming-soon-experience",
     description: "Experience Designer",
     title: "Coming Soon",
     src: "/coaching/placeholder.png",

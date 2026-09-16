@@ -4,8 +4,14 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState, useEffect } from "react"
 import { createPortal } from "react-dom"
+import { LayoutGroup, motion } from "motion/react"
 import { Dribbble, LinkedIn, Mail, Menu, X } from "@/components/icons"
 import Logo from "./logo"
+
+function isActivePath(pathname: string, path: string) {
+  if (path === "/") return pathname === "/"
+  return pathname === path || pathname.startsWith(`${path}/`)
+}
 
 export default function Navbar() {
   const pathname = usePathname()
@@ -99,10 +105,10 @@ export default function Navbar() {
   ] as const
 
   const socialLinkClass =
-    "group relative inline-flex items-center gap-2 pb-1 text-blue-950 transition-colors duration-300 hover:text-blue-600"
+    "group relative inline-flex items-center gap-2 pb-1 text-slate-900 transition-colors duration-300 hover:text-slate-600"
 
   const socialLinkUnderlineClass =
-    "absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 bg-blue-600 transition-transform duration-300 ease-out group-hover:scale-x-100"
+    "absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 bg-slate-900 transition-transform duration-300 ease-out group-hover:scale-x-100"
 
   const toggleMenu = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -143,7 +149,7 @@ export default function Navbar() {
             className="relative z-[5002]"
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X className="h-6 w-6 text-blue-950" /> : <Menu className="h-6 w-6 text-blue-950" />}
+            {isMenuOpen ? <X className="h-6 w-6 text-slate-900" /> : <Menu className="h-6 w-6 text-slate-900" />}
           </button>
         </div>
 
@@ -166,7 +172,7 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={() => setIsMenuOpen(false)}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full text-blue-950 transition-colors hover:bg-slate-100"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-900 transition-colors hover:bg-slate-100"
                   aria-label="Close menu"
                 >
                   <X className="h-6 w-6" />
@@ -178,7 +184,7 @@ export default function Navbar() {
                     key={item.name}
                     href={item.path}
                     className={`text-lg font-medium ${
-                      pathname === item.path ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
+                      isActivePath(pathname, item.path) ? "text-slate-900" : "text-slate-500 hover:text-slate-900"
                     }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -228,24 +234,37 @@ export default function Navbar() {
         <Logo variant="dark" />
       </div>
 
-      <nav className="hidden items-center gap-8 md:flex">
-        {navItems.map((item) => (
-          <Link
-            key={item.name}
-            href={item.path}
-            className={`text-sm font-medium transition-colors ${
-              pathname === item.path ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
-            }`}
-          >
-            {item.name}
-          </Link>
-        ))}
-      </nav>
+      <LayoutGroup id="navbar-tabs">
+        <nav className="relative hidden items-center gap-8 md:flex">
+          {navItems.map((item) => {
+            const isActive = isActivePath(pathname, item.path)
+
+            return (
+              <Link
+                key={item.name}
+                href={item.path}
+                className={`relative pb-1 text-sm font-medium transition-colors ${
+                  isActive ? "text-slate-900" : "text-slate-500 hover:text-slate-900"
+                }`}
+              >
+                {item.name}
+                {isActive ? (
+                  <motion.span
+                    layoutId="navbar-active-tab"
+                    className="absolute inset-x-0 -bottom-0.5 h-0.5 bg-slate-900"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  />
+                ) : null}
+              </Link>
+            )
+          })}
+        </nav>
+      </LayoutGroup>
 
       <div className="flex items-center justify-end gap-3">
         <button
           onClick={copyEmail}
-          className="hidden text-sm font-medium text-slate-600 transition-colors hover:text-blue-600 sm:inline-flex"
+          className="hidden text-sm font-medium text-slate-500 transition-colors hover:text-slate-900 sm:inline-flex"
         >
           Let&apos;s chat
         </button>

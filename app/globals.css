@@ -7,54 +7,54 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 :root {
-  --foreground-rgb: 23, 37, 84;
-  --background-rgb: 238, 238, 233;
-  --el-bg: #eeeee9;
-  --el-surface: #e4e4df;
+  --foreground-rgb: 15, 23, 42;
+  --background-rgb: 248, 250, 252;
+  --portfolio-line: #e2e8f0;
+  --portfolio-dot: rgba(15, 23, 42, 0.06);
+  --portfolio-bg: #ffffff;
+  --portfolio-node: #0f172a;
+  --portfolio-node-size: 5px;
+  --portfolio-node-gap: 6px;
+  --portfolio-column-half: min(40rem, 50vw);
+  --portfolio-inline-padding: 1.25rem;
+  --el-bg: #f8fafc;
+  --el-surface: #f1f5f9;
   --el-card: #ffffff;
-  --el-border: #d4d4cf;
-  --el-text: #172554;
-  --el-accent: #2563eb;
-  --el-accent-hover: #1d4ed8;
+  --el-border: #e2e8f0;
+  --el-text: #0f172a;
+  --el-accent: #0f172a;
+  --el-accent-hover: #1e293b;
   --el-muted: #64748b;
 }
 
 body {
   color: var(--el-text);
-  background: rgb(var(--background-rgb));
-  font-family: var(--font-mtn-brighter-sans), sans-serif;
+  background: #ffffff;
+  font-family: var(--font-cal-sans), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-medium text-white shadow-xl shadow-blue-200 transition-colors;
-    background-color: var(--el-accent);
-  }
-
-  .btn-primary:hover {
-    background-color: var(--el-accent-hover);
+    @apply inline-flex items-center justify-center gap-2 rounded-none bg-slate-900 px-6 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-slate-800;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-6 py-2.5 text-sm font-medium transition-colors hover:border-blue-200 hover:bg-blue-50;
-    color: var(--el-text);
-  }
-
-  .btn-secondary:hover {
-    color: var(--el-accent);
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-2.5 text-sm font-medium text-slate-900 transition-colors hover:border-slate-400 hover:bg-slate-50;
   }
 
   .link-accent {
-    @apply text-blue-600 transition-colors hover:text-blue-700;
+    @apply text-slate-900 transition-colors hover:text-slate-700;
   }
 
   .link-accent-active {
-    @apply font-medium text-blue-600;
+    @apply font-medium text-slate-900;
   }
 
   .el-card {
@@ -62,17 +62,522 @@ body {
   }
 
   .el-section {
-    @apply bg-[#eeeee9];
+    @apply bg-slate-50;
   }
 
   .el-surface {
-    @apply rounded-3xl border border-black/5 bg-[#e4e4df];
+    @apply rounded-3xl border border-black/5 bg-slate-100;
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .portfolio-dot-grid {
+    background-color: #ffffff;
+    --portfolio-inline-padding: 1.25rem;
+    --portfolio-junction-left: calc(max(0px, 50vw - var(--portfolio-column-half)) + var(--portfolio-inline-padding));
+    --portfolio-junction-right: calc(min(100vw, 50vw + var(--portfolio-column-half)) - var(--portfolio-inline-padding));
+  }
+
+  @media (min-width: 768px) {
+    .portfolio-dot-grid {
+      --portfolio-inline-padding: 2rem;
+    }
+  }
+
+  .screen-line-top {
+    position: relative;
+    z-index: 1;
+  }
+
+  .screen-line-top::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 0;
+    height: 1px;
+    width: 100vw;
+    pointer-events: none;
+    transform: translateX(-50%);
+    background-image: linear-gradient(to right, var(--portfolio-line) 4px, transparent 2px);
+    background-size: 6px 1px;
+    background-repeat: repeat-x;
+  }
+
+  .screen-line-bottom {
+    position: relative;
+    z-index: 1;
+  }
+
+  .screen-line-bottom::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    z-index: 0;
+    height: 1px;
+    width: 100vw;
+    pointer-events: none;
+    transform: translateX(-50%);
+    background-image: linear-gradient(to right, var(--portfolio-line) 4px, transparent 2px);
+    background-size: 6px 1px;
+    background-repeat: repeat-x;
+  }
+
+  .screen-dashed-line-top {
+    position: relative;
+    z-index: 1;
+  }
+
+  .screen-dashed-line-top::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 0;
+    height: 1px;
+    width: 100vw;
+    pointer-events: none;
+    transform: translateX(-50%);
+    background-image: linear-gradient(to right, var(--portfolio-line) 4px, transparent 2px);
+    background-size: 6px 1px;
+    background-repeat: repeat-x;
+  }
+
+  .screen-dashed-line-bottom {
+    position: relative;
+    z-index: 1;
+  }
+
+  .screen-dashed-line-bottom::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    z-index: 0;
+    height: 1px;
+    width: 100vw;
+    pointer-events: none;
+    transform: translateX(-50%);
+    background-image: linear-gradient(to right, var(--portfolio-line) 4px, transparent 2px);
+    background-size: 6px 1px;
+    background-repeat: repeat-x;
+  }
+
+  .portfolio-diagonal-stripes {
+    background-image: repeating-linear-gradient(
+      315deg,
+      rgba(226, 232, 240, 0.7) 0,
+      rgba(226, 232, 240, 0.7) 1px,
+      transparent 0,
+      transparent 50%
+    );
+    background-size: 10px 10px;
+  }
+
+  .portfolio-stripe-divider {
+    position: relative;
+    z-index: 1;
+    height: 2rem;
+  }
+
+  .portfolio-stripe-divider::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 0;
+    height: 100%;
+    width: 100vw;
+    pointer-events: none;
+    transform: translateX(-50%);
+    background-image: repeating-linear-gradient(
+      315deg,
+      rgba(226, 232, 240, 0.7) 0,
+      rgba(226, 232, 240, 0.7) 1px,
+      transparent 0,
+      transparent 50%
+    );
+    background-size: 10px 10px;
+  }
+
+  .portfolio-line-nodes {
+    position: relative;
+    overflow: visible;
+    --portfolio-node-center: calc(var(--portfolio-node-size) / 2 + var(--portfolio-node-gap));
+  }
+
+  /* Expanded so full circles sit on the corners instead of getting clipped */
+  .portfolio-line-nodes::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: calc(var(--portfolio-node-center) * -1);
+    z-index: 12;
+    background-repeat: no-repeat;
+  }
+
+  .portfolio-line-nodes-top::before {
+    background-image:
+      radial-gradient(circle calc(var(--portfolio-node-size) / 2) at var(--portfolio-node-center) var(--portfolio-node-center), var(--portfolio-node) 99%, transparent 100%),
+      radial-gradient(circle calc(var(--portfolio-node-size) / 2) at calc(100% - var(--portfolio-node-center)) var(--portfolio-node-center), var(--portfolio-node) 99%, transparent 100%),
+      radial-gradient(circle var(--portfolio-node-center) at var(--portfolio-node-center) var(--portfolio-node-center), var(--portfolio-bg) 99%, transparent 100%),
+      radial-gradient(circle var(--portfolio-node-center) at calc(100% - var(--portfolio-node-center)) var(--portfolio-node-center), var(--portfolio-bg) 99%, transparent 100%);
+  }
+
+  .portfolio-line-nodes-bottom::before {
+    background-image:
+      radial-gradient(circle calc(var(--portfolio-node-size) / 2) at var(--portfolio-node-center) calc(100% - var(--portfolio-node-center)), var(--portfolio-node) 99%, transparent 100%),
+      radial-gradient(circle calc(var(--portfolio-node-size) / 2) at calc(100% - var(--portfolio-node-center)) calc(100% - var(--portfolio-node-center)), var(--portfolio-node) 99%, transparent 100%),
+      radial-gradient(circle var(--portfolio-node-center) at var(--portfolio-node-center) calc(100% - var(--portfolio-node-center)), var(--portfolio-bg) 99%, transparent 100%),
+      radial-gradient(circle var(--portfolio-node-center) at calc(100% - var(--portfolio-node-center)) calc(100% - var(--portfolio-node-center)), var(--portfolio-bg) 99%, transparent 100%);
+  }
+
+  .portfolio-line-nodes-y::before {
+    background-image:
+      radial-gradient(circle calc(var(--portfolio-node-size) / 2) at var(--portfolio-node-center) var(--portfolio-node-center), var(--portfolio-node) 99%, transparent 100%),
+      radial-gradient(circle calc(var(--portfolio-node-size) / 2) at calc(100% - var(--portfolio-node-center)) var(--portfolio-node-center), var(--portfolio-node) 99%, transparent 100%),
+      radial-gradient(circle calc(var(--portfolio-node-size) / 2) at var(--portfolio-node-center) calc(100% - var(--portfolio-node-center)), var(--portfolio-node) 99%, transparent 100%),
+      radial-gradient(circle calc(var(--portfolio-node-size) / 2) at calc(100% - var(--portfolio-node-center)) calc(100% - var(--portfolio-node-center)), var(--portfolio-node) 99%, transparent 100%),
+      radial-gradient(circle var(--portfolio-node-center) at var(--portfolio-node-center) var(--portfolio-node-center), var(--portfolio-bg) 99%, transparent 100%),
+      radial-gradient(circle var(--portfolio-node-center) at calc(100% - var(--portfolio-node-center)) var(--portfolio-node-center), var(--portfolio-bg) 99%, transparent 100%),
+      radial-gradient(circle var(--portfolio-node-center) at var(--portfolio-node-center) calc(100% - var(--portfolio-node-center)), var(--portfolio-bg) 99%, transparent 100%),
+      radial-gradient(circle var(--portfolio-node-center) at calc(100% - var(--portfolio-node-center)) calc(100% - var(--portfolio-node-center)), var(--portfolio-bg) 99%, transparent 100%);
+  }
+
+  /* Blueprint frame: full-bleed lines sit behind a solid panel and only show outside its edges */
+  .portfolio-panel-frame {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .portfolio-panel-frame-lines {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: visible;
+  }
+
+  .portfolio-panel-frame-lines::before,
+  .portfolio-panel-frame-lines::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-image: linear-gradient(to right, var(--portfolio-line) 4px, transparent 2px);
+    background-size: 6px 1px;
+    background-repeat: repeat-x;
+  }
+
+  .portfolio-panel-frame-lines::before {
+    top: 0;
+  }
+
+  .portfolio-panel-frame-lines::after {
+    bottom: 0;
+  }
+
+  /* Extend into the right margin (stop at viewport edge, not a full extra viewport) */
+  .portfolio-panel-frame-lines-extend-r::before,
+  .portfolio-panel-frame-lines-extend-r::after {
+    left: 100%;
+    width: max(0px, calc(50vw - 50%));
+  }
+
+  /* Short extension into the column gap (matches lg:gap-8) */
+  .portfolio-panel-frame-lines-extend-l::before,
+  .portfolio-panel-frame-lines-extend-l::after {
+    left: -2rem;
+    width: 2rem;
+  }
+
+  .portfolio-panel-frame-lines-v::before,
+  .portfolio-panel-frame-lines-v::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    height: 100vh;
+    width: 1px;
+    pointer-events: none;
+    transform: translateY(-50%);
+    background-image: linear-gradient(to bottom, var(--portfolio-line) 4px, transparent 2px);
+    background-size: 1px 6px;
+    background-repeat: repeat-y;
+  }
+
+  .portfolio-panel-frame-lines-v::before {
+    left: 0;
+  }
+
+  .portfolio-panel-frame-lines-v::after {
+    right: 0;
+  }
+
+  .portfolio-panel-frame-nodes::before {
+    z-index: 2;
+  }
+
+  /* Full-height vertical guides at the content column edges */
+  .portfolio-layout-guides {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    max-width: min(100%, 80rem);
+    container-type: inline-size;
+    container-name: portfolio-column;
+    --portfolio-inline-padding: 1.25rem;
+    --portfolio-junction-left: calc(max(0px, 50vw - var(--portfolio-column-half)) + var(--portfolio-inline-padding));
+    --portfolio-junction-right: calc(min(100vw, 50vw + var(--portfolio-column-half)) - var(--portfolio-inline-padding));
+  }
+
+  .portfolio-case-frame-v {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 1px;
+    background-image: linear-gradient(to bottom, var(--portfolio-line) 4px, transparent 2px);
+    background-size: 1px 6px;
+    background-repeat: repeat-y;
+  }
+
+  .portfolio-case-frame-v-l {
+    left: var(--portfolio-junction-left);
+  }
+
+  .portfolio-case-frame-v-r {
+    left: var(--portfolio-junction-right);
+  }
+
+  .portfolio-case-study,
+  .portfolio-case-study * {
+    border-radius: 0 !important;
+  }
+
+  @media (min-width: 768px) {
+    .portfolio-layout-guides {
+      --portfolio-inline-padding: 2rem;
+    }
+  }
+
+  /* Full-viewport horizontal rules — break out of max-width without stretching the column */
+  .portfolio-bleed-line-x,
+  .portfolio-bleed-line-x-dashed {
+    position: relative;
+    z-index: 10;
+    height: calc(var(--portfolio-node-size) + var(--portfolio-node-gap) * 2);
+    width: 100vw;
+    max-width: 100vw;
+    overflow: visible;
+    pointer-events: none;
+    margin-top: calc((1px - var(--portfolio-node-size) - var(--portfolio-node-gap) * 2) / 2);
+    margin-bottom: calc((1px - var(--portfolio-node-size) - var(--portfolio-node-gap) * 2) / 2);
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+
+  /* Dashed line with gaps at junctions — masked separately so dots stay full */
+  .portfolio-bleed-line-x::before,
+  .portfolio-bleed-line-x-dashed::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 1px;
+    transform: translateY(-50%);
+    background-image: linear-gradient(to right, var(--portfolio-line) 4px, transparent 2px);
+    background-size: 6px 1px;
+    background-repeat: repeat-x;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 0,
+      #000 calc(var(--portfolio-junction-left) - var(--portfolio-node-gap)),
+      transparent calc(var(--portfolio-junction-left) - var(--portfolio-node-gap)),
+      transparent calc(var(--portfolio-junction-left) + var(--portfolio-node-gap)),
+      #000 calc(var(--portfolio-junction-left) + var(--portfolio-node-gap)),
+      #000 calc(var(--portfolio-junction-right) - var(--portfolio-node-gap)),
+      transparent calc(var(--portfolio-junction-right) - var(--portfolio-node-gap)),
+      transparent calc(var(--portfolio-junction-right) + var(--portfolio-node-gap)),
+      #000 calc(var(--portfolio-junction-right) + var(--portfolio-node-gap)),
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 0,
+      #000 calc(var(--portfolio-junction-left) - var(--portfolio-node-gap)),
+      transparent calc(var(--portfolio-junction-left) - var(--portfolio-node-gap)),
+      transparent calc(var(--portfolio-junction-left) + var(--portfolio-node-gap)),
+      #000 calc(var(--portfolio-junction-left) + var(--portfolio-node-gap)),
+      #000 calc(var(--portfolio-junction-right) - var(--portfolio-node-gap)),
+      transparent calc(var(--portfolio-junction-right) - var(--portfolio-node-gap)),
+      transparent calc(var(--portfolio-junction-right) + var(--portfolio-node-gap)),
+      #000 calc(var(--portfolio-junction-right) + var(--portfolio-node-gap)),
+      #000 100%
+    );
+    pointer-events: none;
+  }
+
+  .portfolio-bleed-node {
+    position: absolute;
+    top: 50%;
+    z-index: 11;
+    width: var(--portfolio-node-size);
+    height: var(--portfolio-node-size);
+    border-radius: 50%;
+    background-color: var(--portfolio-node);
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 var(--portfolio-node-gap) var(--portfolio-bg);
+    pointer-events: none;
+  }
+
+  .portfolio-bleed-node-l {
+    left: var(--portfolio-junction-left);
+  }
+
+  .portfolio-bleed-node-r {
+    left: var(--portfolio-junction-right);
+  }
+
+  .footer-bleed-guides {
+    --portfolio-line: rgb(148 163 184 / 0.4);
+    --portfolio-node: #e2e8f0;
+    --portfolio-bg: #0f172a;
+    --portfolio-inline-padding: 1.25rem;
+    --portfolio-junction-left: calc(max(0px, 50vw - var(--portfolio-column-half)) + var(--portfolio-inline-padding));
+    --portfolio-junction-right: calc(min(100vw, 50vw + var(--portfolio-column-half)) - var(--portfolio-inline-padding));
+  }
+
+  .footer-bleed-guides::before,
+  .footer-bleed-guides::after,
+  .footer-center-line::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 1px;
+    pointer-events: none;
+    background-image: linear-gradient(to bottom, var(--portfolio-line) 4px, transparent 2px);
+    background-size: 1px 6px;
+    background-repeat: repeat-y;
+  }
+
+  .footer-bleed-guides::before {
+    left: var(--portfolio-junction-left);
+  }
+
+  .footer-bleed-guides::after {
+    left: var(--portfolio-junction-right);
+  }
+
+  .footer-center-line {
+    position: relative;
+  }
+
+  .footer-center-line::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @media (min-width: 768px) {
+    .footer-bleed-guides {
+      --portfolio-inline-padding: 2rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .footer-center-line::before {
+      display: none;
+    }
+  }
+
+  /* Dashed panel borders — replaces solid border-[#deded8] on blueprint sections */
+  .portfolio-border {
+    border: 1px dashed var(--portfolio-line);
+  }
+
+  .portfolio-border-x {
+    border-left: 1px dashed var(--portfolio-line);
+    border-right: 1px dashed var(--portfolio-line);
+  }
+
+  .portfolio-border-y {
+    border-top: 1px dashed var(--portfolio-line);
+    border-bottom: 1px dashed var(--portfolio-line);
+  }
+
+  .portfolio-border-t {
+    border-top: 1px dashed var(--portfolio-line);
+  }
+
+  .portfolio-border-b {
+    border-bottom: 1px dashed var(--portfolio-line);
+  }
+
+  .portfolio-border-r {
+    border-right: 1px dashed var(--portfolio-line);
+  }
+
+  @media (min-width: 768px) {
+    .md\:portfolio-border-r {
+      border-right: 1px dashed var(--portfolio-line);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .lg\:portfolio-border-r {
+      border-right: 1px dashed var(--portfolio-line);
+    }
+  }
+
+  .portfolio-dashed-divider {
+    height: 1px;
+    width: 100%;
+    background-image: linear-gradient(to right, var(--portfolio-line) 4px, transparent 2px);
+    background-size: 6px 1px;
+    background-repeat: repeat-x;
+  }
+
+  /* Extends dashed rules to viewport edges from any nested card/footer */
+  .portfolio-dashed-divider-bleed {
+    position: relative;
+    z-index: 1;
+    height: 1px;
+    width: 100%;
+    overflow: visible;
+    background-image: linear-gradient(to right, var(--portfolio-line) 4px, transparent 2px);
+    background-size: 6px 1px;
+    background-repeat: repeat-x;
+  }
+
+  .portfolio-dashed-divider-bleed::before,
+  .portfolio-dashed-divider-bleed::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    height: 1px;
+    /* Reach viewport edge from inside bordered panel (column gutter + inline padding) */
+    width: max(0px, calc(50vw - 50cqw + var(--portfolio-inline-padding, 1.25rem)));
+    background-image: linear-gradient(to right, var(--portfolio-line) 4px, transparent 2px);
+    background-size: 6px 1px;
+    background-repeat: repeat-x;
+    pointer-events: none;
+  }
+
+  .portfolio-dashed-divider-bleed::before {
+    right: 100%;
+  }
+
+  .portfolio-dashed-divider-bleed::after {
+    left: 100%;
   }
 }
 
@@ -159,11 +664,11 @@ body {
 /* Glitch effect styles */
 .glitch-text {
   position: relative;
-  font-family: var(--font-mtn-brighter-sans), sans-serif;
-  color: #f6d8d5;
+  font-family: var(--font-cal-sans), sans-serif;
+  color: #e2e8f0;
   display: inline-block;
   opacity: 0.9;
-  text-shadow: 0px -5px #ec2225, 0px 5px #00c2cb, -5px 0px #ec2225, 5px 0px #00c2cb;
+  text-shadow: 0px -5px #94a3b8, 0px 5px #475569, -5px 0px #94a3b8, 5px 0px #475569;
 }
 
 .glitch-text::before {
@@ -171,7 +676,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  color: #e0ffff;
+  color: #f1f5f9;
   z-index: -1;
 }
 
@@ -329,9 +834,9 @@ body {
 
 .hover-glitch:hover,
 .group:hover .hover-glitch {
-  text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
-              -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
-              0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+  text-shadow: 0.05em 0 0 rgba(148, 163, 184, 0.75),
+              -0.025em -0.05em 0 rgba(71, 85, 105, 0.75),
+              0.025em 0.05em 0 rgba(15, 23, 42, 0.75);
   animation: hover-glitch 1s infinite;
   letter-spacing: 0.5px;
   transform: scale(1.05);
@@ -339,39 +844,39 @@ body {
 
 @keyframes hover-glitch {
   0% {
-    text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
-                -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
-                0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+    text-shadow: 0.05em 0 0 rgba(148, 163, 184, 0.75),
+                -0.025em -0.05em 0 rgba(71, 85, 105, 0.75),
+                0.025em 0.05em 0 rgba(15, 23, 42, 0.75);
   }
   14% {
-    text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
-                -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
-                0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+    text-shadow: 0.05em 0 0 rgba(148, 163, 184, 0.75),
+                -0.025em -0.05em 0 rgba(71, 85, 105, 0.75),
+                0.025em 0.05em 0 rgba(15, 23, 42, 0.75);
   }
   15% {
-    text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
-                0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
-                -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+    text-shadow: -0.05em -0.025em 0 rgba(148, 163, 184, 0.75),
+                0.025em 0.025em 0 rgba(71, 85, 105, 0.75),
+                -0.05em -0.05em 0 rgba(15, 23, 42, 0.75);
   }
   49% {
-    text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
-                0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
-                -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+    text-shadow: -0.05em -0.025em 0 rgba(148, 163, 184, 0.75),
+                0.025em 0.025em 0 rgba(71, 85, 105, 0.75),
+                -0.05em -0.05em 0 rgba(15, 23, 42, 0.75);
   }
   50% {
-    text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
-                0.05em 0 0 rgba(0, 255, 0, 0.75),
-                0 -0.05em 0 rgba(0, 0, 255, 0.75);
+    text-shadow: 0.025em 0.05em 0 rgba(148, 163, 184, 0.75),
+                0.05em 0 0 rgba(71, 85, 105, 0.75),
+                0 -0.05em 0 rgba(15, 23, 42, 0.75);
   }
   99% {
-    text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
-                0.05em 0 0 rgba(0, 255, 0, 0.75),
-                0 -0.05em 0 rgba(0, 0, 255, 0.75);
+    text-shadow: 0.025em 0.05em 0 rgba(148, 163, 184, 0.75),
+                0.05em 0 0 rgba(71, 85, 105, 0.75),
+                0 -0.05em 0 rgba(15, 23, 42, 0.75);
   }
   100% {
-    text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75),
-                -0.025em -0.025em 0 rgba(0, 255, 0, 0.75),
-                -0.025em -0.05em 0 rgba(0, 0, 255, 0.75);
+    text-shadow: -0.025em 0 0 rgba(148, 163, 184, 0.75),
+                -0.025em -0.025em 0 rgba(71, 85, 105, 0.75),
+                -0.025em -0.05em 0 rgba(15, 23, 42, 0.75);
   }
 }
 
@@ -382,7 +887,7 @@ body {
 
 /* Blog prose styling */
 .prose {
-  font-family: var(--font-mtn-brighter-sans), sans-serif;
+  font-family: var(--font-cal-sans), sans-serif;
 }
 
 .prose h2 {
@@ -405,9 +910,9 @@ body {
 
 .prose p {
   margin-bottom: 1.5rem;
-  color: #475569;
-  line-height: 1.8;
-  font-size: 1.125rem;
+  color: #64748b;
+  line-height: 1.625;
+  font-size: 0.875rem;
 }
 
 .prose p:last-child {
@@ -437,8 +942,9 @@ body {
 
 .prose li {
   margin-bottom: 0.75rem;
-  color: #475569;
-  line-height: 1.7;
+  color: #64748b;
+  line-height: 1.625;
+  font-size: 0.875rem;
 }
 
 .prose blockquote {

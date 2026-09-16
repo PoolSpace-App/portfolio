@@ -59,7 +59,7 @@ const LargeBentoCard = ({
     <div className="p-6 md:p-8">
       <h3
         data-hero-animate="scroll"
-        className="mb-2 text-xl font-semibold tracking-tight text-blue-950 md:text-2xl"
+        className="mb-2 text-xl font-semibold tracking-tight text-slate-900 md:text-2xl"
       >
         {title}
       </h3>
@@ -89,12 +89,12 @@ interface SmallBentoCardProps {
 
 const SmallBentoCard = ({ icon, title, description }: SmallBentoCardProps) => (
   <BentoCardShell className="flex h-full flex-col p-6 md:p-8">
-    <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-full bg-white text-blue-950">
+    <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-full bg-white text-slate-900">
       {icon}
     </div>
     <h3
       data-hero-animate="scroll"
-      className="mb-3 text-lg font-semibold tracking-tight text-blue-950"
+      className="mb-3 text-lg font-semibold tracking-tight text-slate-900"
     >
       {title}
     </h3>
@@ -116,7 +116,7 @@ export default function BentoStats({ onViewCaseStudyClick }: BentoStatsProps) {
         <div className="mb-12 max-w-2xl">
           <h2
             data-hero-animate="scroll"
-            className="text-3xl font-semibold leading-tight tracking-tight text-blue-950 md:text-4xl lg:text-5xl"
+            className="text-3xl font-semibold leading-tight tracking-tight text-slate-900 md:text-4xl lg:text-5xl"
           >
             Everything needed to turn ideas into shipped products.
           </h2>

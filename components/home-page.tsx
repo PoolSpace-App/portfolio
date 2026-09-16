@@ -1,197 +1,292 @@
 "use client"
 
-import type React from "react"
-
-import { useRef, useEffect } from "react"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { useGSAP } from "@gsap/react"
+import Image from "next/image"
 import Link from "next/link"
-import Testimonials from "@/components/testimonials"
-import ImageMarquee from "@/components/image-marquee"
-import HeroSection from "@/components/hero-section"
-import GridLinesBackground from "@/components/grid-lines-background"
-import BlogCoverImage from "@/components/blog-cover-image"
-import { type BlogPost } from "@/lib/notion"
-import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid"
-import { IconCalendar, IconClock, IconArrowRight } from "@/components/icons"
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger)
-}
-
-const textRevealFrom = {
-  opacity: 0,
-  y: 40,
-  filter: "blur(8px)",
-}
-
-const textRevealTo = {
-  opacity: 1,
-  y: 0,
-  filter: "blur(0px)",
-  duration: 1.2,
-  ease: "expo.out",
-}
+import { useEffect, useState } from "react"
+import {
+  Clock,
+  Code2,
+  Database,
+  Dribbble,
+  LinkedIn,
+  Mail,
+  Profile,
+  ShieldCheck,
+  Users,
+  Webhook,
+} from "@/components/icons"
+import GitHubContributionGraphSection from "@/components/github-contribution-graph"
+import HomeProjectGrid from "@/components/home-project-grid"
+import PortfolioBleedLine from "@/components/portfolio-bleed-line"
+import PortfolioChatPanel from "@/components/portfolio-chat-panel"
+import type { GitHubContributionGraph } from "@/lib/github-contributions"
+import type { BlogPost } from "@/lib/notion"
 
 interface HomePageProps {
   latestBlogs: BlogPost[]
+  githubContributions: GitHubContributionGraph | null
 }
 
-export default function HomePage({ latestBlogs }: HomePageProps) {
-  const contentSectionRef = useRef<HTMLDivElement>(null)
+const profileMeta = [
+  { icon: Code2, label: "Senior Product Designer + AI product builder" },
+  { icon: ShieldCheck, label: "Fintech, KYC, onboarding & banking platforms" },
+  { icon: Profile, label: "Johannesburg, South Africa" },
+  { icon: Database, label: "Next.js, React, TypeScript, Supabase, Convex" },
+  { icon: Mail, label: "nqovun@gmail.com", href: "mailto:nqovun@gmail.com" },
+  { icon: Users, label: "Founder · PoolSpace, CardSpace, BrandSpace" },
+  { icon: Webhook, label: "linkedin.com/in/mrq", href: "https://www.linkedin.com/in/mrq/" },
+] as const
 
-  useEffect(() => {
-    if (window.location.hash) return
+type ProfileFact = {
+  icon: typeof Code2
+  label: string
+  href?: string
+  suffix?: string
+}
 
-    window.history.scrollRestoration = "manual"
-    window.scrollTo(0, 0)
+function ProfileMetaItem({ icon: Icon, label, href, suffix }: ProfileFact) {
+  const className =
+    "group flex items-start gap-3 border-b border-dashed border-slate-200 p-3 text-sm leading-relaxed text-slate-600 transition-colors last:border-b-0 hover:bg-slate-50 hover:text-slate-900 sm:odd:border-r sm:[&:nth-last-child(-n+2)]:border-b-0"
 
-    return () => {
-      window.history.scrollRestoration = "auto"
-    }
-  }, [])
-
-  useGSAP(
-    () => {
-      const scrollTexts = gsap.utils.toArray<HTMLElement>(
-        "[data-home-animate='scroll']",
-        contentSectionRef.current
-      )
-
-      scrollTexts.forEach((el) => {
-        gsap.fromTo(el, textRevealFrom, {
-          ...textRevealTo,
-          scrollTrigger: {
-            trigger: el,
-            start: "top 88%",
-            toggleActions: "play none none reverse",
-          },
-        })
-      })
-    },
-    { scope: contentSectionRef, dependencies: [latestBlogs.length] }
+  const content = (
+    <>
+      <Icon className="mt-0.5 h-4 w-4 shrink-0 text-slate-400 transition-colors group-hover:text-slate-900" />
+      <span>
+        {label}
+        {suffix ? <span className="placeholder:text-slate-400"> {suffix}</span> : null}
+      </span>
+    </>
   )
 
-  const scrollToProjects = (e: React.MouseEvent) => {
-    e.preventDefault()
-    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
+  if (href) {
+    return (
+      <Link href={href} target={href.startsWith("http") ? "_blank" : undefined} className={className}>
+        {content}
+      </Link>
+    )
   }
 
+  return <div className={className}>{content}</div>
+}
+
+function getTimezoneOffsetHours(timeZone: string, date = new Date()) {
+  const utc = new Date(date.toLocaleString("en-US", { timeZone: "UTC" }))
+  const local = new Date(date.toLocaleString("en-US", { timeZone }))
+  return (local.getTime() - utc.getTime()) / 3_600_000
+}
+
+function LocalTimeFact() {
+  const [timeLabel, setTimeLabel] = useState("")
+  const [suffix, setSuffix] = useState("")
+
+  useEffect(() => {
+    const update = () => {
+      const now = new Date()
+      const time = new Intl.DateTimeFormat("en-US", {
+        timeZone: "Africa/Johannesburg",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      }).format(now)
+
+      setTimeLabel(time)
+
+      const localZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+      const diff = getTimezoneOffsetHours("Africa/Johannesburg", now) - getTimezoneOffsetHours(localZone, now)
+
+      if (Math.abs(diff) < 0.5) {
+        setSuffix("// same time")
+      } else if (diff > 0) {
+        setSuffix(`// ${Math.round(diff)}h ahead`)
+      } else {
+        setSuffix(`// ${Math.abs(Math.round(diff))}h behind`)
+      }
+    }
+
+    update()
+    const intervalId = window.setInterval(update, 30_000)
+    return () => window.clearInterval(intervalId)
+  }, [])
+
+  if (!timeLabel) {
+    return <ProfileMetaItem icon={Clock} label="Loading time..." />
+  }
+
+  return <ProfileMetaItem icon={Clock} label={timeLabel} suffix={suffix} />
+}
+
+const profileSections = [
+  {
+    title: "Product designer who can build",
+    body:
+      "Nqobile Vundla, also known as Mr.Q, is a Senior Product Designer and product builder with 10+ years across fintech, banking, enterprise SaaS, loyalty, mobility and AI-powered products.",
+  },
+  {
+    title: "Complex systems, simple journeys",
+    body:
+      "His strongest work sits inside regulated and complicated products: onboarding, KYC/KYB, screening, monitoring, compliance workflows, permissions, dashboards and business rules.",
+  },
+  {
+    title: "AI-native product direction",
+    body:
+      "He is especially interested in replacing long forms and manual admin with document intelligence, APIs and AI agents that make interfaces smaller while the system behind them gets smarter.",
+  },
+]
+
+const socialLinks = [
+  { href: "https://www.linkedin.com/in/mrq/", label: "LinkedIn", icon: LinkedIn },
+  { href: "https://dribbble.com/mrnqoe", label: "Dribbble", icon: Dribbble },
+  { href: "mailto:nqovun@gmail.com", label: "Email", icon: Mail },
+]
+
+export default function HomePage({ latestBlogs, githubContributions }: HomePageProps) {
   return (
-    <main className="flex min-h-screen flex-col bg-white">
-      <HeroSection onViewPortfolio={scrollToProjects} />
+    <main className="min-h-screen bg-white text-slate-900">
+      <section className="portfolio-dot-grid relative bg-white">
+        <PortfolioBleedLine />
 
-      <div ref={contentSectionRef} className="relative w-full overflow-hidden bg-white pb-24">
-        <GridLinesBackground fade="both" />
-        <div className="relative z-10">
-          <div className="container mx-auto mb-32 px-4">
-            <div
-              data-home-animate="scroll"
-              className="mx-auto max-w-5xl text-center text-4xl font-semibold leading-tight tracking-tight text-blue-950 md:text-6xl lg:text-7xl"
-            >
-              Creating interfaces guided by insight, shaped with intention, built for humans,
-              accelerated by AI, and focused on real-world value.
-            </div>
-          </div>
-          <Testimonials />
-
-          {latestBlogs.length > 0 && (
-            <div className="container mx-auto mt-40 px-4">
-              <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-                <div>
-                  <h2
-                    data-home-animate="scroll"
-                    className="mb-4 text-4xl font-semibold tracking-tight text-blue-950 md:text-5xl"
-                  >
-                    Latest stories
-                  </h2>
-                  <p data-home-animate="scroll" className="max-w-xl text-lg text-slate-600">
-                    Insights on design, AI, and the future of product development.
-                  </p>
+        <div className="portfolio-layout-guides relative mx-auto w-full py-10 lg:py-14">
+          <div className="w-full min-w-0 px-5 md:px-8">
+            <div className="portfolio-line-nodes portfolio-line-nodes-top portfolio-border-x bg-white p-8 md:p-10 lg:p-12">
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+              <div className="shrink-0">
+                <div className="relative h-28 w-28 overflow-hidden border border-dashed border-slate-200 bg-slate-50 md:h-32 md:w-32">
+                  <Image
+                    src="/cover-image.png"
+                    alt="Nqobile Vundla"
+                    width={128}
+                    height={128}
+                    priority
+                    className="h-full w-full object-cover object-top grayscale"
+                  />
                 </div>
-                <Link data-home-animate="scroll" href="/blog" className="btn-secondary group">
-                  View all blogs
-                  <IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
               </div>
 
-              <BentoGrid className="w-full gap-6 md:grid-cols-3">
-                {latestBlogs.map((blog, index) => (
-                  <Link key={blog.id} href={`/blog/${blog.slug}`} className="block h-full">
-                    <BentoGridItem
-                      variant="carousel"
-                      className="group/card cursor-pointer rounded-[48px]"
-                      header={
-                        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-[48px] bg-neutral-100">
-                          <BlogCoverImage
-                            src={blog.coverImage}
-                            alt={blog.title}
-                            priority={index === 0}
-                            className="transition-transform duration-500 group-hover/card:scale-105"
-                          />
-                        </div>
-                      }
-                      title={
-                        <>
-                          <span
-                            data-home-animate="scroll"
-                            className="mb-3 inline-block text-xs font-medium uppercase tracking-wider text-slate-500"
-                          >
-                            {blog.category}
-                          </span>
-                          <div
-                            data-home-animate="scroll"
-                            className="mb-3 text-2xl font-semibold tracking-tight text-blue-950"
-                          >
-                            {blog.title}
-                          </div>
-                        </>
-                      }
-                      description={
-                        <>
-                          <div className="flex flex-1 flex-col">
-                            <p
-                              data-home-animate="scroll"
-                              className="mb-4 line-clamp-2 text-lg text-slate-700"
-                            >
-                              {blog.excerpt}
-                            </p>
-                            <div className="flex items-center gap-6 text-sm text-slate-500">
-                              <div data-home-animate="scroll" className="flex items-center gap-2">
-                                <IconClock className="h-4 w-4" />
-                                <span>{blog.readTime}</span>
-                              </div>
-                              <div data-home-animate="scroll" className="flex items-center gap-2">
-                                <IconCalendar className="h-4 w-4" />
-                                <span>
-                                  {new Date(blog.publishedAt).toLocaleDateString("en-GB", {
-                                    day: "numeric",
-                                    month: "short",
-                                    year: "numeric",
-                                  })}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="mt-auto shrink-0 pt-6">
-                            <span className="btn-secondary group/btn inline-flex shrink-0 items-center">
-                              Read story
-                              <IconArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
-                            </span>
-                          </div>
-                        </>
-                      }
-                    />
-                  </Link>
-                ))}
-              </BentoGrid>
-            </div>
-          )}
-        </div>
-      </div>
+              <div className="min-w-0 flex-1 space-y-8">
+                <div className="space-y-4">
+                  <h1 className="text-4xl font-semibold tracking-tight text-slate-800 md:text-5xl">
+                    Nqobile Vundla
+                  </h1>
+                  <p className="max-w-2xl text-lg leading-relaxed text-slate-600 md:text-xl">
+                    Senior Product Designer. Product builder. AI-assisted maker.
+                  </p>
+                </div>
 
-      <ImageMarquee />
+                <div className="grid overflow-hidden portfolio-border sm:grid-cols-2">
+                  {profileMeta.map((fact) => (
+                    <ProfileMetaItem key={fact.label} {...fact} />
+                  ))}
+                  <LocalTimeFact />
+                </div>
+
+                <div className="portfolio-border-t pt-6">
+                  <div className="inline-flex items-stretch portfolio-border">
+                    {socialLinks.map((social) => {
+                      const Icon = social.icon
+                      return (
+                        <Link
+                          key={social.label}
+                          href={social.href}
+                          target={social.href.startsWith("http") ? "_blank" : undefined}
+                          rel={social.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                          className="inline-flex h-9 w-9 items-center justify-center portfolio-border-r bg-white text-slate-600 transition last:border-r-0 hover:bg-slate-50 hover:text-slate-900"
+                          aria-label={social.label}
+                        >
+                          <Icon className="h-4 w-4" />
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+
+          <PortfolioBleedLine />
+
+          <div className="w-full min-w-0 px-5 md:px-8">
+            <div className="portfolio-line-nodes portfolio-line-nodes-y portfolio-border-x bg-white">
+            <div className="min-w-0 p-5 md:p-7">
+              <GitHubContributionGraphSection graph={githubContributions} />
+            </div>
+            </div>
+          </div>
+
+          <PortfolioBleedLine />
+
+          <div className="w-full min-w-0 px-5 md:px-8">
+            <div className="portfolio-line-nodes portfolio-line-nodes-bottom portfolio-border-x bg-white">
+            <div className="grid items-start gap-8 p-5 md:p-8 lg:grid-cols-[1fr_360px] lg:items-stretch">
+              <div>
+                <h2 className="mb-5 text-4xl font-semibold tracking-tight text-slate-800 md:text-5xl">
+                  Good afternoon
+                </h2>
+                <ul className="space-y-4 text-sm leading-relaxed text-slate-500">
+                  {profileSections.map((section) => (
+                    <li key={section.title} className="grid grid-cols-[12px_1fr] gap-4">
+                      <span className="mt-2 h-2 w-2 rounded-full bg-slate-300" />
+                      <span>
+                        <strong className="font-semibold text-slate-900">{section.title}.</strong> {section.body}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <PortfolioChatPanel />
+            </div>
+            </div>
+          </div>
+
+          <PortfolioBleedLine />
+
+          <div className="w-full min-w-0 px-5 md:px-8">
+            <div className="portfolio-line-nodes portfolio-line-nodes-y overflow-visible portfolio-border-x bg-white">
+              <HomeProjectGrid />
+            </div>
+          </div>
+
+          <PortfolioBleedLine />
+
+          <div className="w-full min-w-0 px-5 md:px-8">
+            <div className="portfolio-line-nodes portfolio-line-nodes-bottom portfolio-border-x bg-white">
+            <div className="grid gap-3 p-5 md:grid-cols-3 md:p-7">
+              {latestBlogs.map((blog) => (
+                <Link
+                  key={blog.id}
+                  href={`/blog/${blog.slug}`}
+                  className="cursor-target block h-full portfolio-border bg-white p-4 transition hover:border-slate-900"
+                >
+                  <span className="font-mono text-xs uppercase tracking-[0.18em] text-slate-400">{blog.category}</span>
+                  <h3 className="mt-3 line-clamp-2 text-lg font-semibold leading-tight text-slate-900">{blog.title}</h3>
+                  <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-500">{blog.excerpt}</p>
+                </Link>
+              ))}
+            </div>
+            </div>
+          </div>
+
+          <PortfolioBleedLine />
+
+          <div className="w-full min-w-0 px-5 md:px-8">
+            <div className="portfolio-line-nodes portfolio-line-nodes-bottom portfolio-border-x bg-white">
+            <div className="grid gap-0 text-center text-slate-500 md:grid-cols-4">
+              {["nCino", "DocFox", "Mortgage Market", "PoolSpace"].map((name) => (
+                <div
+                  key={name}
+                  className="portfolio-border-b p-8 font-mono text-lg font-semibold md:border-b-0 md:portfolio-border-r md:last:border-r-0"
+                >
+                  {name}
+                </div>
+              ))}
+            </div>
+            </div>
+          </div>
+
+          <PortfolioBleedLine />
+        </div>
+      </section>
     </main>
   )
 }

@@ -67,7 +67,7 @@ const socialLinks = [
 ] as const
 
 const socialLinkClass =
-  "group relative inline-flex items-center gap-2 pb-1 text-blue-950 transition-colors duration-300 hover:text-blue-600"
+  "group relative inline-flex items-center gap-2 pb-1 text-slate-900 transition-colors duration-300 hover:text-slate-900"
 
 const socialLinkUnderlineClass =
   "absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 bg-blue-600 transition-transform duration-300 ease-out group-hover:scale-x-100"
@@ -138,7 +138,7 @@ function ProjectCarouselCard({ project }: { project: Project }) {
           <span className="mb-3 inline-block text-xs font-medium uppercase tracking-wider text-slate-500">
             {project.category}
           </span>
-          <div className="mb-3 line-clamp-3 min-h-[5.25rem] text-xl font-semibold leading-snug tracking-tight text-blue-950 md:line-clamp-2 md:min-h-[4.5rem] md:text-2xl md:leading-tight">
+          <div className="mb-3 line-clamp-3 min-h-[5.25rem] text-xl font-semibold leading-snug tracking-tight text-slate-900 md:line-clamp-2 md:min-h-[4.5rem] md:text-2xl md:leading-tight">
             {project.name}
           </div>
           <p className="mb-4 line-clamp-2 min-h-[3.5rem] text-lg leading-snug text-slate-700">
@@ -237,7 +237,7 @@ export default function HeroSection({ onViewPortfolio }: HeroSectionProps) {
               <TextType
                 as="h1"
                 data-hero-animate="load"
-                className="absolute left-0 top-0 max-w-xl text-4xl font-semibold leading-[1.1] tracking-tight text-blue-950 md:text-5xl lg:text-[3.25rem]"
+                className="absolute left-0 top-0 max-w-xl text-4xl font-semibold leading-[1.1] tracking-tight text-slate-900 md:text-5xl lg:text-[3.25rem]"
                 text={heroHeadlines}
                 typingSpeed={35}
                 initialDelay={350}
@@ -245,7 +245,7 @@ export default function HeroSection({ onViewPortfolio }: HeroSectionProps) {
                 loop
                 showCursor
                 cursorCharacter="|"
-                cursorClassName="font-light text-blue-600"
+                cursorClassName="font-light text-slate-900"
               />
             </div>
             <p
@@ -377,7 +377,7 @@ export default function HeroSection({ onViewPortfolio }: HeroSectionProps) {
                 aria-label="Scroll project cards"
                 className="absolute -right-2 top-1/2 z-30 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white shadow-sm transition-colors hover:bg-neutral-50 md:flex"
               >
-                <ChevronRight className="h-5 w-5 text-blue-950" />
+                <ChevronRight className="h-5 w-5 text-slate-900" />
               </button>
             )}
           </div>

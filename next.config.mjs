@@ -20,9 +20,6 @@ const nextConfig = {
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 86400,
   },
-  experimental: {
-    optimizePackageImports: ['iconsax-react'],
-  },
 }
 
 export default nextConfig

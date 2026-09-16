@@ -33,25 +33,26 @@ export function InfoAboutLayout({ children }: { children: React.ReactNode }) {
   )
 
   return (
-    <div ref={containerRef} className="container mx-auto px-4 pt-32 pb-16">
-      <div className="mx-auto grid max-w-7xl items-start gap-10 lg:grid-cols-2 lg:gap-16">
-        <div className="text-white">{children}</div>
-        <div
-          data-about-animate="load"
-          className="hero-profile-card-container lg:sticky lg:top-32 lg:ml-auto lg:self-start"
-        >
-          <ProfileCard
-            className="hero-profile-card h-full w-full"
-            avatarUrl="/cover-image.png"
-            iconUrl="/profile-card/iconpattern.png"
-            grainUrl="/profile-card/grain.webp"
-            name="Nqobile Vundla"
-            title="Product Designer & Builder"
-            showUserInfo={false}
-            behindGlowColor="rgba(113, 196, 255, 0.5)"
-            behindGlowSize="45%"
-          />
-        </div>
+    <div ref={containerRef} className="grid items-start gap-0 lg:grid-cols-2">
+      <div className="p-8 text-sm leading-relaxed text-slate-500 md:p-10 md:text-base lg:p-12 lg:portfolio-border-r">
+        {children}
+      </div>
+      <div
+        data-about-animate="load"
+        className="hero-profile-card-container p-8 md:p-10 lg:sticky lg:top-32 lg:self-start lg:p-12"
+      >
+        <ProfileCard
+          className="hero-profile-card about-profile-card h-full w-full"
+          avatarUrl="/cover-image.png"
+          iconUrl="/profile-card/iconpattern.png"
+          grainUrl="/profile-card/grain.webp"
+          innerGradient="linear-gradient(145deg,#64748b8c 0%,#94a3b844 100%)"
+          name="Nqobile Vundla"
+          title="Product Designer & Builder"
+          showUserInfo={false}
+          behindGlowColor="rgba(148, 163, 184, 0.45)"
+          behindGlowSize="45%"
+        />
       </div>
     </div>
   )

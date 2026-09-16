@@ -1,39 +1,43 @@
-import { ArrowLeft } from "@/components/icons"
-import PageGridShell from "@/components/page-grid-shell"
+import PortfolioBleedLine from "@/components/portfolio-bleed-line"
 
 export default function BlogPostLoading() {
   return (
-    <PageGridShell>
-      <div className="container mx-auto px-4 pt-32 pb-32">
-        <div className="inline-flex items-center mb-8 h-6 w-20 bg-gray-100 animate-pulse rounded" />
-        
-        <div className="mb-12">
-          <div className="flex items-center space-x-4 mb-6">
-            <div className="h-8 w-24 bg-blue-50 animate-pulse rounded-full" />
-            <div className="h-4 w-20 bg-gray-100 animate-pulse rounded" />
-            <div className="h-4 w-32 bg-gray-100 animate-pulse rounded" />
+    <main className="min-h-screen bg-white text-slate-900">
+      <section className="portfolio-dot-grid relative bg-white">
+        <PortfolioBleedLine />
+        <div className="portfolio-layout-guides relative mx-auto w-full max-w-7xl py-10 lg:py-14">
+          <div className="px-5 md:px-8">
+            <div className="portfolio-border-x bg-white p-8 md:p-10 lg:p-12">
+              <div className="mb-8 h-5 w-20 animate-pulse bg-slate-100" />
+              <div className="mb-6 flex gap-4">
+                <div className="h-4 w-24 animate-pulse bg-slate-100" />
+                <div className="h-4 w-20 animate-pulse bg-slate-100" />
+                <div className="h-4 w-32 animate-pulse bg-slate-100" />
+              </div>
+              <div className="mb-6 h-14 w-3/4 animate-pulse bg-slate-100" />
+              <div className="mb-8 h-20 w-full animate-pulse bg-slate-100" />
+              <div className="flex gap-2">
+                {[1, 2, 3].map((item) => (
+                  <div key={item} className="h-6 w-16 animate-pulse bg-slate-100" />
+                ))}
+              </div>
+            </div>
           </div>
-          
-          <div className="h-16 w-3/4 bg-gray-200 animate-pulse rounded-lg mb-6" />
-          <div className="h-24 w-full bg-gray-100 animate-pulse rounded-lg mb-8" />
-          
-          <div className="h-4 w-32 bg-gray-50 animate-pulse rounded mb-8" />
-          
-          <div className="flex gap-2 mb-8">
-            {[1, 2, 3].map(i => (
-              <div key={i} className="h-6 w-16 bg-gray-50 animate-pulse rounded-full" />
-            ))}
+          <PortfolioBleedLine />
+          <div className="px-5 md:px-8">
+            <div className="aspect-[16/9] animate-pulse portfolio-border-x bg-slate-100" />
+          </div>
+          <PortfolioBleedLine />
+          <div className="px-5 md:px-8">
+            <div className="space-y-4 portfolio-border-x bg-white p-8 md:p-10 lg:p-12">
+              {[1, 2, 3, 4].map((item) => (
+                <div key={item} className="h-4 animate-pulse bg-slate-100" />
+              ))}
+            </div>
           </div>
         </div>
-        
-        <div className="relative overflow-hidden rounded-4xl aspect-[16/9] bg-gray-100 mb-12 animate-pulse" />
-        
-        <div className="space-y-4">
-          <div className="h-4 w-full bg-gray-100 animate-pulse rounded" />
-          <div className="h-4 w-full bg-gray-100 animate-pulse rounded" />
-          <div className="h-4 w-3/4 bg-gray-100 animate-pulse rounded" />
-        </div>
-      </div>
-    </PageGridShell>
+        <PortfolioBleedLine />
+      </section>
+    </main>
   )
 }

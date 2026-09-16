@@ -1,9 +1,10 @@
 import type React from "react"
 import type { Metadata } from "next/dist/lib/metadata/types/metadata-interface"
 import "./globals.css"
-import { mtnBrighterSans } from "./fonts"
+import { calSans } from "./fonts"
 import Footer from "@/components/footer"
 import Header from "@/components/header"
+import TargetCursorRoot from "@/components/target-cursor-root"
 
 export const metadata: Metadata = {
   title: "Product Design Portfolio",
@@ -25,11 +26,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body 
-        className={`${mtnBrighterSans.variable} bg-eleven-bg text-blue-950 min-h-screen`}
+    <html lang="en" className={calSans.variable} suppressHydrationWarning>
+      <body
+        className={`${calSans.className} min-h-screen bg-white text-slate-900`}
         suppressHydrationWarning
       >
+        <TargetCursorRoot />
         <Header />
         {children}
         <Footer />

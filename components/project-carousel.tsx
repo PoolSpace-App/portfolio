@@ -112,7 +112,7 @@ export default function ProjectCarousel({ project }: ProjectCarouselProps) {
       </div>
 
       {project.name === "nCino Smart Onboarding & Monitoring" && (
-        <section className="w-full py-12 bg-[#050510] rounded-[56px] mb-20 overflow-hidden">
+        <section className="w-full py-12 bg-slate-950 rounded-[56px] mb-20 overflow-hidden">
           <div className="px-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
               <StatCard

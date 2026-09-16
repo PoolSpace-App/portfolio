@@ -100,9 +100,9 @@ export function UnderlineTabs({
           type="button"
           aria-label="Scroll tabs left"
           onClick={() => scrollTabs("left")}
-          className="absolute left-1 top-[calc(50%-0.5rem)] z-20 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/95 shadow-sm transition-colors hover:bg-white md:hidden"
+          className="absolute left-1 top-[calc(50%-0.5rem)] z-20 flex h-7 w-7 -translate-y-1/2 items-center justify-center border border-dashed border-slate-200 bg-white transition-colors hover:bg-slate-50 md:hidden"
         >
-          <ChevronLeft className="h-4 w-4 text-blue-950" />
+          <ChevronLeft className="h-4 w-4 text-slate-900" />
         </button>
       )}
 
@@ -111,9 +111,9 @@ export function UnderlineTabs({
           type="button"
           aria-label="Scroll tabs right"
           onClick={() => scrollTabs("right")}
-          className="absolute right-1 top-[calc(50%-0.5rem)] z-20 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/95 shadow-sm transition-colors hover:bg-white md:hidden"
+          className="absolute right-1 top-[calc(50%-0.5rem)] z-20 flex h-7 w-7 -translate-y-1/2 items-center justify-center border border-dashed border-slate-200 bg-white transition-colors hover:bg-slate-50 md:hidden"
         >
-          <ChevronRight className="h-4 w-4 text-blue-950" />
+          <ChevronRight className="h-4 w-4 text-slate-900" />
         </button>
       )}
 
@@ -139,14 +139,14 @@ export function UnderlineTabs({
               className={cn(
                 "relative inline-flex shrink-0 items-center gap-2 whitespace-nowrap font-medium transition-all pb-4",
                 size === "default" ? "text-lg md:text-xl" : "text-sm md:text-base",
-                isActive ? "text-blue-400" : "text-blue-950 hover:text-blue-400"
+                isActive ? "text-slate-900" : "text-slate-400 hover:text-slate-900"
               )}
             >
               {item.label}
               {isActive && (
                 <motion.div
                   layoutId={activeLayoutId}
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-400"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-slate-900"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               )}
