@@ -46,12 +46,16 @@ type ProfileFact = {
 
 function ProfileMetaItem({ icon: Icon, label, href, suffix }: ProfileFact) {
   const className =
-    "group flex items-start gap-3 border-b border-dashed border-slate-200 p-3 text-sm leading-relaxed text-slate-600 transition-colors last:border-b-0 hover:bg-slate-50 hover:text-slate-900 sm:odd:border-r sm:[&:nth-last-child(-n+2)]:border-b-0"
+    "cursor-target group relative flex items-start gap-3 overflow-visible border-b border-dashed border-slate-200 p-3 text-sm leading-relaxed text-slate-600 transition-colors last:border-b-0 hover:bg-slate-50 hover:text-slate-900 sm:odd:border-r sm:[&:nth-last-child(-n+2)]:border-b-0"
 
   const content = (
     <>
-      <Icon className="mt-0.5 h-4 w-4 shrink-0 text-slate-400 transition-colors group-hover:text-slate-900" />
-      <span>
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-40 border border-dashed border-transparent transition-[border-color] group-hover:border-slate-900"
+      />
+      <Icon className="relative z-10 mt-0.5 h-4 w-4 shrink-0 text-slate-400 transition-colors group-hover:text-slate-900" />
+      <span className="relative z-10">
         {label}
         {suffix ? <span className="placeholder:text-slate-400"> {suffix}</span> : null}
       </span>
@@ -172,7 +176,7 @@ export default function HomePage({ latestBlogs, githubContributions }: HomePageP
                   </p>
                 </div>
 
-                <div className="grid overflow-hidden portfolio-border sm:grid-cols-2">
+                <div className="grid overflow-visible portfolio-border sm:grid-cols-2">
                   {profileMeta.map((fact) => (
                     <ProfileMetaItem key={fact.label} {...fact} />
                   ))}
@@ -189,10 +193,14 @@ export default function HomePage({ latestBlogs, githubContributions }: HomePageP
                           href={social.href}
                           target={social.href.startsWith("http") ? "_blank" : undefined}
                           rel={social.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                          className="inline-flex h-9 w-9 items-center justify-center portfolio-border-r bg-white text-slate-600 transition last:border-r-0 hover:bg-slate-50 hover:text-slate-900"
+                          className="cursor-target group relative inline-flex h-9 w-9 items-center justify-center overflow-visible portfolio-border-r bg-white text-slate-600 transition last:border-r-0 hover:bg-slate-50 hover:text-slate-900"
                           aria-label={social.label}
                         >
-                          <Icon className="h-4 w-4" />
+                          <span
+                            aria-hidden
+                            className="pointer-events-none absolute inset-0 z-40 border border-dashed border-transparent transition-[border-color] group-hover:border-slate-900"
+                          />
+                          <Icon className="relative z-10 h-4 w-4" />
                         </Link>
                       )
                     })}
