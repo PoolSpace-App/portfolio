@@ -18,9 +18,8 @@ export default function PortfolioBleedLine({
 
 export function PortfolioDashedDivider({ className }: { className?: string }) {
   return (
-    <div className={cn("portfolio-dashed-divider-bleed", className)} aria-hidden>
-      <span className="portfolio-bleed-node left-0" />
-      <span className="portfolio-bleed-node left-full" />
+    <div className={cn("pointer-events-none z-30", className)} aria-hidden>
+      <PortfolioBleedLine />
     </div>
   )
 }

@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, X, ArrowRight } from "@/components/icons"
+import { PortfolioDashedDivider } from "@/components/portfolio-bleed-line"
 import { cn } from "@/lib/utils"
 
 interface ProjectCarouselProps {
@@ -190,7 +191,9 @@ export default function ProjectCarousel({ project }: ProjectCarouselProps) {
         </div>
       ) : (
         <>
-          <div className="mt-16 grid grid-cols-12 gap-4">
+          <div className="relative mt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
+            <div className="grid grid-cols-12 gap-4">
             <div className="col-span-12 md:col-span-8 overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group" onClick={() => openCarousel(1)}>
               <div className="relative h-[445px] md:h-auto md:pt-[64%] rounded-6xl overflow-hidden w-full">
                 <Image
@@ -252,9 +255,13 @@ export default function ProjectCarousel({ project }: ProjectCarouselProps) {
                 />
               </div>
             </div>
+            </div>
+            <PortfolioDashedDivider className="absolute inset-x-0 bottom-0" />
           </div>
 
-          <div className="mt-8 grid grid-cols-12 gap-4">
+          <div className="relative mt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
+            <div className="grid grid-cols-12 gap-4">
             <div className="col-span-12 md:col-span-6 overflow-hidden rounded-6xl border border-slate-200 cursor-pointer group" onClick={() => openCarousel(5)}>
               <div className="relative h-[445px] md:h-auto md:pt-[66.7%] rounded-6xl overflow-hidden w-full">
                 <Image
@@ -285,6 +292,8 @@ export default function ProjectCarousel({ project }: ProjectCarouselProps) {
                 />
               </div>
             </div>
+            </div>
+            <PortfolioDashedDivider className="absolute inset-x-0 bottom-0" />
           </div>
         </>
       )}

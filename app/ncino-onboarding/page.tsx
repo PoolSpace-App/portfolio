@@ -47,6 +47,7 @@ import {
 import ProjectCarousel from "@/components/project-carousel"
 import ProjectNavigation from "@/components/project-navigation"
 import PageGridShell from "@/components/page-grid-shell"
+import { PortfolioDashedDivider } from "@/components/portfolio-bleed-line"
 import { TabsComponent } from "@/components/ui/tabs-component"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -184,13 +185,15 @@ export default function NcinoOnboardingPage() {
                 <h1 className="text-5xl md:text-7xl font-bold mb-6 text-slate-900 tracking-tight">
                   {project.name}
                 </h1>
-                <p className="text-2xl text-gray-700 font-light leading-relaxed">
+                <p className="text-lg text-gray-700 font-light leading-relaxed">
                   {project.tagline}
                 </p>
               </div>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 py-8 border-y border-gray-100">
+            <div className="relative py-8">
+              <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-5 [&>*]:min-w-0">
               <div className="space-y-1">
                 <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
                   <Profile className="h-3 w-3" /> My Role
@@ -215,14 +218,16 @@ export default function NcinoOnboardingPage() {
                 </div>
                 <div className="text-slate-900 font-medium">{project.year}</div>
               </div>
-              <div className="space-y-1">
+              <div className="min-w-0 space-y-1">
                 <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
                   <Profile className="h-3 w-3" /> Team
                 </div>
-                <div className="flex flex-row items-center justify-start w-full">
+                <div className="flex max-w-full min-w-0 flex-row flex-wrap items-center">
                   <AnimatedTooltip items={project.team} />
                 </div>
               </div>
+              </div>
+              <PortfolioDashedDivider className="absolute inset-x-0 bottom-0" />
             </div>
           </motion.div>
 
@@ -241,7 +246,7 @@ export default function NcinoOnboardingPage() {
 
               {/* Vertical Connector */}
               <div className="h-12 w-px bg-blue-200 relative">
-                <ArrowDown className="absolute -bottom-2 -left-[24px] h-12 w-12 text-slate-900" />
+                <ArrowDown variant="Bold" className="absolute -bottom-1 -left-3 h-6 w-6 text-slate-900" />
               </div>
 
               {/* Middle Row with 3 Columns */}
@@ -255,7 +260,7 @@ export default function NcinoOnboardingPage() {
                     </div>
                   </div>
                   <div className="h-12 w-px bg-blue-200 relative">
-                    <ArrowDown className="absolute -bottom-2 -left-[24px] h-12 w-12 text-slate-900" />
+                    <ArrowDown variant="Bold" className="absolute -bottom-1 -left-3 h-6 w-6 text-slate-900" />
                   </div>
                   <div className="bg-white p-8 rounded-[40px] w-full flex flex-col gap-6 text-center min-h-[300px] justify-center text-slate-900 border border-blue-950 backdrop-blur-sm shadow-inner">
                     <p className="font-bold text-lg">KYB check</p>
@@ -273,7 +278,7 @@ export default function NcinoOnboardingPage() {
                     </div>
                   </div>
                   <div className="h-12 w-px bg-blue-200 relative">
-                    <ArrowDown className="absolute -bottom-2 -left-[24px] h-12 w-12 text-slate-900" />
+                    <ArrowDown variant="Bold" className="absolute -bottom-1 -left-3 h-6 w-6 text-slate-900" />
                   </div>
                   <div className="bg-white p-8 rounded-[40px] w-full flex flex-col gap-6 text-center min-h-[300px] justify-center text-slate-900 border border-blue-950 backdrop-blur-sm shadow-inner">
                     <p className="font-bold text-lg">eKYC Check</p>
@@ -281,7 +286,7 @@ export default function NcinoOnboardingPage() {
                     <p className="font-bold text-lg">Email Validation</p>
                   </div>
                   <div className="h-12 w-px bg-blue-200 relative">
-                    <ArrowDown className="absolute -bottom-2 -left-[24px] h-12 w-12 text-slate-900" />
+                    <ArrowDown variant="Bold" className="absolute -bottom-1 -left-3 h-6 w-6 text-slate-900" />
                   </div>
                 </div>
 
@@ -291,7 +296,7 @@ export default function NcinoOnboardingPage() {
                     Run IDV Document Checks
                   </div>
                   <div className="h-12 w-px bg-blue-200 relative">
-                    <ArrowDown className="absolute -bottom-2 -left-[24px] h-12 w-12 text-slate-900" />
+                    <ArrowDown variant="Bold" className="absolute -bottom-1 -left-3 h-6 w-6 text-slate-900" />
                   </div>
                   <div className="bg-white p-8 rounded-[40px] w-full flex flex-col gap-6 text-center min-h-[300px] justify-center text-slate-900 border border-blue-950 backdrop-blur-sm shadow-inner">
                     <p className="font-bold text-lg">Document verification</p>
@@ -309,7 +314,8 @@ export default function NcinoOnboardingPage() {
 
 
           {/* Key Features & Services */}
-          <div className="mt-16 border-t border-blue-100 pt-16">
+          <div className="relative mt-16 pt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
               <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
               Key Features & Services
@@ -353,7 +359,8 @@ export default function NcinoOnboardingPage() {
           
 
           {/* Business Impact Section */}
-          <div className="mt-16 border-t border-blue-100 pt-16">
+          <div className="relative mt-16 pt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <h2 className="text-3xl font-bold text-slate-900 mb-12 flex items-center gap-3">
               <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
               Market Context & Impact
@@ -392,7 +399,8 @@ export default function NcinoOnboardingPage() {
 
 
           {/* Data Insights Section */}
-          <div className="mt-16 border-t border-blue-100 pt-16">
+          <div className="relative mt-16 pt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
               <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
               Deep Dive: Survey & Cost Analysis
@@ -405,7 +413,7 @@ export default function NcinoOnboardingPage() {
                   value: "survey",
                   label: "Survey",
                   content: (
-                    <div className="bg-slate-50/50 rounded-[40px] p-8 md:p-12 border border-slate-100">
+                    <div className="bg-slate-50/50 p-8 md:p-12 portfolio-border-y">
                       <div className="text-center mb-12">
                         <h3 className="text-2xl font-bold text-slate-900 mb-4">Respondents - Worldwide Survey</h3>
                         <p className="text-gray-600 max-w-3xl mx-auto">Understanding the current and future state of onboarding across regions, asset segments, and stakeholders.</p>
@@ -498,7 +506,7 @@ export default function NcinoOnboardingPage() {
                   value: "costs",
                   label: "Onboarding Costs",
                   content: (
-                    <div className="bg-slate-50/50 rounded-[40px] p-8 md:p-12 border border-slate-100">
+                    <div className="bg-slate-50/50 p-8 md:p-12 portfolio-border-y">
                       <div className="text-center mb-12">
                         <h3 className="text-2xl font-bold text-slate-900 mb-4">Onboarding Costs & Resource Intensity</h3>
                         <p className="text-gray-600">The high price of manual processes and regulatory complexity.</p>
@@ -577,7 +585,8 @@ export default function NcinoOnboardingPage() {
 
 
           {/* Key Takeaways & Recommendations Section */}
-          <div className="my-16 border-t border-blue-100 pt-16">
+          <div className="relative my-16 pt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <h2 className="text-3xl font-bold text-slate-900 mb-12 flex items-center gap-3">
               <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
               Key Takeaways & Strategic Recommendations

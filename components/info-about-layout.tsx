@@ -39,8 +39,11 @@ export function InfoAboutLayout({ children }: { children: React.ReactNode }) {
       </div>
       <div
         data-about-animate="load"
-        className="hero-profile-card-container p-8 md:p-10 lg:sticky lg:top-32 lg:self-start lg:p-12"
+        className="hero-profile-card-container about-profile-card-frame p-8 md:p-10 lg:sticky lg:top-32 lg:self-start lg:p-12"
       >
+        <div className="about-profile-card-guides" aria-hidden>
+          <span className="about-profile-card-outline" />
+        </div>
         <ProfileCard
           className="hero-profile-card about-profile-card h-full w-full"
           avatarUrl="/cover-image.png"

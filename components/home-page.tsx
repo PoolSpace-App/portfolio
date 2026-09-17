@@ -4,21 +4,22 @@ import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import {
+  Briefcase,
   Clock,
-  Code2,
-  Database,
-  Dribbble,
-  LinkedIn,
-  Mail,
-  Profile,
-  ShieldCheck,
-  Users,
-  Webhook,
-} from "@/components/icons"
+  Code1,
+  Designtools,
+  Link21,
+  Location,
+  ShieldTick,
+  Sms,
+  type Icon,
+} from "iconsax-react"
+import { Dribbble, LinkedIn, Mail } from "@/components/icons"
 import GitHubContributionGraphSection from "@/components/github-contribution-graph"
 import HomeProjectGrid from "@/components/home-project-grid"
 import PortfolioBleedLine from "@/components/portfolio-bleed-line"
 import PortfolioChatPanel from "@/components/portfolio-chat-panel"
+import Testimonials from "@/components/testimonials"
 import type { GitHubContributionGraph } from "@/lib/github-contributions"
 import type { BlogPost } from "@/lib/notion"
 
@@ -28,17 +29,17 @@ interface HomePageProps {
 }
 
 const profileMeta = [
-  { icon: Code2, label: "Senior Product Designer + AI product builder" },
-  { icon: ShieldCheck, label: "Fintech, KYC, onboarding & banking platforms" },
-  { icon: Profile, label: "Johannesburg, South Africa" },
-  { icon: Database, label: "Next.js, React, TypeScript, Supabase, Convex" },
-  { icon: Mail, label: "nqovun@gmail.com", href: "mailto:nqovun@gmail.com" },
-  { icon: Users, label: "Founder · PoolSpace, CardSpace, BrandSpace" },
-  { icon: Webhook, label: "linkedin.com/in/mrq", href: "https://www.linkedin.com/in/mrq/" },
+  { icon: Designtools, label: "Senior Product Designer + AI product builder" },
+  { icon: ShieldTick, label: "Fintech, AI, SaaS, 0→1 Product & Banking Platforms" },
+  { icon: Location, label: "Johannesburg, South Africa" },
+  { icon: Code1, label: "Next.js, React, TypeScript, Supabase, Convex" },
+  { icon: Sms, label: "nqovun@gmail.com", href: "mailto:nqovun@gmail.com" },
+  { icon: Briefcase, label: "Building · PoolSpace, OrangeRuturns, BrandSpace" },
+  { icon: Link21, label: "linkedin.com/in/mrq", href: "https://www.linkedin.com/in/mrq/" },
 ] as const
 
 type ProfileFact = {
-  icon: typeof Code2
+  icon: Icon
   label: string
   href?: string
   suffix?: string
@@ -54,7 +55,12 @@ function ProfileMetaItem({ icon: Icon, label, href, suffix }: ProfileFact) {
         aria-hidden
         className="pointer-events-none absolute inset-0 z-40 border border-dashed border-transparent transition-[border-color] group-hover:border-slate-900"
       />
-      <Icon className="relative z-10 mt-0.5 h-4 w-4 shrink-0 text-slate-400 transition-colors group-hover:text-slate-900" />
+      <Icon
+        size={16}
+        variant="Linear"
+        color="currentColor"
+        className="relative z-10 mt-0.5 shrink-0 text-slate-400 transition-colors group-hover:text-slate-900"
+      />
       <span className="relative z-10">
         {label}
         {suffix ? <span className="placeholder:text-slate-400"> {suffix}</span> : null}
@@ -71,6 +77,38 @@ function ProfileMetaItem({ icon: Icon, label, href, suffix }: ProfileFact) {
   }
 
   return <div className={className}>{content}</div>
+}
+
+function greetingForHour(hour: number) {
+  if (hour < 12) {
+    return "Good morning"
+  }
+
+  if (hour < 17) {
+    return "Good afternoon"
+  }
+
+  return "Good evening"
+}
+
+function TimeOfDayGreeting() {
+  const [greeting, setGreeting] = useState("Good afternoon")
+
+  useEffect(() => {
+    const update = () => {
+      setGreeting(greetingForHour(new Date().getHours()))
+    }
+
+    update()
+    const intervalId = window.setInterval(update, 60_000)
+    return () => window.clearInterval(intervalId)
+  }, [])
+
+  return (
+    <h2 className="mb-5 text-xl font-semibold tracking-tight text-slate-800 md:text-2xl">
+      {greeting}
+    </h2>
+  )
 }
 
 function getTimezoneOffsetHours(timeZone: string, date = new Date()) {
@@ -119,21 +157,25 @@ function LocalTimeFact() {
   return <ProfileMetaItem icon={Clock} label={timeLabel} suffix={suffix} />
 }
 
-const profileSections = [
+const professionalSummary =
+  "Product engineer and senior product designer with 10+ years building 0-1 products, fintech and regulated workflows. I work across product strategy, UX and implementation — from founding and shipping my own software products to working directly inside client codebases and backend workflows. I use AI-assisted development to move from problem definition and interface design into working product, integration and production code."
+
+const coreSkills = [
   {
-    title: "Product designer who can build",
-    body:
-      "Nqobile Vundla, also known as Mr.Q, is a Senior Product Designer and product builder with 10+ years across fintech, banking, enterprise SaaS, loyalty, mobility and AI-powered products.",
+    title: "Product Engineering",
+    body: "React, Next.js, HTML/CSS, API integration, backend workflows, Git/GitHub, technical architecture",
   },
   {
-    title: "Complex systems, simple journeys",
-    body:
-      "His strongest work sits inside regulated and complicated products: onboarding, KYC/KYB, screening, monitoring, compliance workflows, permissions, dashboards and business rules.",
+    title: "AI Engineering",
+    body: "AI-assisted development, Cursor, document analysis/extraction, LLM workflows, structured data capture, rapid prototyping",
   },
   {
-    title: "AI-native product direction",
-    body:
-      "He is especially interested in replacing long forms and manual admin with document intelligence, APIs and AI agents that make interfaces smaller while the system behind them gets smarter.",
+    title: "Product",
+    body: "0-1 product development, MVPs, product strategy, experimentation, enterprise UX, design systems, user research",
+  },
+  {
+    title: "Domains",
+    body: "Fintech, banking, KYC/KYB, AML, onboarding, document-heavy workflows, regulated systems",
   },
 ]
 
@@ -167,12 +209,12 @@ export default function HomePage({ latestBlogs, githubContributions }: HomePageP
               </div>
 
               <div className="min-w-0 flex-1 space-y-8">
-                <div className="space-y-4">
+                <div className="space-y-1">
                   <h1 className="text-4xl font-semibold tracking-tight text-slate-800 md:text-5xl">
                     Nqobile Vundla
                   </h1>
                   <p className="max-w-2xl text-lg leading-relaxed text-slate-600 md:text-xl">
-                    Senior Product Designer. Product builder. AI-assisted maker.
+                    Senior Product Designer, Product Engineer &amp; Product Builder (0-1)
                   </p>
                 </div>
 
@@ -225,21 +267,28 @@ export default function HomePage({ latestBlogs, githubContributions }: HomePageP
 
           <div className="w-full min-w-0 px-5 md:px-8">
             <div className="portfolio-line-nodes portfolio-line-nodes-bottom portfolio-border-x bg-white">
-            <div className="grid items-start gap-8 p-5 md:p-8 lg:grid-cols-[1fr_360px] lg:items-stretch">
+            <div className="grid items-start gap-8 p-5 md:p-8 lg:grid-cols-[1fr_360px]">
               <div>
-                <h2 className="mb-5 text-4xl font-semibold tracking-tight text-slate-800 md:text-5xl">
-                  Good afternoon
-                </h2>
-                <ul className="space-y-4 text-sm leading-relaxed text-slate-500">
-                  {profileSections.map((section) => (
-                    <li key={section.title} className="grid grid-cols-[12px_1fr] gap-4">
-                      <span className="mt-2 h-2 w-2 rounded-full bg-slate-300" />
-                      <span>
-                        <strong className="font-semibold text-slate-900">{section.title}.</strong> {section.body}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+                <TimeOfDayGreeting />
+                <div className="space-y-6 text-sm leading-relaxed text-slate-500">
+                  <div>
+                    <h3 className="mb-2 font-semibold text-slate-900">Professional Summary</h3>
+                    <p>{professionalSummary}</p>
+                  </div>
+                  <div>
+                    <h3 className="mb-3 font-semibold text-slate-900">Core Skills</h3>
+                    <ul className="space-y-3">
+                      {coreSkills.map((skill) => (
+                        <li key={skill.title} className="grid grid-cols-[12px_1fr] gap-4">
+                          <span className="mt-2 h-2 w-2 rounded-full bg-slate-300" />
+                          <span>
+                            <strong className="font-semibold text-slate-900">{skill.title}:</strong> {skill.body}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
 
               <PortfolioChatPanel />
@@ -258,7 +307,7 @@ export default function HomePage({ latestBlogs, githubContributions }: HomePageP
           <PortfolioBleedLine />
 
           <div className="w-full min-w-0 px-5 md:px-8">
-            <div className="portfolio-line-nodes portfolio-line-nodes-bottom portfolio-border-x bg-white">
+            <div className="portfolio-line-nodes portfolio-line-nodes-y portfolio-border-x bg-white">
             <div className="grid gap-3 p-5 md:grid-cols-3 md:p-7">
               {latestBlogs.map((blog) => (
                 <Link
@@ -278,7 +327,7 @@ export default function HomePage({ latestBlogs, githubContributions }: HomePageP
           <PortfolioBleedLine />
 
           <div className="w-full min-w-0 px-5 md:px-8">
-            <div className="portfolio-line-nodes portfolio-line-nodes-bottom portfolio-border-x bg-white">
+            <div className="portfolio-line-nodes portfolio-line-nodes-y portfolio-border-x bg-white">
             <div className="grid gap-0 text-center text-slate-500 md:grid-cols-4">
               {["nCino", "DocFox", "Mortgage Market", "PoolSpace"].map((name) => (
                 <div
@@ -289,6 +338,20 @@ export default function HomePage({ latestBlogs, githubContributions }: HomePageP
                 </div>
               ))}
             </div>
+            </div>
+          </div>
+
+          <PortfolioBleedLine />
+
+          <div className="w-full min-w-0 px-5 md:px-8">
+            <div className="portfolio-line-nodes portfolio-line-nodes-bottom overflow-visible portfolio-border-x bg-white">
+              <div className="p-8 md:p-10 lg:p-12">
+                <h2 className="text-2xl font-semibold tracking-tight text-slate-800 md:text-3xl">
+                  Referrals
+                </h2>
+              </div>
+              <div className="portfolio-dashed-divider-bleed" aria-hidden />
+              <Testimonials />
             </div>
           </div>
 

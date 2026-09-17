@@ -16,14 +16,14 @@ export default function PageGridShell({
   return (
     <Component className={cn("min-h-screen overflow-x-clip bg-white text-slate-900", className)}>
       <section className="portfolio-dot-grid relative bg-white">
-        <div className="portfolio-case-frame pointer-events-none absolute inset-0 z-20" aria-hidden>
-          <span className="portfolio-case-frame-v portfolio-case-frame-v-l" />
-          <span className="portfolio-case-frame-v portfolio-case-frame-v-r" />
-          <PortfolioBleedLine className="sticky top-[5.5rem] md:top-[6rem]" />
-        </div>
+        <PortfolioBleedLine className="sticky top-[5.5rem] z-30 md:top-[6rem]" />
 
         <div className="portfolio-layout-guides relative mx-auto w-full">
-          <div className="portfolio-case-study relative z-10">{children}</div>
+          <div className="w-full min-w-0 px-5 md:px-8">
+            <div className="portfolio-line-nodes portfolio-line-nodes-y overflow-visible portfolio-border-x bg-white">
+              <div className="portfolio-case-study relative z-10">{children}</div>
+            </div>
+          </div>
         </div>
 
         <PortfolioBleedLine />

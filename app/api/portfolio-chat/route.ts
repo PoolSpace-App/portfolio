@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { getLocalPortfolioAnswer, portfolioKnowledge } from "@/lib/portfolio-knowledge"
+import { getExactPortfolioAnswer, getLocalPortfolioAnswer, portfolioKnowledge } from "@/lib/portfolio-knowledge"
 
 export const runtime = "nodejs"
 
@@ -9,6 +9,11 @@ export async function POST(request: Request) {
 
   if (!cleanQuestion) {
     return NextResponse.json({ error: "Question is required" }, { status: 400 })
+  }
+
+  const cannedAnswer = getExactPortfolioAnswer(cleanQuestion)
+  if (cannedAnswer) {
+    return NextResponse.json({ ...cannedAnswer, source: "local" })
   }
 
   if (!process.env.OPENAI_API_KEY) {

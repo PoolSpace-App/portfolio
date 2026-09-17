@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { ChevronLeft, ChevronRight } from "@/components/icons"
+import { PortfolioDashedDivider } from "@/components/portfolio-bleed-line"
 import { projectsArray } from "@/lib/projects"
 
 interface ProjectNavigationProps {
@@ -31,7 +32,8 @@ export default function ProjectNavigation({ currentProjectId }: ProjectNavigatio
   }
 
   return (
-    <div className="mt-16 flex justify-between items-center py-6 border-t border-b border-gray-200 bg-white text-black">
+    <div className="relative mt-16 flex items-center justify-between bg-white py-6 text-black">
+      <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
       <button
         onClick={() => navigateToProject(prevProject.slug)}
         className="flex items-center space-x-2 group hover:text-gray-600 transition-colors"
@@ -68,6 +70,7 @@ export default function ProjectNavigation({ currentProjectId }: ProjectNavigatio
         </div>
         <ChevronRight className="h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
       </button>
+      <PortfolioDashedDivider className="absolute inset-x-0 bottom-0" />
     </div>
   )
 }

@@ -44,6 +44,7 @@ import ProjectNavigation from "@/components/project-navigation"
 import { AnimatedTooltip } from "@/components/ui/animated-tooltip"
 import { Separator } from "@/components/ui/separator"
 import PageGridShell from "@/components/page-grid-shell"
+import { PortfolioDashedDivider } from "@/components/portfolio-bleed-line"
 
 export default function DocfoxSiccPage() {
   const router = useRouter()
@@ -129,7 +130,9 @@ export default function DocfoxSiccPage() {
           <div className="text-3xl md:text-4xl font-medium mb-4 text-blue-950">{project.name}</div>
           <p className="text-xl text-blue-950 mb-8">{project.description}</p>
 
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 py-8 border-y border-gray-100 my-12">
+          <div className="relative my-12 py-8">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-5 [&>*]:min-w-0">
             <div className="space-y-1">
               <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
                 <Users className="h-3 w-3" /> My Role
@@ -154,14 +157,16 @@ export default function DocfoxSiccPage() {
               </div>
               <div className="text-blue-950 font-medium">{project.year}</div>
             </div>
-            <div className="space-y-1">
+            <div className="min-w-0 space-y-1">
               <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
                 <Users className="h-3 w-3" /> Team
               </div>
-              <div className="flex flex-row items-center justify-start w-full">
+              <div className="flex max-w-full min-w-0 flex-row flex-wrap items-center">
                 <AnimatedTooltip items={project.team} />
               </div>
             </div>
+            </div>
+            <PortfolioDashedDivider className="absolute inset-x-0 bottom-0" />
           </div>
 
           <div className="mb-24">
@@ -183,7 +188,8 @@ export default function DocfoxSiccPage() {
           </div>
 
           {/* Background & Problem */}
-          <div className="mt-16 border-t border-gray-100 pt-16">
+          <div className="relative mt-16 pt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <h2 className="text-3xl font-bold text-blue-950 mb-8 flex items-center gap-3">
               <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
               Background & Problem
@@ -199,7 +205,8 @@ export default function DocfoxSiccPage() {
           </div>
 
           {/* Solution */}
-          <div className="mt-16 border-t border-gray-100 pt-16">
+          <div className="relative mt-16 pt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <h2 className="text-3xl font-bold text-blue-950 mb-8 flex items-center gap-3">
               <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
               The Solution
@@ -222,7 +229,8 @@ export default function DocfoxSiccPage() {
           </div>
 
           {/* Scope & Requirements */}
-          <div className="mt-16 border-t border-gray-100 pt-16 pb-24">
+          <div className="relative mt-16 pt-16 pb-24">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <h2 className="text-3xl font-bold text-blue-950 mb-12 flex items-center gap-3">
               <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
               Product Scope
@@ -302,7 +310,8 @@ export default function DocfoxSiccPage() {
 
 
           {/* System Architecture */}
-          <div className="mt-16 border-t border-gray-100 pt-16">
+          <div className="relative mt-16 pt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <h2 className="text-3xl font-bold text-blue-950 mb-12 flex items-center gap-3">
               <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
               How it Works
@@ -505,7 +514,8 @@ export default function DocfoxSiccPage() {
           </div>
 
           {/* Workshops Section */}
-          <div className="mt-16 border-t border-gray-100 pt-16">
+          <div className="relative mt-16 pt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <h2 className="text-3xl font-bold text-blue-950 mb-8 flex items-center gap-3">
               <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
               Workshops
@@ -540,7 +550,8 @@ export default function DocfoxSiccPage() {
           </div>
 
           {/* User Flows Section */}
-          <div className="mt-16 border-t border-gray-100 pt-16">
+          <div className="relative mt-16 pt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <h2 className="text-3xl font-bold text-blue-950 mb-12 flex items-center gap-3">
               <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
               High Level User Flows
@@ -669,7 +680,8 @@ export default function DocfoxSiccPage() {
           </div>
 
           {/* Ideal User Journey Section */}
-          <div className="mt-16 border-t border-gray-100 pt-16">
+          <div className="relative mt-16 pt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <h2 className="text-3xl font-bold text-blue-950 mb-12 flex items-center gap-3">
               <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
               The Ideal User Journey
@@ -688,8 +700,8 @@ export default function DocfoxSiccPage() {
               </div>
             </div>
 
-            <div className="relative">
-              <div className="overflow-auto max-h-[850px] pb-24 -mx-4 px-4 scrollbar-hide border border-gray-100 rounded-[48px] bg-white shadow-sm cursor-grab active:cursor-grabbing">
+            <div className="relative w-full min-w-0">
+              <div className="w-full min-w-0 overflow-auto max-h-[850px] pb-24 scrollbar-hide border border-slate-200 bg-slate-50 cursor-grab active:cursor-grabbing">
                 <div className="min-w-[3200px] min-h-[900px] relative flex items-center">
                   {/* Connecting Line */}
                   <div className="absolute top-[50%] left-0 w-full h-px bg-gray-200 -translate-y-1/2" />
@@ -878,7 +890,8 @@ export default function DocfoxSiccPage() {
           </div>
 
           {/* Integration Point: SFO Invite */}
-          <div className="mt-16 border-t border-gray-100 pt-16">
+          <div className="relative mt-16 pt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <h2 className="text-3xl font-bold text-blue-950 mb-12 flex items-center gap-3">
               <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
               Where in DocFox do we check the core?
@@ -1049,7 +1062,8 @@ export default function DocfoxSiccPage() {
           </div>
 
           {/* Sequence Diagram Section */}
-          <div className="mt-16 border-t border-gray-100 pt-16">
+          <div className="relative mt-16 pt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <h2 className="text-3xl font-bold text-blue-950 mb-12 flex items-center gap-3">
               <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
               Technical Sequence
@@ -1180,7 +1194,8 @@ export default function DocfoxSiccPage() {
           </div>
 
           {/* Timelines Section */}
-          <div className="mt-16 border-t border-gray-100 pt-16">
+          <div className="relative mt-16 pt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <h2 className="text-3xl font-bold text-blue-950 mb-12 flex items-center gap-3">
               <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
               SICC Timelines
@@ -1285,7 +1300,8 @@ export default function DocfoxSiccPage() {
           </div>
 
           {/* Wireframes Section */}
-          <div className="mt-16 border-t border-gray-100 pt-16">
+          <div className="relative mt-16 pt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <h2 className="text-3xl font-bold text-blue-950 mb-12 flex items-center gap-3">
               <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
               Wireframe Revisions
@@ -1320,7 +1336,8 @@ export default function DocfoxSiccPage() {
           </div>
 
           {/* Final Deliverables Section */}
-          <section className="mb-32 mt-16 border-t border-gray-100 pt-16">
+          <section className="relative mb-32 mt-16 pt-16">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
               <h2 className="text-3xl font-bold text-blue-950 flex items-center gap-3">
                 <Separator className="w-8 h-1 bg-blue-600 rounded-full" />
@@ -1432,7 +1449,8 @@ export default function DocfoxSiccPage() {
           </div>
           </section>
 
-          <div className="mt-24 py-16 bg-white text-black text-center border-t border-gray-100">
+          <div className="relative mt-24 py-16 bg-white text-black text-center">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <div className="text-3xl font-bold mb-2">{project.name}</div>
             <p className="text-md max-w-2xl mx-auto">{project.description}</p>
           </div>

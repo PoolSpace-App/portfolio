@@ -575,6 +575,132 @@
 
 .hero-profile-card.about-profile-card {
   --card-radius: 0px;
+  --sunpillar-1: #cbd5e1;
+  --sunpillar-2: #94a3b8;
+  --sunpillar-3: #64748b;
+  --sunpillar-4: #475569;
+  --sunpillar-5: #334155;
+  --sunpillar-6: #1e293b;
+}
+
+.hero-profile-card.about-profile-card .pc-card,
+.hero-profile-card.about-profile-card .pc-card:hover,
+.hero-profile-card.about-profile-card .pc-card.active,
+.hero-profile-card.about-profile-card .pc-card-shell.active .pc-card {
+  border: none;
+  box-shadow: none;
+}
+
+.hero-profile-card.about-profile-card .pc-avatar-content {
+  background: #0f172a;
+}
+
+.hero-profile-card.about-profile-card .pc-avatar-content .avatar {
+  filter: grayscale(1);
+}
+
+.hero-profile-card.about-profile-card .pc-avatar-content::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #64748b;
+  mix-blend-mode: color;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.about-profile-card-frame {
+  --about-card-pad: 2rem;
+}
+
+@media (min-width: 768px) {
+  .about-profile-card-frame {
+    --about-card-pad: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .about-profile-card-frame {
+    --about-card-pad: 3rem;
+  }
+}
+
+.about-profile-card-guides {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+}
+
+.about-profile-card-guides::before,
+.about-profile-card-guides::after {
+  content: "";
+  position: absolute;
+}
+
+.about-profile-card-guides::before {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background-image: linear-gradient(to right, var(--portfolio-line) 4px, transparent 2px);
+  background-size: 6px 1px;
+  background-repeat: repeat-x;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    #000 0,
+    #000 var(--about-card-pad),
+    transparent var(--about-card-pad),
+    transparent calc(100% - var(--about-card-pad)),
+    #000 calc(100% - var(--about-card-pad)),
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    #000 0,
+    #000 var(--about-card-pad),
+    transparent var(--about-card-pad),
+    transparent calc(100% - var(--about-card-pad)),
+    #000 calc(100% - var(--about-card-pad)),
+    #000 100%
+  );
+}
+
+.about-profile-card-guides::after {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background-image: linear-gradient(to bottom, var(--portfolio-line) 4px, transparent 2px);
+  background-size: 1px 6px;
+  background-repeat: repeat-y;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 var(--about-card-pad),
+    transparent var(--about-card-pad),
+    transparent calc(100% - var(--about-card-pad)),
+    #000 calc(100% - var(--about-card-pad)),
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 var(--about-card-pad),
+    transparent var(--about-card-pad),
+    transparent calc(100% - var(--about-card-pad)),
+    #000 calc(100% - var(--about-card-pad)),
+    #000 100%
+  );
+}
+
+.about-profile-card-outline {
+  pointer-events: none;
+  position: absolute;
+  inset: var(--about-card-pad);
+  z-index: 20;
+  border: 1px dashed var(--portfolio-line);
 }
 
 .hero-profile-card-container {

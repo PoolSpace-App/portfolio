@@ -6,6 +6,7 @@ import { ArrowLeft } from "@/components/icons"
 import ProjectCarousel from "@/components/project-carousel"
 import ProjectNavigation from "@/components/project-navigation"
 import PageGridShell from "@/components/page-grid-shell"
+import { PortfolioDashedDivider } from "@/components/portfolio-bleed-line"
 
 export default function MyperksPage() {
   const router = useRouter()
@@ -59,7 +60,7 @@ export default function MyperksPage() {
           
           <ProjectCarousel project={project} />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <div className="mt-16 mb-12 grid grid-cols-1 gap-8 md:grid-cols-3">
             <div>
               <div className="text-sm text-slate-900 mb-1 font-bold">ROLE</div>
               <p className="text-slate-900">{project.role}</p>
@@ -81,7 +82,8 @@ export default function MyperksPage() {
             ))}
           </div>
 
-          <div className="mt-24 py-16 bg-white text-black text-center border-t border-gray-100">
+          <div className="relative mt-24 py-16 bg-white text-black text-center">
+            <PortfolioDashedDivider className="absolute inset-x-0 top-0" />
             <div className="text-3xl font-bold mb-2">{project.name}</div>
             <p className="text-md max-w-2xl mx-auto">{project.description}</p>
           </div>

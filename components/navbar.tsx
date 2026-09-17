@@ -13,6 +13,24 @@ function isActivePath(pathname: string, path: string) {
   return pathname === path || pathname.startsWith(`${path}/`)
 }
 
+function MenuRowDots({ includeTop = false }: { includeTop?: boolean }) {
+  const dotClass =
+    "pointer-events-none absolute z-20 size-[5px] rounded-full bg-slate-900"
+
+  return (
+    <>
+      {includeTop ? (
+        <>
+          <span aria-hidden className={`${dotClass} -left-[2.5px] -top-[2.5px]`} />
+          <span aria-hidden className={`${dotClass} -right-[2.5px] -top-[2.5px]`} />
+        </>
+      ) : null}
+      <span aria-hidden className={`${dotClass} -bottom-[2.5px] -left-[2.5px]`} />
+      <span aria-hidden className={`${dotClass} -bottom-[2.5px] -right-[2.5px]`} />
+    </>
+  )
+}
+
 export default function Navbar() {
   const pathname = usePathname()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -58,9 +76,13 @@ export default function Navbar() {
       }
     }
 
-    document.addEventListener("click", handleClickOutside)
+    const timeoutId = window.setTimeout(() => {
+      document.addEventListener("pointerdown", handleClickOutside)
+    }, 0)
+
     return () => {
-      document.removeEventListener("click", handleClickOutside)
+      window.clearTimeout(timeoutId)
+      document.removeEventListener("pointerdown", handleClickOutside)
     }
   }, [isMenuOpen])
 
@@ -80,6 +102,7 @@ export default function Navbar() {
     { name: "Blog", path: "/blog" },
     { name: "Coaching", path: "/Coaching" },
     { name: "Books", path: "/books" },
+    { name: "Bookmarks", path: "/bookmarks" },
     { name: "About", path: "/info" },
   ]
 
@@ -168,56 +191,74 @@ export default function Navbar() {
                 isMenuOpen ? "translate-x-0" : "-translate-x-full"
               }`}
             >
-              <div className="mb-8 flex items-center justify-end">
-                <button
-                  type="button"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-900 transition-colors hover:bg-slate-100"
-                  aria-label="Close menu"
-                >
-                  <X className="h-6 w-6" />
-                </button>
-              </div>
-              <nav className="flex flex-1 flex-col space-y-6">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.path}
-                    className={`text-lg font-medium ${
-                      isActivePath(pathname, item.path) ? "text-slate-900" : "text-slate-500 hover:text-slate-900"
-                    }`}
+              <div className="flex min-h-0 flex-1 flex-col overflow-visible portfolio-border">
+                <div className="relative flex items-center justify-end overflow-visible border-b border-dashed border-slate-200">
+                  <MenuRowDots includeTop />
+                  <button
+                    type="button"
                     onClick={() => setIsMenuOpen(false)}
+                    className="inline-flex h-10 w-10 items-center justify-center text-slate-900 transition-colors hover:bg-slate-50"
+                    aria-label="Close menu"
                   >
-                    {item.name}
-                  </Link>
-                ))}
-              </nav>
-              <div className="mt-auto flex flex-col gap-3">
-                <button onClick={copyEmail} className="btn-secondary w-full">
-                  Let&apos;s chat
-                </button>
-                <Link href="/#projects" className="btn-primary w-full" onClick={() => setIsMenuOpen(false)}>
-                  View work
-                </Link>
-              </div>
-              <div className="mt-10 pt-6">
-                <div className="mb-4 flex justify-center">
-                  <Logo variant="dark" />
+                    <X className="h-6 w-6" />
+                  </button>
                 </div>
-                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium">
-                  {socialLinks.map(({ href, label, icon: Icon, external }) => (
-                    <a
-                      key={label}
-                      href={href}
-                      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                      className={socialLinkClass}
+                <nav className="flex flex-col overflow-visible">
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.path}
+                      className={`cursor-target group relative overflow-visible border-b border-dashed border-slate-200 px-3 py-3 text-sm font-medium ${
+                        isActivePath(pathname, item.path) ? "text-slate-900" : "text-slate-500 hover:text-slate-900"
+                      }`}
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      <Icon className="h-4 w-4" />
-                      {label}
-                      <span aria-hidden className={socialLinkUnderlineClass} />
-                    </a>
+                      <MenuRowDots />
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 z-40 border border-dashed border-transparent transition-[border-color] group-hover:border-slate-900"
+                      />
+                      <span className="relative z-10">{item.name}</span>
+                    </Link>
                   ))}
+                </nav>
+                <div className="mt-auto overflow-visible">
+                  <button
+                    onClick={copyEmail}
+                    className="relative w-full overflow-visible border-t border-dashed border-slate-200 bg-white px-6 py-2.5 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-50"
+                  >
+                    <MenuRowDots includeTop />
+                    Let&apos;s chat
+                  </button>
+                  <Link
+                    href="/#projects"
+                    className="relative flex w-full items-center justify-center overflow-visible border-t border-dashed border-slate-200 bg-slate-900 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-slate-800"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <MenuRowDots />
+                    View work
+                  </Link>
+                </div>
+                <div className="relative overflow-visible border-t border-dashed border-slate-200 px-3 py-5">
+                  <MenuRowDots />
+                  <div className="mb-4 flex justify-center">
+                    <Logo variant="dark" />
+                  </div>
+                  <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-medium">
+                    {socialLinks.map(({ href, label, icon: Icon, external }) => (
+                      <a
+                        key={label}
+                        href={href}
+                        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        className={socialLinkClass}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <Icon className="h-4 w-4" />
+                        {label}
+                        <span aria-hidden className={socialLinkUnderlineClass} />
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>

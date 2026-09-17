@@ -46,7 +46,7 @@ body {
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-2.5 text-sm font-medium text-slate-900 transition-colors hover:border-slate-400 hover:bg-slate-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-none border border-slate-200 bg-white px-6 py-2.5 text-sm font-medium text-slate-900 transition-colors hover:border-slate-400 hover:bg-slate-50;
   }
 
   .link-accent {
@@ -356,8 +356,19 @@ body {
   }
 
   .portfolio-case-study,
-  .portfolio-case-study * {
+  .portfolio-case-study *:not(.portfolio-bleed-node) {
     border-radius: 0 !important;
+  }
+
+  .portfolio-case-study .portfolio-bleed-node {
+    border-radius: 50% !important;
+  }
+
+  .portfolio-case-study .container {
+    width: 100%;
+    max-width: none;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   @media (min-width: 768px) {
