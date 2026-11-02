@@ -8,9 +8,11 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 export const AnimatedTooltip = ({
   items,
+  separated = false,
 }: {
   items: {
     id: number;
@@ -18,6 +20,7 @@ export const AnimatedTooltip = ({
     designation: string;
     image: string;
   }[];
+  separated?: boolean;
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const springConfig = { stiffness: 100, damping: 5 };
@@ -38,10 +41,18 @@ export const AnimatedTooltip = ({
   };
 
   return (
-    <div className="flex max-w-full min-w-0 flex-row flex-wrap items-center overflow-visible">
+    <div
+      className={cn(
+        "flex max-w-full min-w-0 flex-row flex-wrap items-center overflow-visible",
+        separated && "gap-6",
+      )}
+    >
       {items.map((item) => (
         <div
-          className="group relative z-10 -mr-4 h-10 w-10 shrink-0 last:mr-0 hover:z-50"
+          className={cn(
+            "group relative z-10 h-10 w-10 shrink-0 hover:z-50",
+            !separated && "-mr-4 last:mr-0",
+          )}
           key={item.name}
           onMouseEnter={() => setHoveredIndex(item.id)}
           onMouseLeave={() => setHoveredIndex(null)}

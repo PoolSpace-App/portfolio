@@ -423,7 +423,7 @@ export default function NcinoOnboardingPage() {
                         {/* Regional Breakdown */}
                         <div className="space-y-6">
                           <h4 className="text-lg font-bold text-blue-900 text-center">Regional Breakdown</h4>
-                          <div className="h-[300px] w-full blur-md">
+                          <div className="h-[300px] w-full">
                             <ChartContainer config={{
                               emea: { label: "EMEA", color: "#0c3b6e" },
                               na: { label: "North America", color: "#1a6cb3" },
@@ -457,7 +457,7 @@ export default function NcinoOnboardingPage() {
                         {/* Bank Size */}
                         <div className="space-y-6">
                           <h4 className="text-lg font-bold text-blue-900 text-center">Bank Size (Assets)</h4>
-                          <div className="h-[300px] w-full blur-md">
+                          <div className="h-[300px] w-full">
                             <ChartContainer config={{
                               percentage: { label: "Percentage", color: "#1a6cb3" },
                             }}>
@@ -480,7 +480,7 @@ export default function NcinoOnboardingPage() {
                         {/* Role/Responsibility */}
                         <div className="space-y-6">
                           <h4 className="text-lg font-bold text-blue-900 text-center">Role/Responsibility</h4>
-                          <div className="h-[300px] w-full blur-md">
+                          <div className="h-[300px] w-full">
                             <ChartContainer config={{
                               percentage: { label: "Percentage", color: "#4fa8e0" },
                             }}>
@@ -516,7 +516,7 @@ export default function NcinoOnboardingPage() {
                         {/* Spending Chart */}
                         <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
                           <h4 className="text-xs font-bold text-blue-900 mb-6 text-center uppercase tracking-wider h-8 flex items-center justify-center">Avg. Annual Spending ($M)</h4>
-                          <div className="h-[250px] blur-md">
+                          <div className="h-[250px]">
                             <ChartContainer config={{ val: { label: "Spending ($M)", color: "#0c3b6e" } }}>
                               <BarChart data={[
                                 { name: "Global", val: 15.9 },
@@ -537,7 +537,7 @@ export default function NcinoOnboardingPage() {
                         {/* Cost per client Chart */}
                         <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
                           <h4 className="text-xs font-bold text-blue-900 mb-6 text-center uppercase tracking-wider h-8 flex items-center justify-center">Avg. Cost Per Client ($K)</h4>
-                          <div className="h-[250px] blur-md">
+                          <div className="h-[250px]">
                             <ChartContainer config={{ val: { label: "Cost ($K)", color: "#1a6cb3" } }}>
                               <BarChart data={[
                                 { name: "Global", val: 14.7 },
@@ -558,7 +558,7 @@ export default function NcinoOnboardingPage() {
                         {/* Manual Days Chart */}
                         <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
                           <h4 className="text-xs font-bold text-blue-900 mb-6 text-center uppercase tracking-wider h-8 flex items-center justify-center">Avg. Manual Days Spent</h4>
-                          <div className="h-[250px] blur-md">
+                          <div className="h-[250px]">
                             <ChartContainer config={{ val: { label: "Manual Days", color: "#4fa8e0" } }}>
                               <BarChart data={[
                                 { name: "Global", val: 29656 },
@@ -939,7 +939,7 @@ export default function NcinoOnboardingPage() {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-slate-50/50 rounded-[40px] p-8 md:p-16 border border-slate-100">
                       <div className="relative aspect-video rounded-4xl overflow-hidden border border-slate-200 bg-white">
-                        <Image src="/projects/ncino/ideation-1.png" alt="Research phase" fill className="object-cover blur-2xl" />
+                        <Image src="/projects/ncino/ideation-1.png" alt="Research phase" fill className="object-cover" />
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="inline-flex items-center rounded-full border border-white bg-white/80 px-6 py-2.5 text-sm font-medium text-slate-900 backdrop-blur shadow-xl">User Flow Analysis</div>
                         </div>
@@ -959,7 +959,7 @@ export default function NcinoOnboardingPage() {
                             <Layout className="h-3 w-3" /> SOFTWARE USED
                           </div>
                           <div className="flex flex-row items-center justify-start w-full">
-                            <AnimatedTooltip items={project.software.research} />
+                            <AnimatedTooltip items={project.software.research} separated />
                           </div>
                         </div>
                       </div>
@@ -987,12 +987,12 @@ export default function NcinoOnboardingPage() {
                             <Layout className="h-3 w-3" /> SOFTWARE USED
                           </div>
                           <div className="flex flex-row items-center justify-start w-full">
-                            <AnimatedTooltip items={project.software.ideation} />
+                            <AnimatedTooltip items={project.software.ideation} separated />
                           </div>
                         </div>
                       </div>
                       <div className="relative aspect-video rounded-4xl overflow-hidden border border-slate-200 bg-white order-1 md:order-2">
-                        <Image src="/projects/ncino/ideation.png" alt="Ideation phase" fill className="object-cover blur-2xl" />
+                        <Image src="/projects/ncino/ideation.png" alt="Ideation phase" fill className="object-cover" />
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="inline-flex items-center rounded-full border border-white bg-white/80 px-6 py-2.5 text-sm font-medium text-slate-900 backdrop-blur shadow-xl">Rapid Prototyping</div>
                         </div>
@@ -1007,7 +1007,7 @@ export default function NcinoOnboardingPage() {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-slate-50/50 rounded-[40px] p-8 md:p-16 border border-slate-100">
                        <div className="relative aspect-video rounded-4xl overflow-hidden border border-slate-200 bg-white">
-                        <Image src="/projects/ncino/design.png" alt="Design phase" fill className="object-cover blur-2xl" />
+                        <Image src="/projects/ncino/design.png" alt="Design phase" fill className="object-cover" />
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="inline-flex items-center rounded-full border border-white bg-white/80 px-6 py-2.5 text-sm font-medium text-slate-900 backdrop-blur shadow-xl">High Fidelity UI</div>
                         </div>
@@ -1027,7 +1027,7 @@ export default function NcinoOnboardingPage() {
                             <Layout className="h-3 w-3" /> SOFTWARE USED
                           </div>
                           <div className="flex flex-row items-center justify-start w-full">
-                            <AnimatedTooltip items={project.software.design} />
+                            <AnimatedTooltip items={project.software.design} separated />
                           </div>
                         </div>
                       </div>
@@ -1055,12 +1055,12 @@ export default function NcinoOnboardingPage() {
                             <Layout className="h-3 w-3" /> SOFTWARE USED
                           </div>
                           <div className="flex flex-row items-center justify-start w-full">
-                            <AnimatedTooltip items={project.software.testing} />
+                            <AnimatedTooltip items={project.software.testing} separated />
                           </div>
                         </div>
                       </div>
                       <div className="relative aspect-video rounded-4xl overflow-hidden border border-slate-200 bg-white order-1 md:order-2">
-                        <Image src="/projects/ncino/testing.png" alt="Testing phase" fill className="object-cover blur-2xl" />
+                        <Image src="/projects/ncino/testing.png" alt="Testing phase" fill className="object-cover" />
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="inline-flex items-center rounded-full border border-white bg-white/80 px-6 py-2.5 text-sm font-medium text-slate-900 backdrop-blur shadow-xl">User Testing</div>
                         </div>
