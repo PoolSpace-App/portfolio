@@ -14,18 +14,22 @@ export default function NotifyGovPage() {
   const project = {
     "id": 6,
     "name": "Notify.Gov",
-    "tagline": "Notify.Gov is a platform that connects citizens with government services.",
-    "description": "Notify.Gov is a platform that connects citizens with government services through secure identity verification methods, including two-factor authentication, biometric facial recognition, and secure image capture.",
+    "tagline": "Citizens had to prove who they were before they could use government services online. That had to be secure without shutting out people with low digital confidence.",
+    "description": "Citizens had to prove who they were before they could use government services online. That had to be secure without shutting out people with low digital confidence.",
     "imageUrl": "/projects/notify.gov/hero.jpg",
     "category": "Mobile Applications" as const,
     "type": "freelance",
-    "details": "It allows users to receive notifications, report municipal issues, and access emergency services.",
     "role": "Lead Designer",
     "duration": "3 months",
     "year": "2024",
-    "processDetails": [
-        "A secure digital storage system enabling users to upload and manage personal documents, link to relatives and dependents, and view information such as credit scores and property details. An AI-powered virtual assistant that interacts with users to assess health, find qualified medical practitioners, book appointments, and monitor daily physical activity."
+    "designed": [
+        "Identity verification with two-factor authentication, facial biometrics and guided ID image capture.",
+        "A secure document store where people upload and manage personal records, link relatives and dependants, and see details like credit scores and property information.",
+        "Service access for notifications, reporting municipal issues and reaching emergency services.",
+        "An AI assistant that helps people check their health, find qualified practitioners, book appointments and track daily activity.",
     ],
+    "approach": "I designed consent and disclosure screens for each sensitive step.",
+    "outcome": "A complete mobile design and a design system, ready to hand over to engineering.",
     "images": {
         "main": "/projects/notify.gov/main.jpg",
         "secondary": [
@@ -56,6 +60,7 @@ export default function NotifyGovPage() {
 
         <div className="w-full mx-auto">
           <div className="text-3xl md:text-4xl font-medium mb-4 text-slate-900">{project.name}</div>
+          <div className="text-sm text-slate-900 mb-1 font-bold">THE CHALLENGE</div>
           <p className="text-xl text-slate-900 mb-8">{project.description}</p>
           
           <ProjectCarousel project={project} />
@@ -76,10 +81,22 @@ export default function NotifyGovPage() {
           </div>
 
           <div className="space-y-6 text-lg text-slate-900 mb-24">
-            <p>{project.details}</p>
-            {project.processDetails.map((detail, index) => (
-              <p key={index}>{detail}</p>
-            ))}
+            <div>
+              <div className="text-sm text-slate-900 mb-1 font-bold">WHAT I DESIGNED</div>
+              <ul className="list-disc space-y-3 pl-5">
+                {project.designed.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <div className="text-sm text-slate-900 mb-1 font-bold">HOW I APPROACHED IT</div>
+              <p>{project.approach}</p>
+            </div>
+            <div>
+              <div className="text-sm text-slate-900 mb-1 font-bold">OUTCOME</div>
+              <p>{project.outcome}</p>
+            </div>
           </div>
 
           <div className="relative mt-24 py-16 bg-white text-black text-center">

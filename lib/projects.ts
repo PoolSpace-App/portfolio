@@ -143,19 +143,25 @@ export const projectData: Record<number, Project> = {
   6: {
     id: 6,
     name: "Notify.Gov",
-    tagline: "Notify.Gov is a platform that connects citizens with government services.",
+    tagline:
+      "Citizens had to prove who they were before they could use government services online. That had to be secure without shutting out people with low digital confidence.",
     description:
-      "Notify.Gov is a platform that connects citizens with government services through secure identity verification methods, including two-factor authentication, biometric facial recognition, and secure image capture.",
+      "A complete mobile design and a design system, ready to hand over to engineering.",
     imageUrl: "/projects/notify.gov/main.jpg",
     category: "Mobile Applications",
     slug: "notify.gov",
     type: "freelance",
-    details: "It allows users to receive notifications, report municipal issues, and access emergency services.",
+    details:
+      "Citizens had to prove who they were before they could use government services online. That had to be secure without shutting out people with low digital confidence.",
     role: "Lead Designer",
     duration: "3 months",
     year: "2024",
     processDetails: [
-      "A secure digital storage system enabling users to upload and manage personal documents, link to relatives and dependents, and view information such as credit scores and property details. An AI-powered virtual assistant that interacts with users to assess health, find qualified medical practitioners, book appointments, and monitor daily physical activity."
+      "Identity verification with two-factor authentication, facial biometrics and guided ID image capture.",
+      "A secure document store where people upload and manage personal records, link relatives and dependants, and see details like credit scores and property information.",
+      "Service access for notifications, reporting municipal issues and reaching emergency services.",
+      "An AI assistant that helps people check their health, find qualified practitioners, book appointments and track daily activity.",
+      "I designed consent and disclosure screens for each sensitive step.",
     ]
   },
   7: {
