@@ -150,7 +150,7 @@ function ProjectCarouselCard({ project }: { project: Project }) {
         </div>
         <div className="mt-auto shrink-0 pt-6">
           <span className="btn-secondary group/btn inline-flex shrink-0 items-center">
-            {project.type === "venture" ? "View link" : "View case study"}
+            {isExternal ? "View link" : "View case study"}
             <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
           </span>
         </div>
