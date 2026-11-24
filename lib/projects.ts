@@ -53,23 +53,21 @@ export const projectData: Record<number, Project> = {
   1: {
     id: 1,
     name: "CardSpace",
-    tagline:
-      "CardSpace was a platform that helped people store, manage, and use loyalty and rewards cards digitally from their phones instead of carrying physical cards around.",
+    tagline: "It's time to replace your physical wallet with a digital one.",
     description:
-      "Grew to more than 15 000 customers who could scan and save their loyalty cards, collect rewards, track points in one place.",
-    imageUrl: "/projects/cardspace/main.jpg",
+      "CardSpace offers a feature that enables users to add their loyalty rewards cards to their applications and manually scan them while checking out.",
+    imageUrl: "/projects/cardspace/hero.png",
     category: "Mobile Applications",
     slug: "cardspace",
     type: "venture",
-    details: "Users can: Scan and store loyalty cards in one app (no more carrying dozens of cards) and use digital cards at checkout via barcode scanning or tap-to-pay (coming soon).",
-    role: "UX/UI Designer, AI/ML Engineer",
-    duration: "12 months",
-    year: "2024-25",
+    details:
+      "CardSpace is a centralized rewards program that consolidates all of a user's rewards programs into a single location.",
+    role: "UX/UI Research, Prototyping, Interaction, UI Design, User Testing.",
     processDetails: [
-      "As, a mobile-first platform that digitizes physical loyalty and gift cards, CardSpace users scan, store, and redeem loyalty cards, eliminating the need to carry plastic cards. Businesses can create and manage digital loyalty programs, reducing printing costs and providing real-time insights.",
-      "We also expored loyalty card scanning and storage, Virtual gift card system (SpaceGifts), Group contribution feature (CardSpace Pools), Business dashboard for tracking customer engagement, Eco-friendly and data-driven alternative to physical cards.",
-      "I applied lean UX, worked across design and development using tools like React Native, Supabase, and AI-assisted design platforms to iterate quickly and reduce build costs."
-    ]
+      "Managing physical cards is inconvenient—wallets become cluttered, cards get lost, and users often forget to bring them when they need them the most.",
+      "CardSpace solves this problem by providing a digital wallet where users can store all their loyalty cards in one app.",
+      "The app allows users to scan their physical cards into their mobile devices, eliminating the need to carry them around.",
+    ],
   },
   2: {
     id: 2,

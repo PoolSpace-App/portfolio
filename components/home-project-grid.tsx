@@ -57,7 +57,7 @@ function ProjectCaseCard({ project }: { project: Project }) {
           {project.description}
         </p>
         <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-slate-900">
-          {project.type === "venture" ? "View link" : "View case study"}
+          {isExternal ? "View link" : "View case study"}
           <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
         </span>
       </div>

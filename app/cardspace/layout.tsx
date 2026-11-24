@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Cardspace | Project Detail",
-  description: "Portfolio project detail for Cardspace",
+  title: "CardSpace | Project Detail",
+  description: "It's time to replace your physical wallet with a digital one.",
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {

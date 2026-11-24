@@ -11,6 +11,7 @@ export default function Portfolio() {
     name: project.name,
     description: project.tagline,
     imageUrl: project.imageUrl,
+    slug: project.slug,
   }))
 
   return (
